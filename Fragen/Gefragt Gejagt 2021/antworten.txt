@@ -429,7 +429,7 @@
 4. Spanien  
 5. Oberarm, Arm  
 6. Mozart, Wolfgang Amadeus Mozart  
-7.ich  
+7. ich  
 8. Namenskürzel  
 9. Vogel, Feuervogel, Reiher  
 10. Finanzamt, Bundeszentralamt für Steuern  
@@ -439,7 +439,7 @@
 14. Elchbulle, Bulle, Elchhirsch, Schaufler  
 15. Adi Hütter, Adolf Hütter  
 16. Vermont  
-17.Poe  
+17. Poe  
 18. Kürbis  
 19. Ägypten  
 20. Longinus  
@@ -498,7 +498,7 @@
 9. Deutschland, BRD, Westdeutschland  
 10. Wien  
 11. Japan  
-12.CC, Carbon copy
+12. CC, Carbon copy
 1. Russland, Russische Föderation   
 2. Del Rey  
 3. Magnus Carlsen  
@@ -1423,7 +1423,7 @@
 19. Boes
 20. Stocks, Stock
 21. Gürtel
-22.. Autobahnpolizei
+22. Autobahnpolizei
 23. 3
 1. Geweih
 2. Captain Picard, Jean-Luc Picard, Picard
@@ -1454,7 +1454,7 @@
 10. Pferd
 11. Belgien
 12. Anne Haug
-13.schwarz
+13. schwarz
 14. Cheddar Red Leicester, Shropshire Blue
 15. Matteo Renzi
 16. Schweinswal, Kleiner Tümmler, Phocoena phocoena
@@ -1696,11 +1696,11 @@
 5. Deutschland  
 6. Jesus, Jesus Christus  
 7. Double  
-8, Norden  
+8. Norden  
 9. Nobelpreis für Literatur  
 10. Texter
 11. 270  
-12.Antwerpen  
+12. Antwerpen  
 13. Echolot  
 14. Kristina  
 15. Aida  
@@ -1810,7 +1810,7 @@
 9. Berlin
 10. Roxette
 11. Knightley
-12 Norderney
+12. Norderney
 13. Reis
 14. 4
 15. Potsdam

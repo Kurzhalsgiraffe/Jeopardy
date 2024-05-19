@@ -301,23 +301,25 @@
 15. USA, Vereinigte Staaten von Amerika  
 16. Xanten  
 17. Kopfbahnhof
-1. Lachen, Sein Lachen  
-2. Italien, Herzogtum Mailand  
-3. Richard III., Die Tragödie von König Richard III. 4. (gleichschenkliges) Dreieck  
-5. Ulrich  
-6. Bill Clinton  
-7. Afghanistan  
-8. (Das) Lachen  
-9. Jack Sparrow  
-10. The Rolling Stones  
-11. Pfau  
-12. Bock  
-13. Sport  
-14. Western  
-15. Cierpinski
-16. Mumie  
-17. Frankreich  
-18. Schaufel
+1. Winken
+2. Lachen, Sein Lachen  
+3. Italien, Herzogtum Mailand  
+4. Richard III., Die Tragödie von König Richard III.
+5. (gleichschenkliges) Dreieck  
+6. Ulrich  
+7. Bill Clinton  
+8. Afghanistan  
+9. (Das) Lachen  
+10. Jack Sparrow  
+11. The Rolling Stones  
+12. Pfau  
+13. Bock  
+14. Sport  
+15. Western  
+16. Cierpinski
+17. Mumie  
+18. Frankreich  
+19. Schaufel
 1. Nicken, Kopfnicken  
 2. Schimpansen, Schimpanse  
 3. Österreich  
