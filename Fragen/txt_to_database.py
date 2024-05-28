@@ -10,13 +10,13 @@ with open("f.txt", "r", encoding="utf-8") as questions_file:
         questions_lines = questions_file.readlines()
         answers_lines = answers_file.readlines()
         assert len(answers_lines) == len(questions_lines), "Die Anzahl der Fragen und Antworten muss gleich sein."
-        
+
         # Verarbeitung der Fragen und Antworten ohne Abhängigkeit von ". "
         for question_line in questions_lines:
             # Entferne die führende Nummerierung und den Punkt
             question = question_line.split(". ", 1)[1].strip()
             questions.append(question)
-        
+
         for answer_line in answers_lines:
             # Entferne die führende Nummerierung und den Punkt
             answer = answer_line.split(". ", 1)[1].strip()
