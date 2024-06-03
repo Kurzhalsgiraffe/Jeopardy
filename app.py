@@ -65,5 +65,15 @@ def update_score():
     conn.close()
     return '', 204
 
+@app.route('/remove_team', methods=['POST'])
+def remove_team():
+    team_id = request.form['team_id']
+    conn = get_db_connection()
+    conn.execute('DELETE FROM teams WHERE id = ?', (team_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
