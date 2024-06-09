@@ -1,15 +1,19 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from database_access import Dao
+import random
 
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
 
 session_id = 1
+questions = None
 
 @app.route('/')
 def index():
-    questions = dao.get_questions_by_category(session_id, category="Kultur")
+    global questions
+    if not questions:
+        questions = get_random_question_dict()
     teams = dao.get_teams()
     return render_template('index.html', questions=questions, teams=teams)
 
@@ -48,6 +52,20 @@ def update_score():
     new_score = request.form['score']
     dao.update_score(team_id, new_score)
     return '', 204
+
+
+def get_random_question_dict():
+    d = dict()
+    for category in ["Filme", "Geographie", "Kultur", "Politik", "Sport"]:
+        questions = dao.get_questions_by_category(session_id, category=category)
+        random.shuffle(questions)
+        d[category] = dict()
+        for point in [100, 200, 300, 400, 500]:
+            filtered_questions = [q for q in questions if q["points"] == point]
+            if filtered_questions:
+                d[category][point] = random.choice(filtered_questions)
+    print(d)
+    return d
 
 
 if __name__ == "__main__":

@@ -6,17 +6,33 @@
     <title>Jeopardy Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        body {
+            color: white;
+            background-image: url(https://blog.learnamp.com/hubfs/question.jpg);
+        }
         .question-card {
             cursor: pointer;
         }
         .card {
+            background-color: darkslategrey;
             margin: 5px;
-            height: 150px; /* Adjust the height as needed */
+            height: 110px; /* Adjust the height as needed */
             width: 200px; /* Adjust the width as needed */
         }
+        .card-body {
+            padding: 1rem; /* Adjust as needed for spacing */
+        }
+        .card-title {
+            margin-bottom: 0.5rem; /* Adjust as needed for spacing */
+        }
+        .category-block {
+            width: 100%;
+        }
         .team-card {
-            margin-bottom: 15px;
             position: relative;
+            height: 100px; /* Adjust the height as needed */
+            width: 200px; /* Adjust the width as needed */
+            margin-bottom: 5px;
         }
         .remove-team-btn {
             position: absolute;
@@ -33,26 +49,67 @@
             display: flex;
             gap: 5px; /* Adjust gap to prevent overlap */
         }
+        .team-control-btn {
+            width: 30px; /* Adjust the width as needed */
+        }
+        .modal-dialog {
+            max-width: 90%; /* Adjust the maximum width as needed */
+            margin: 1.75rem auto; /* Center the modal vertically */
+        }
+        .modal-content {
+            height: 50vh; /* Set the height to 80% of the viewport height */
+            overflow-y: auto; /* Enable vertical scrolling if content exceeds modal height */
+            background-color: darkslategrey; /* Adjust the background color as needed */
+            color: white; /* Adjust the text color as needed */
+        }
+        .modal-content .close {
+            color: white; /* Set the color of the close button to white */
+        }
+        .modal-body {
+            display: flex;
+            justify-content: center; /* Horizontally center the content */
+            align-items: center; /* Vertically center the content */
+            text-align: center; /* Center the text horizontally */
+            height: 100%; /* Ensure the modal body takes up the full height */
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: space-between; /* Distribute space between buttons */
+            align-items: center; /* Center vertically */
+        }
+        .blur-text {
+            width: 80%;
+            text-align: center;
+            filter: blur(5px); /* Initial blur effect */
+            transition: filter 0.5s ease; /* Smooth transition */
+            cursor: pointer; /* Change cursor to pointer when hovered */
+        }
+
+        .blur-text:hover {
+            filter: none; /* Remove blur effect on hover */
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4">Jeopardy Game</h1>
-
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Questions</h2>
-                <div class="d-flex flex-wrap justify-content-center">
-                    {% for question in questions %}
-                        <div class="card question-card" onclick="selectQuestion({{ question.id }})">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ question.category }}</h5>
-                                <p class="card-text">{{ question.type }} - ${{ question.points }}</p>
-                            </div>
+        <div class="row my-3">
+            {% for category, questions in questions.items() %}
+                <div class="col-md-2 mx-3">
+                    <div class="category-block">
+                        <h3>{{ category }}</h3>
+                        <div class="d-flex flex-column">
+                            {% for points, question in questions.items() %}
+                                <div class="card question-card mb-2" onclick="selectQuestion({{ question['id'] }})">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ points }} €</h5>
+                                        <p class="card-text">{{ question['type'] }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="row mt-4">
@@ -62,20 +119,23 @@
                     {% for team in teams %}
                         <div class="col-md-3">
                             <div class="card team-card">
-                                <button class="btn btn-secondary btn-sm remove-team-btn" onclick="removeTeam({{ team.id }})">X</button>
+                                <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.id }})"><span aria-hidden="true">&times;</span></button>
                                 <div class="card-body team-card-body">
-                                    <span>{{ team.name }} - Score: {{ team.score }}</span>
+                                    <div>
+                                        <h5 class="card-title">{{ team.name }}</h5>
+                                        <span class="card-text">{{ team.score }}</span>
+                                    </div>
                                     <div class="team-controls">
                                         <!-- eslint-disable-next-line -->
-                                        <button class="btn btn-success btn-sm" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'add')">+</button>
-                                        <button class="btn btn-danger btn-sm" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'subtract')">-</button>
+                                        <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'add')">+</button>
+                                        <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'subtract')">-</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-                <button class="btn btn-secondary mt-4" onclick="toggleTeamForm()">Toggle Team Form</button>
+                <button class="btn btn-primary mt-4" onclick="toggleTeamForm()">Toggle Team Form</button>
                 <form id="teamForm" action="{{ url_for('add_team') }}" method="post" class="mt-4" style="display: none;">
                     <div class="form-group">
                         <label for="name">Team Name</label>
@@ -88,25 +148,26 @@
     </div>
 
     <!-- Question Modal -->
-    <div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="questionModalLabel">Frage</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document"> <!-- Change modal-dialog class to modal-xl for extra-large modal -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionModalLabel">Frage</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <h2 id="questionText"></h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="submitAnswer(true)">Richtig</button>
+                <div class="blur-text">
+                    <span id="answerDisplay" id="answerText">Penis</span>
                 </div>
-                <div class="modal-body">
-                    <h2 id="questionText"></h2>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="submitAnswer(true)">Richtig</button>
-                    <button type="button" class="btn btn-primary" onclick="submitAnswer(false)">Falsch</button>
-                </div>
+                <button type="button" class="btn btn-primary" onclick="submitAnswer(false)">Falsch</button>
             </div>
         </div>
     </div>
+</div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
