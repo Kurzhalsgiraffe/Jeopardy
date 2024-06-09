@@ -9,6 +9,11 @@
         .question-card {
             cursor: pointer;
         }
+        .card {
+            margin: 5px;
+            height: 150px; /* Adjust the height as needed */
+            width: 200px; /* Adjust the width as needed */
+        }
         .team-card {
             margin-bottom: 15px;
             position: relative;
@@ -37,14 +42,12 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Questions</h2>
-                <div class="row">
+                <div class="d-flex flex-wrap justify-content-center">
                     {% for question in questions %}
-                        <div class="col-md-2 mb-4"> <!-- Updated to create 5 columns (12/5 = 2.4, rounded to 2) -->
-                            <div class="card question-card" onclick="selectQuestion({{ question.id }})">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ question.category }}</h5>
-                                    <p class="card-text">{{ question.type }} - ${{ question.points }}</p>
-                                </div>
+                        <div class="card question-card" onclick="selectQuestion({{ question.id }})">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ question.category }}</h5>
+                                <p class="card-text">{{ question.type }} - ${{ question.points }}</p>
                             </div>
                         </div>
                     {% endfor %}
@@ -63,6 +66,7 @@
                                 <div class="card-body team-card-body">
                                     <span>{{ team.name }} - Score: {{ team.score }}</span>
                                     <div class="team-controls">
+                                        <!-- eslint-disable-next-line -->
                                         <button class="btn btn-success btn-sm" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'add')">+</button>
                                         <button class="btn btn-danger btn-sm" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'subtract')">-</button>
                                     </div>
@@ -88,7 +92,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="questionModalLabel">Question</h5>
+                    <h5 class="modal-title" id="questionModalLabel">Frage</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -97,8 +101,8 @@
                     <h2 id="questionText"></h2>
                 </div>
                 <div class="modal-footer">
-                    <input type="text" id="answerInput" class="form-control" placeholder="Enter your answer">
-                    <button type="button" class="btn btn-primary" onclick="submitAnswer()">Submit Answer</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAnswer(true)">Richtig</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAnswer(false)">Falsch</button>
                 </div>
             </div>
         </div>
@@ -112,26 +116,23 @@
 
         function selectQuestion(questionId) {
             currentQuestionId = questionId;
-            currentTeamId = prompt("Enter team ID:");
 
-            if (currentTeamId) {
-                $.post("/select_question/" + questionId, { team_id: currentTeamId }, function(data) {
-                    $('#questionText').text(data.question);
-                    $('#questionModal').modal('show');
-                });
-            }
-        }
-
-        function submitAnswer() {
-            var answer = $('#answerInput').val();
-            $.post("/answer_question/" + currentQuestionId, { team_id: currentTeamId, answer: answer }, function() {
-                location.reload();
+            $.post("/select_question/" + questionId, {}, function(data) {
+                $('#questionText').text(data.question);
+                $('#questionModal').modal('show');
             });
         }
 
         function updateScore(teamId, currentScore, points, action) {
             var newScore = action === 'add' ? currentScore + points : currentScore - points;
             $.post("/update_score", { team_id: teamId, score: newScore }, function() {
+                location.reload();
+            });
+        }
+
+        function submitAnswer(is_answer_correct) {
+            var answer = $('#answerInput').val();
+            $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct}, function() {
                 location.reload();
             });
         }
@@ -147,7 +148,7 @@
         function toggleTeamForm() {
             var form = document.getElementById('teamForm');
             var removeButtons = document.getElementsByClassName('remove-team-btn');
-            
+
             if (form.style.display === 'none' || form.style.display === '') {
                 form.style.display = 'block';
                 for (var i = 0; i < removeButtons.length; i++) {

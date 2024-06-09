@@ -1,39 +1,33 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-import sqlite3
+from database_access import Dao
 
 app = Flask(__name__)
+dao = Dao("jeopardy.db")
 
-def get_db_connection():
-    conn = sqlite3.connect('jeopardy.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+session_id = 1
 
 @app.route('/')
 def index():
-    conn = get_db_connection()
-    questions = conn.execute('SELECT * FROM questions').fetchall()
-    teams = conn.execute('SELECT * FROM teams').fetchall()
-    conn.close()
+    questions = dao.get_questions_by_category(session_id, category="Kultur")
+    teams = dao.get_teams()
     return render_template('index.html', questions=questions, teams=teams)
 
 @app.route('/add_team', methods=['POST'])
 def add_team():
     team_name = request.form['name']
-    conn = get_db_connection()
-    conn.execute('INSERT INTO teams (name) VALUES (?)', (team_name,))
-    conn.commit()
-    conn.close()
+    dao.add_team(team_name)
+    return redirect(url_for('index'))
+
+@app.route('/remove_team', methods=['POST'])
+def remove_team():
+    team_id = request.form['team_id']
+    dao.remove_team(team_id)
     return redirect(url_for('index'))
 
 @app.route('/select_question/<int:question_id>', methods=['POST'])
 def select_question(question_id):
-    team_id = request.form['team_id']
-    conn = get_db_connection()
-    question = conn.execute('SELECT * FROM questions WHERE id = ?', (question_id,)).fetchone()
-    conn.execute('INSERT INTO selected_questions (question_id, team_id) VALUES (?, ?)', (question_id, team_id))
-    conn.commit()
-    conn.close()
+    question = dao.get_question_by_id(question_id)
     return jsonify({
         'question': question['question'],
         'points': question['points']
@@ -41,38 +35,19 @@ def select_question(question_id):
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
-    team_id = request.form['team_id']
-    given_answer = request.form['answer']
-    conn = get_db_connection()
-    question = conn.execute('SELECT * FROM questions WHERE id = ?', (question_id,)).fetchone()
-    team = conn.execute('SELECT * FROM teams WHERE id = ?', (team_id,)).fetchone()
-    if given_answer.lower() == question['answer'].lower():
-        new_score = team['score'] + question['points']
-    else:
-        new_score = team['score'] - question['points']
-    conn.execute('UPDATE teams SET score = ? WHERE id = ?', (new_score, team_id))
-    conn.commit()
-    conn.close()
+    is_answer_correct = request.form['is_answer_correct']
+    team_id = 1 # TODO: REPLACE -- Kommt von Buzzern
+    question = dao.get_question_by_id(question_id)
+    points = question["points"]
+    dao.mark_question_as_selected(session_id, question_id, team_id, points)
     return redirect(url_for('index'))
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
     team_id = request.form['team_id']
     new_score = request.form['score']
-    conn = get_db_connection()
-    conn.execute('UPDATE teams SET score = ? WHERE id = ?', (new_score, team_id))
-    conn.commit()
-    conn.close()
+    dao.update_score(team_id, new_score)
     return '', 204
-
-@app.route('/remove_team', methods=['POST'])
-def remove_team():
-    team_id = request.form['team_id']
-    conn = get_db_connection()
-    conn.execute('DELETE FROM teams WHERE id = ?', (team_id,))
-    conn.commit()
-    conn.close()
-    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
