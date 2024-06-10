@@ -99,10 +99,10 @@
                         <h3>{{ category }}</h3>
                         <div class="d-flex flex-column">
                             {% for points, question in questions.items() %}
-                                <div class="card question-card mb-2" onclick="selectQuestion({{ question['id'] }})">
+                                <div class="card question-card mb-2" onclick="selectQuestion({{ question["question_id"] }})">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ points }} €</h5>
-                                        <p class="card-text">{{ question['type'] }}</p>
+                                        <p class="card-text">{{ question["type"] }}</p>
                                     </div>
                                 </div>
                             {% endfor %}

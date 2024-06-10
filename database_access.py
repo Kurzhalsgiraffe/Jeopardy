@@ -55,7 +55,7 @@ class Dao:
             cursor.execute(sql)
 
             sql = """CREATE TABLE IF NOT EXISTS questions (
-                questions_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                question_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 question TEXT NOT NULL,
                 answer TEXT NOT NULL,
                 category TEXT,
@@ -69,9 +69,10 @@ class Dao:
                 question_id INTEGER,
                 team_id INTEGER,
                 points INTEGER,
-                PRIMARY KEY (session_id, question_id, team_id),
-                FOREIGN KEY(question_id) REFERENCES questions(id),
-                FOREIGN KEY(team_id) REFERENCES teams(id)
+                attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (session_id, question_id, team_id, attempt_time),
+                FOREIGN KEY(question_id) REFERENCES questions(question_id),
+                FOREIGN KEY(team_id) REFERENCES teams(team_id)
                 )"""
             cursor.execute(sql)
             conn.close()
@@ -85,7 +86,7 @@ class Dao:
             sql = """SELECT q.*
                 FROM questions q
                 LEFT JOIN sessions sq
-                ON q.id = sq.question_id AND sq.session_id = ?
+                ON q.question_id = sq.question_id AND sq.session_id = ?
                 WHERE q.category = ?
                 AND sq.question_id IS NULL"""
 
@@ -98,7 +99,7 @@ class Dao:
     def get_question_by_id(self, question_id) -> sqlite3.Row:
         try:
             conn, cursor = self.get_db_connection()
-            question = cursor.execute('SELECT * FROM questions WHERE id = ?', (question_id,)).fetchone()
+            question = cursor.execute('SELECT * FROM questions WHERE question_id = ?', (question_id,)).fetchone()
             conn.close()
             return question
         except sqlite3.Error as err:
@@ -110,6 +111,17 @@ class Dao:
             teams = cursor.execute('SELECT * FROM teams').fetchall()
             conn.close()
             return teams
+        except sqlite3.Error as err:
+            error_handler(err,traceback.format_exc())
+
+    def get_team_score_by_id(self, team_id) -> int:
+        try:
+            conn, cursor = self.get_db_connection()
+            score_row = cursor.execute('SELECT score FROM teams WHERE team_id = ?', (team_id,)).fetchone()
+            conn.close()
+            if score_row is None:
+                return None
+            return score_row['score']
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
@@ -125,7 +137,7 @@ class Dao:
     def remove_team(self, team_id) -> None:
         try:
             conn, cursor = self.get_db_connection()
-            cursor.execute('DELETE FROM teams WHERE id = ?', (team_id,))
+            cursor.execute('DELETE FROM teams WHERE team_id = ?', (team_id,))
             conn.commit()
             conn.close()
         except sqlite3.Error as err:
@@ -134,13 +146,13 @@ class Dao:
     def update_score(self, team_id, new_score) -> None:
         try:
             conn, cursor = self.get_db_connection()
-            cursor.execute('UPDATE teams SET score = ? WHERE id = ?', (new_score, team_id))
+            cursor.execute('UPDATE teams SET score = ? WHERE team_id = ?', (new_score, team_id))
             conn.commit()
             conn.close()
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
-    def mark_question_as_played(self, session_id, question_id, team_id, points) -> None:
+    def add_answer_to_session(self, session_id, question_id, team_id, points) -> None:
         try:
             conn, cursor = self.get_db_connection()
             cursor.execute('INSERT INTO sessions (session_id, question_id, team_id, points) VALUES (?, ?, ?, ?)', (session_id, question_id, team_id, points))

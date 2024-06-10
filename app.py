@@ -6,7 +6,7 @@ import random
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
 
-session_id = 3
+session_id = 1
 questions = None
 
 @app.route('/')
@@ -44,8 +44,13 @@ def answer_question(question_id):
     question = dao.get_question_by_id(question_id)
     points = question["points"]
     is_answer_correct = request.form['is_answer_correct']
-    if is_answer_correct:
-        dao.mark_question_as_played(session_id, question_id, team_id, points) # TODO: Anderes System - Mehrfachnennung in Session Table bei Falscher Antwort
+    if is_answer_correct == "true":
+        dao.add_answer_to_session(session_id, question_id, team_id, points)
+        new_score = dao.get_team_score_by_id(team_id) + points
+    else:
+        dao.add_answer_to_session(session_id, question_id, team_id, -points)
+        new_score = dao.get_team_score_by_id(team_id) - points
+    dao.update_score(team_id, new_score)
     return redirect(url_for('index'))
 
 @app.route('/update_score', methods=['POST'])
@@ -60,12 +65,13 @@ def get_random_question_dict():
     d = dict()
     for category in ["Filme", "Geographie", "Kultur", "Politik", "Sport"]:
         questions = dao.get_questions_by_category(session_id, category=category)
-        random.shuffle(questions)
-        d[category] = dict()
-        for point in [100, 200, 300, 400, 500]:
-            filtered_questions = [q for q in questions if q["points"] == point]
-            if filtered_questions:
-                d[category][point] = random.choice(filtered_questions)
+        if questions:
+            random.shuffle(questions)
+            d[category] = dict()
+            for point in [100, 200, 300, 400, 500]:
+                filtered_questions = [q for q in questions if q["points"] == point]
+                if filtered_questions:
+                    d[category][point] = random.choice(filtered_questions)
     return d
 
 
