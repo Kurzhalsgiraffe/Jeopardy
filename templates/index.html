@@ -77,6 +77,10 @@
             justify-content: space-between; /* Distribute space between buttons */
             align-items: center; /* Center vertically */
         }
+        .answered {
+            opacity: 0.5;
+            pointer-events: none; /* Prevent further clicks */
+        }
         .blur-text {
             width: 80%;
             text-align: center;
@@ -99,7 +103,7 @@
                         <h3>{{ category }}</h3>
                         <div class="d-flex flex-column">
                             {% for points, question in questions.items() %}
-                                <div class="card question-card mb-2" onclick="selectQuestion({{ question["question_id"] }})">
+                                <div class="card question-card mb-2" data-question-id="{{ question["question_id"] }}" onclick="selectQuestion({{ question["question_id"] }})">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ points }} €</h5>
                                         <p class="card-text">{{ question["type"] }}</p>
@@ -178,9 +182,21 @@
         function selectQuestion(questionId) {
             currentQuestionId = questionId;
 
+            // Check if the question card is already answered
+            var card = document.querySelector(`[data-question-id="${questionId}"]`);
+            var alreadyAnswered = card.classList.contains('answered');
+
             $.post("/select_question/" + questionId, {}, function(data) {
                 $('#questionText').text(data.question);
                 $('#answerText').text(data.answer);
+
+                // Show modal without buttons if already answered
+                if (alreadyAnswered) {
+                    $('.modal-footer').hide();
+                } else {
+                    $('.modal-footer').show();
+                }
+
                 $('#questionModal').modal('show');
             });
         }
@@ -193,9 +209,16 @@
         }
 
         function submitAnswer(is_answer_correct) {
-            var answer = $('#answerInput').val();
             $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct}, function() {
-                location.reload();
+                if (is_answer_correct) {
+                    var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);
+                    card.classList.add('answered');
+                    card.style.opacity = '0.5';
+
+                    $('#questionModal').modal('hide');
+                } else {
+                    $('#questionModal').modal('show');
+                }
             });
         }
 
