@@ -6,7 +6,7 @@ import random
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
 
-session_id = 1
+session_id = 3
 questions = None
 
 @app.route('/')
@@ -34,16 +34,18 @@ def select_question(question_id):
     question = dao.get_question_by_id(question_id)
     return jsonify({
         'question': question['question'],
+        'answer': question['answer'],
         'points': question['points']
     })
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
-    is_answer_correct = request.form['is_answer_correct']
     team_id = 1 # TODO: REPLACE -- Kommt von Buzzern
     question = dao.get_question_by_id(question_id)
     points = question["points"]
-    dao.mark_question_as_selected(session_id, question_id, team_id, points)
+    is_answer_correct = request.form['is_answer_correct']
+    if is_answer_correct:
+        dao.mark_question_as_played(session_id, question_id, team_id, points) # TODO: Anderes System - Mehrfachnennung in Session Table bei Falscher Antwort
     return redirect(url_for('index'))
 
 @app.route('/update_score', methods=['POST'])
@@ -64,7 +66,6 @@ def get_random_question_dict():
             filtered_questions = [q for q in questions if q["points"] == point]
             if filtered_questions:
                 d[category][point] = random.choice(filtered_questions)
-    print(d)
     return d
 
 

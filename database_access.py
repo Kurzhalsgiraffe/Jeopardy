@@ -140,7 +140,7 @@ class Dao:
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
-    def mark_question_as_selected(self, session_id, question_id, team_id, points) -> None:
+    def mark_question_as_played(self, session_id, question_id, team_id, points) -> None:
         try:
             conn, cursor = self.get_db_connection()
             cursor.execute('INSERT INTO sessions (session_id, question_id, team_id, points) VALUES (?, ?, ?, ?)', (session_id, question_id, team_id, points))

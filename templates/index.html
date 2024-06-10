@@ -161,7 +161,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="submitAnswer(true)">Richtig</button>
                 <div class="blur-text">
-                    <span id="answerDisplay" id="answerText">Penis</span>
+                    <span id="answerText"></span>
                 </div>
                 <button type="button" class="btn btn-primary" onclick="submitAnswer(false)">Falsch</button>
             </div>
@@ -180,6 +180,7 @@
 
             $.post("/select_question/" + questionId, {}, function(data) {
                 $('#questionText').text(data.question);
+                $('#answerText').text(data.answer);
                 $('#questionModal').modal('show');
             });
         }
