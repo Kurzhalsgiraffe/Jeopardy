@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeopardy Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             color: white;
-            background-image: url(https://blog.learnamp.com/hubfs/question.jpg);
-            background-size: cover; /* Ensure the background image covers the entire body */
+            background-image: url(https://www.it-recht-web.de/wp-content/uploads/2018/10/filesharing-drei-fragezeichen-waldorf-frommer.jpg);
+            background-size: cover;
         }
         .question-card {
             cursor: pointer;
         }
         .card {
             background-color: darkslategrey;
-            margin: 5px;
             height: 110px; /* Adjust the height as needed */
             width: 200px; /* Adjust the width as needed */
         }
@@ -25,21 +25,28 @@
         }
         .card-title {
             margin-bottom: 0.5rem; /* Adjust as needed for spacing */
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 150px; /* Adjust width to fit within the card */
         }
         .category-block {
             width: 100%;
+        }
+        .team-cards-wrapper {
+            text-align: center;
+        }
+        .team-cards-container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            margin-bottom: 20px; /* Adjust the margin from the bottom as needed */
         }
         .team-card {
             position: relative;
             height: 100px; /* Adjust the height as needed */
             width: 100%; /* Use full width within the grid column */
             margin-bottom: 10px; /* Space between team cards */
-        }
-        .remove-team-btn {
-            position: absolute;
-            top: -15px;
-            right: -13px;
-            display: none; /* Initially hidden */
         }
         .team-card-body {
             display: flex;
@@ -54,6 +61,12 @@
         .team-input {
             width: 80px; /* Adjust the width as needed */
             margin-bottom: 10px;
+        }
+        .remove-team-btn {
+            position: absolute;
+            top: -15px;
+            right: -13px;
+            display: none; /* Initially hidden */
         }
         .team-control-btn {
             width: 30px; /* Adjust the width as needed */
@@ -102,7 +115,6 @@
         .answer-button {
             transition: background-color 0.3s ease, transform 0.1s ease;
         }
-
         .answer-button:active {
             background-color: #0056b3; /* Change to your desired active background color */
             transform: scale(0.55); /* Slightly scale down the button */
@@ -141,30 +153,34 @@
 
         <div class="row mt-4">
             <div class="col-md-12">
-                <h2>Teams</h2>
-                <div class="row">
-                    {% for team in teams %}
-                    <div class="col-md-3 mb-3">
-                        <div class="card team-card" data-team-id="{{ team.team_id }}">
-                            <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.team_id }})"><span aria-hidden="true">&times;</span></button>
-                            <div class="card-body team-card-body">
-                                <div>
-                                    <h5 class="card-title">{{ team.name }}</h5>
-                                    <span class="card-text">{{ team.score }}</span>
-                                </div>
-                                <div class="team-controls mt-2">
-                                    <input type="number" class="form-control mb-2 team-input" id="points-{{ team.team_id }}">
-                                    <div class="button-group">
-                                        <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'add')">+</button>
-                                        <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'subtract')">-</button>
+                <div class="team-cards-wrapper">
+                    <div>
+                        <h2>Teams</h2>
+                        <button class="btn btn-primary mt-4" onclick="toggleTeamForm()"><i class="fas fa-pencil-alt"></i></button>
+                    </div>
+                    <div class="row team-cards-container">
+                        {% for team in teams %}
+                        <div class="col-md-3 mb-3">
+                            <div class="card team-card" data-team-id="{{ team.team_id }}">
+                                <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.team_id }})"><span aria-hidden="true">&times;</span></button>
+                                <div class="card-body team-card-body">
+                                    <div>
+                                        <h5 class="card-title">{{ team.name }}</h5>
+                                        <span class="card-text">{{ team.score }}</span>
+                                    </div>
+                                    <div class="team-controls mt-2">
+                                        <input type="number" class="form-control mb-2 team-input" id="points-{{ team.team_id }}">
+                                        <div class="button-group">
+                                            <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'add')">+</button>
+                                            <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'subtract')">-</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
-                <button class="btn btn-primary mt-4" onclick="toggleTeamForm()">Toggle Team Form</button>
                 <form id="teamForm" action="{{ url_for('add_team') }}" method="post" class="mt-4" style="display: none;">
                     <div class="form-group">
                         <label for="name">Team Name</label>
