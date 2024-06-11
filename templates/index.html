@@ -79,16 +79,30 @@
         }
         .answered {
             opacity: 0.5;
-            pointer-events: none; /* Prevent further clicks */
+            /* pointer-events: none; /* Prevent further clicks */
         }
-        .blur-text {
+        .answer-text-container {
             width: 80%;
             text-align: center;
+        }
+        .answer-button-container {
+            width: 7.5%;
+            display: flex;
+            justify-content: center; /* Horizontally centers the button */
+        }
+        .answer-button {
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .answer-button:active {
+            background-color: #0056b3; /* Change to your desired active background color */
+            transform: scale(0.55); /* Slightly scale down the button */
+        }
+        .blur-text {
             filter: blur(5px); /* Initial blur effect */
             transition: filter 0.5s ease; /* Smooth transition */
             cursor: pointer; /* Change cursor to pointer when hovered */
         }
-
         .blur-text:hover {
             filter: none; /* Remove blur effect on hover */
         }
@@ -163,11 +177,15 @@
                 <h2 id="questionText"></h2>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="submitAnswer(true)">Richtig</button>
-                <div class="blur-text">
+                <div class="answer-button-container">
+                    <button type="button" class="btn btn-primary answer-button" onclick="submitAnswer(true)">Richtig</button>
+                </div>
+                <div class="answer-text-container">
                     <span id="answerText"></span>
                 </div>
-                <button type="button" class="btn btn-primary" onclick="submitAnswer(false)">Falsch</button>
+                <div class="answer-button-container">
+                    <button type="button" class="btn btn-primary answer-button" onclick="submitAnswer(false)">Falsch</button>
+                </div>
             </div>
         </div>
     </div>
@@ -184,7 +202,7 @@
 
             // Check if the question card is already answered
             var card = document.querySelector(`[data-question-id="${questionId}"]`);
-            var alreadyAnswered = card.classList.contains('answered');
+            var alreadyAnswered = card.classList.contains('answered'); // TODO: Im Server speichern und Abrufen, wegen Refresh
 
             $.post("/select_question/" + questionId, {}, function(data) {
                 $('#questionText').text(data.question);
@@ -192,9 +210,11 @@
 
                 // Show modal without buttons if already answered
                 if (alreadyAnswered) {
-                    $('.modal-footer').hide();
+                    $('.answer-text-container').removeClass('blur-text')
+                    $('.answer-button').hide();
                 } else {
-                    $('.modal-footer').show();
+                    $('.answer-text-container').addClass('blur-text')
+                    $('.answer-button').show();
                 }
 
                 $('#questionModal').modal('show');
