@@ -35,6 +35,8 @@ def select_question(question_id):
     return jsonify({
         'question': question['question'],
         'answer': question['answer'],
+        'category': question['category'],
+        'type': question['type'],
         'points': question['points']
     })
 
@@ -57,9 +59,11 @@ def answer_question(question_id):
 @app.route('/update_score', methods=['POST'])
 def update_score():
     team_id = request.form['team_id']
-    new_score = request.form['score']
-    dao.update_score(team_id, new_score)
-    return '', 204
+    score_delta = request.form['score_delta']
+    old_score = dao.get_team_score_by_id(team_id)
+    dao.update_score(team_id, old_score+int(score_delta))
+    teams = dao.get_teams()
+    return jsonify([dict(row) for row in teams])
 
 
 def get_random_question_dict():

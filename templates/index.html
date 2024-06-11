@@ -31,8 +31,9 @@
         .team-card {
             position: relative;
             height: 100px; /* Adjust the height as needed */
-            width: 200px; /* Adjust the width as needed */
-            margin-bottom: 5px;
+            width: 310px; /* Adjust the width as needed */
+            margin-bottom: 10px; /* Platzierung 10px nach unten */
+            margin-right: 15px; /* Platzierung 5px nach rechts */
         }
         .remove-team-btn {
             position: absolute;
@@ -47,10 +48,19 @@
         }
         .team-controls {
             display: flex;
-            gap: 5px; /* Adjust gap to prevent overlap */
+            flex-direction: column;
+            align-items: center;
+        }
+        .team-input {
+            width: 80px; /* Adjust the width as needed */
+            margin-bottom: 10px;
         }
         .team-control-btn {
             width: 30px; /* Adjust the width as needed */
+        }
+        .button-group {
+            display: flex;
+            gap: 5px; /* Adjust gap to prevent overlap */
         }
         .modal-dialog {
             max-width: 90%; /* Adjust the maximum width as needed */
@@ -135,18 +145,18 @@
                 <h2>Teams</h2>
                 <div class="row">
                     {% for team in teams %}
-                        <div class="col-md-3">
-                            <div class="card team-card" data-team-id="{{ team.team_id }}">
-                                <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.team_id }})"><span aria-hidden="true">&times;</span></button>
-                                <div class="card-body team-card-body">
-                                    <div>
-                                        <h5 class="card-title">{{ team.name }}</h5>
-                                        <span class="card-text">{{ team.score }}</span>
-                                    </div>
-                                    <div class="team-controls">
-                                        <!-- eslint-disable-next-line -->
-                                        <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, {{ team.score }}, 1, 'add')">+</button>
-                                        <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, {{ team.score }}, 1, 'subtract')">-</button>
+                        <div class="card team-card" data-team-id="{{ team.team_id }}">
+                            <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.team_id }})"><span aria-hidden="true">&times;</span></button>
+                            <div class="card-body team-card-body">
+                                <div>
+                                    <h5 class="card-title">{{ team.name }}</h5>
+                                    <span class="card-text">{{ team.score }}</span>
+                                </div>
+                                <div class="team-controls mt-2">
+                                    <input type="number" class="form-control mb-2 team-input" id="points-{{ team.team_id }}">
+                                    <div class="button-group">
+                                        <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'add')">+</button>
+                                        <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'subtract')">-</button>
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +167,7 @@
                 <form id="teamForm" action="{{ url_for('add_team') }}" method="post" class="mt-4" style="display: none;">
                     <div class="form-group">
                         <label for="name">Team Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" maxlength="15">
                     </div>
                     <button type="submit" class="btn btn-primary">Add Team</button>
                 </form>
@@ -170,7 +180,7 @@
     <div class="modal-dialog modal-xl" role="document"> <!-- Change modal-dialog class to modal-xl for extra-large modal -->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="questionModalLabel">Frage</h5>
+                <h5 class="modal-title" id="questionModalLabel"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -205,6 +215,7 @@
             var alreadyAnswered = card.classList.contains('answered'); // TODO: Im Server speichern und Abrufen, wegen Refresh
 
             $.post("/select_question/" + questionId, {}, function(data) {
+                $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
                 $('#questionText').text(data.question);
                 $('#answerText').text(data.answer);
 
@@ -221,10 +232,18 @@
             });
         }
 
-        function updateScore(teamId, currentScore, points, action) {
-            var newScore = action === 'add' ? currentScore + points : currentScore - points;
-            $.post("/update_score", { team_id: teamId, score: newScore }, function() {
-                location.reload();
+        function updateScore(teamId, action) {
+            var pointsInput = document.getElementById('points-' + teamId);
+            var points = parseInt(pointsInput.value);
+
+            if (isNaN(points) || points <= 0) {
+                alert("Please enter a valid number of points.");
+                return;
+            }
+
+            var score_delta = action === 'add' ? + points : - points;
+            $.post("/update_score", { team_id: teamId, score_delta: score_delta }, function(data) {
+                updateTeamScores(data);
             });
         }
 
