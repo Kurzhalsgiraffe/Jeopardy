@@ -36,6 +36,13 @@
         .team-cards-wrapper {
             text-align: center;
         }
+        .team-header {
+            display: flex;
+            align-items: center;
+        }
+        .team-header h2 {
+            margin: 0;
+        }
         .team-cards-container {
             display: flex;
             justify-content: center; /* Center horizontally */
@@ -127,6 +134,17 @@
         .blur-text:hover {
             filter: none; /* Remove blur effect on hover */
         }
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: darkslategrey;
+        }
     </style>
 </head>
 <body>
@@ -154,9 +172,11 @@
         <div class="row mt-4">
             <div class="col-md-12">
                 <div class="team-cards-wrapper">
-                    <div>
+                    <div class="team-header">
                         <h2>Teams</h2>
-                        <button class="btn btn-primary mt-4" onclick="toggleTeamForm()"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="btn btn-primary btn-icon" onclick="toggleTeamForm()">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
                     </div>
                     <div class="row team-cards-container">
                         {% for team in teams %}
