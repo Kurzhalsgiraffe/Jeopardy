@@ -9,6 +9,7 @@
         body {
             color: white;
             background-image: url(https://blog.learnamp.com/hubfs/question.jpg);
+            background-size: cover; /* Ensure the background image covers the entire body */
         }
         .question-card {
             cursor: pointer;
@@ -31,9 +32,8 @@
         .team-card {
             position: relative;
             height: 100px; /* Adjust the height as needed */
-            width: 310px; /* Adjust the width as needed */
-            margin-bottom: 10px; /* Platzierung 10px nach unten */
-            margin-right: 15px; /* Platzierung 5px nach rechts */
+            width: 100%; /* Use full width within the grid column */
+            margin-bottom: 10px; /* Space between team cards */
         }
         .remove-team-btn {
             position: absolute;
@@ -67,7 +67,7 @@
             margin: 1.75rem auto; /* Center the modal vertically */
         }
         .modal-content {
-            height: 50vh; /* Set the height to 80% of the viewport height */
+            height: 50vh; /* Set the height to 50% of the viewport height */
             overflow-y: auto; /* Enable vertical scrolling if content exceeds modal height */
             background-color: darkslategrey; /* Adjust the background color as needed */
             color: white; /* Adjust the text color as needed */
@@ -89,7 +89,6 @@
         }
         .answered {
             opacity: 0.5;
-            /* pointer-events: none; /* Prevent further clicks */
         }
         .answer-text-container {
             width: 80%;
@@ -145,6 +144,7 @@
                 <h2>Teams</h2>
                 <div class="row">
                     {% for team in teams %}
+                    <div class="col-md-3 mb-3">
                         <div class="card team-card" data-team-id="{{ team.team_id }}">
                             <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.team_id }})"><span aria-hidden="true">&times;</span></button>
                             <div class="card-body team-card-body">
@@ -161,6 +161,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     {% endfor %}
                 </div>
                 <button class="btn btn-primary mt-4" onclick="toggleTeamForm()">Toggle Team Form</button>
