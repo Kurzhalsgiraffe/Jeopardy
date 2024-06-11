@@ -20,7 +20,7 @@ class Dao:
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
-    def get_db_connection(self):
+    def get_db_connection(self) -> tuple[sqlite3.Connection, sqlite3.Cursor]:
         """Get a connection to the database"""
         try:
             conn = sqlite3.connect(self.dbfile, check_same_thread=False)
@@ -89,7 +89,6 @@ class Dao:
                 ON q.question_id = sq.question_id AND sq.session_id = ?
                 WHERE q.category = ?
                 AND sq.question_id IS NULL"""
-
             questions =cursor.execute(sql, (session_id, category)).fetchall()
             conn.close()
             return questions
@@ -160,3 +159,16 @@ class Dao:
             conn.close()
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
+
+    def get_next_session_id(self) -> int:
+        try:
+            conn, cursor = self.get_db_connection()
+            result = cursor.execute('SELECT MAX(session_id) FROM sessions').fetchone()
+            conn.close()
+            if result[0] is None:
+                return 1
+            else:
+                return result[0] + 1
+        except sqlite3.Error as err:
+            self.error_handler(err, traceback.format_exc())
+            return None

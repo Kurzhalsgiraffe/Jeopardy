@@ -6,16 +6,17 @@ import random
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
 
-session_id = 1
-questions = None
+session_id = dao.get_next_session_id()
+categorized_questions = None
+answered_question_ids = set()
 
 @app.route('/')
 def index():
-    global questions
-    if not questions:
-        questions = get_random_question_dict()
+    global categorized_questions
+    if not categorized_questions:
+        categorized_questions = get_random_question_dict()
     teams = dao.get_teams()
-    return render_template('index.html', questions=questions, teams=teams)
+    return render_template('index.html', categorized_questions=categorized_questions, teams=teams, answered_question_ids=answered_question_ids)
 
 @app.route('/add_team', methods=['POST'])
 def add_team():
@@ -49,6 +50,7 @@ def answer_question(question_id):
     if is_answer_correct == "true":
         dao.add_answer_to_session(session_id, question_id, team_id, points)
         new_score = dao.get_team_score_by_id(team_id) + points
+        answered_question_ids.add(question_id)
     else:
         dao.add_answer_to_session(session_id, question_id, team_id, -points)
         new_score = dao.get_team_score_by_id(team_id) - points
@@ -67,17 +69,17 @@ def update_score():
 
 
 def get_random_question_dict():
-    d = dict()
+    categorized_questions = dict()
     for category in ["Filme", "Geographie", "Kultur", "Politik", "Sport"]:
-        questions = dao.get_questions_by_category(session_id, category=category)
-        if questions:
-            random.shuffle(questions)
-            d[category] = dict()
-            for point in [100, 200, 300, 400, 500]:
-                filtered_questions = [q for q in questions if q["points"] == point]
-                if filtered_questions:
-                    d[category][point] = random.choice(filtered_questions)
-    return d
+        questions_list = dao.get_questions_by_category(session_id, category=category)
+        if questions_list:
+            random.shuffle(questions_list)
+            categorized_questions[category] = dict()
+            for points_value in [100, 200, 300, 400, 500]:
+                questions_with_specific_points = [q for q in questions_list if q["points"] == points_value]
+                if questions_with_specific_points:
+                    categorized_questions[category][points_value] = random.choice(questions_with_specific_points)
+    return categorized_questions
 
 
 if __name__ == "__main__":
