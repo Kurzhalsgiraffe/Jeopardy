@@ -136,8 +136,8 @@
                 <div class="row">
                     {% for team in teams %}
                         <div class="col-md-3">
-                            <div class="card team-card">
-                                <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.id }})"><span aria-hidden="true">&times;</span></button>
+                            <div class="card team-card" data-team-id="{{ team.team_id }}">
+                                <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.team_id }})"><span aria-hidden="true">&times;</span></button>
                                 <div class="card-body team-card-body">
                                     <div>
                                         <h5 class="card-title">{{ team.name }}</h5>
@@ -145,8 +145,8 @@
                                     </div>
                                     <div class="team-controls">
                                         <!-- eslint-disable-next-line -->
-                                        <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'add')">+</button>
-                                        <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.id }}, {{ team.score }}, 1, 'subtract')">-</button>
+                                        <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, {{ team.score }}, 1, 'add')">+</button>
+                                        <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, {{ team.score }}, 1, 'subtract')">-</button>
                                     </div>
                                 </div>
                             </div>
@@ -228,16 +228,25 @@
             });
         }
 
-        function submitAnswer(is_answer_correct) { // TODO: Punkteanzahl refreshen, sodass direkt die bereits berechnete Punktezahl auf der Seite erscheint
-            $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct}, function() {
+        function submitAnswer(is_answer_correct) {
+            $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct }, function(data) {
                 if (is_answer_correct) {
                     var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);
                     card.classList.add('answered');
                     card.style.opacity = '0.5';
-
                     $('#questionModal').modal('hide');
                 } else {
                     $('#questionModal').modal('show');
+                }
+                updateTeamScores(data); // Update team scores
+            });
+        }
+
+        function updateTeamScores(teams) {
+            teams.forEach(team => {
+                var teamElement = document.querySelector(`[data-team-id="${team.team_id}"] .card-text`);
+                if (teamElement) {
+                    teamElement.textContent = team.score;
                 }
             });
         }

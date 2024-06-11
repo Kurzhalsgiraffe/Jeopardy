@@ -51,7 +51,8 @@ def answer_question(question_id):
         dao.add_answer_to_session(session_id, question_id, team_id, -points)
         new_score = dao.get_team_score_by_id(team_id) - points
     dao.update_score(team_id, new_score)
-    return redirect(url_for('index'))
+    teams = dao.get_teams()
+    return jsonify([dict(row) for row in teams])
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
