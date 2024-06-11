@@ -228,7 +228,7 @@
             });
         }
 
-        function submitAnswer(is_answer_correct) {
+        function submitAnswer(is_answer_correct) { // TODO: Punkteanzahl refreshen, sodass direkt die bereits berechnete Punktezahl auf der Seite erscheint
             $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct}, function() {
                 if (is_answer_correct) {
                     var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);

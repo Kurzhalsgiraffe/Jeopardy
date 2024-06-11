@@ -69,7 +69,7 @@ class Dao:
                 question_id INTEGER,
                 team_id INTEGER,
                 points INTEGER,
-                attempt_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                attempt_time DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now')),
                 PRIMARY KEY (session_id, question_id, team_id, attempt_time),
                 FOREIGN KEY(question_id) REFERENCES questions(question_id),
                 FOREIGN KEY(team_id) REFERENCES teams(team_id)
