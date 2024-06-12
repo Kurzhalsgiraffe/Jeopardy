@@ -157,16 +157,16 @@
 <body>
     <div class="container">
         <div class="row my-3">
-            {% for category, points_to_questions_map in categorized_questions.items() %}
+            {% for category in question_matrix %}
                 <div class="col-md-2 mx-3">
                     <div class="category-block">
-                        <h3>{{ category }}</h3>
+                        <h3>{{ category[0]["category"] }}</h3>
                         <div class="d-flex flex-column">
-                            {% for points_value, question_data in points_to_questions_map.items() %}
-                                <div class="card question-card mb-2 {{ "answered" if question_data["question_id"] in answered_question_ids }}" data-question-id="{{ question_data["question_id"] }}" onclick="selectQuestion({{ question_data["question_id"] }})">
+                            {% for question in category %}
+                                <div class="card question-card mb-2 {{ "answered" if question["question_id"] in answered_question_ids }}" data-question-id="{{ question["question_id"] }}" onclick="selectQuestion({{ question["question_id"] }})">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ points_value }} €</h5>
-                                        <p class="card-text">{{ question_data["type"] }}</p>
+                                        <h5 class="card-title">{{ question["points"] }} €</h5>
+                                        <p class="card-text">{{ question["type"] }}</p>
                                     </div>
                                 </div>
                             {% endfor %}

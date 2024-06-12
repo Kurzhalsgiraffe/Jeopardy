@@ -160,6 +160,16 @@ class Dao:
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
+    def get_answered_questions_of_session(self, session_id) -> list:
+        try:
+            conn, cursor = self.get_db_connection()
+            result = cursor.execute('SELECT question_id FROM sessions WHERE session_id = ? AND points > 0', (session_id,)).fetchall()
+            conn.close()
+            return [r["question_id"] for r in result]
+        except sqlite3.Error as err:
+            self.error_handler(err, traceback.format_exc())
+            return None
+
     def get_next_session_id(self) -> int:
         try:
             conn, cursor = self.get_db_connection()
