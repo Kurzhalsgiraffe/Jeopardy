@@ -58,11 +58,17 @@
         }
         .team-card {
             position: relative;
-            height: 100px; /* Adjust the height as needed */
+            height: 200px; /* Adjust the height as needed */
             width: 100%; /* Use full width within the grid column */
             margin-bottom: 10px; /* Space between team cards */
         }
         .team-card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .team-card-settings {
+            padding: 1rem; /* Adjust as needed for spacing */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -72,9 +78,12 @@
             flex-direction: column;
             align-items: center;
         }
-        .team-input {
+        .team-add-points-input {
             width: 80px; /* Adjust the width as needed */
             margin-bottom: 10px;
+        }
+        .team-buzzer-id-input {
+            width: 30px;
         }
         .remove-team-btn {
             position: absolute;
@@ -152,6 +161,17 @@
             justify-content: center;
             background-color: darkslategrey;
         }
+        /* Hide up-down arrows for input*/
+        /* Chrome, Safari, Edge, Opera */
+        .team-buzzer-id-input::-webkit-outer-spin-button,
+        .team-buzzer-id-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        .team-buzzer-id-input {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 <body>
@@ -196,11 +216,21 @@
                                         <span class="card-text">{{ team.score }}</span>
                                     </div>
                                     <div class="team-controls mt-2">
-                                        <input type="number" class="form-control mb-2 team-input" id="points-{{ team.team_id }}">
+                                        <input type="number" class="form-control mb-2 team-add-points-input" id="points-{{ team.team_id }}">
                                         <div class="button-group">
                                             <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'add')">+</button>
                                             <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'subtract')">-</button>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="team-card-settings">
+                                    <div class="form-check">
+                                        <label class="form-control-label" for="active-{{ team.team_id }}">Buzzer ID</label>
+                                        <input type="number" class="form-control mb-2 team-buzzer-id-input" id="buzzer-id-{{ team.team_id }}" name="buzzer_id" min="1" max="4" value="{{ team.buzzer_id }}">
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="active-{{ team.team_id }}" name="active">
+                                        <label class="form-check-label" for="active-{{ team.team_id }}">Active</label>
                                     </div>
                                 </div>
                             </div>
