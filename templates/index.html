@@ -67,29 +67,32 @@
             justify-content: space-between;
             align-items: center;
         }
-        .team-card-settings {
-            padding: 1rem; /* Adjust as needed for spacing */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .team-controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .team-add-points-input {
-            width: 80px; /* Adjust the width as needed */
-            margin-bottom: 10px;
-        }
-        .team-buzzer-id-input {
-            width: 30px;
-        }
         .remove-team-btn {
             position: absolute;
             top: -15px;
             right: -13px;
             display: none; /* Initially hidden */
+        }
+        .team-card-settings {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .team-buzzer-id-input {
+            border-radius: 5px;
+        }
+        .team-add-points {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .team-add-points-input {
+            width: 70px; /* Adjust the width as needed */
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .team-buzzer-id-input {
+            width: 30px;
         }
         .team-control-btn {
             width: 30px; /* Adjust the width as needed */
@@ -215,8 +218,8 @@
                                         <h5 class="card-title">{{ team.name }}</h5>
                                         <span class="card-text">{{ team.score }}</span>
                                     </div>
-                                    <div class="team-controls mt-2">
-                                        <input type="number" class="form-control mb-2 team-add-points-input" id="points-{{ team.team_id }}">
+                                    <div class="team-add-points mt-2">
+                                        <input type="number" class="mb-2 team-add-points-input" id="points-{{ team.team_id }}">
                                         <div class="button-group">
                                             <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'add')">+</button>
                                             <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'subtract')">-</button>
@@ -224,13 +227,13 @@
                                     </div>
                                 </div>
                                 <div class="team-card-settings">
-                                    <div class="form-check">
-                                        <label class="form-control-label" for="active-{{ team.team_id }}">Buzzer ID</label>
-                                        <input type="number" class="form-control mb-2 team-buzzer-id-input" id="buzzer-id-{{ team.team_id }}" name="buzzer_id" min="1" max="4" value="{{ team.buzzer_id }}">
+                                    <div class="team-buzzer-id">
+                                        <label class="" for="buzzer-id-{{ team.team_id }}">Buzzer ID</label>
+                                        <input type="number" class="mb-2 team-buzzer-id-input" id="buzzer-id-{{ team.team_id }}" name="buzzer_id" min="1" max="4" value="{{ team.buzzer_id }}">
                                     </div>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="active-{{ team.team_id }}" name="active">
-                                        <label class="form-check-label" for="active-{{ team.team_id }}">Active</label>
+                                    <div class="team-active">
+                                        <input type="checkbox" id="active-{{ team.team_id }}" name="active">
+                                        <label for="active-{{ team.team_id }}">Active</label>
                                     </div>
                                 </div>
                             </div>
@@ -355,16 +358,23 @@
         function toggleTeamForm() {
             var form = document.getElementById('teamForm');
             var removeButtons = document.getElementsByClassName('remove-team-btn');
+            var teamSettings = document.getElementsByClassName('team-card-settings');
 
             if (form.style.display === 'none' || form.style.display === '') {
                 form.style.display = 'block';
                 for (var i = 0; i < removeButtons.length; i++) {
                     removeButtons[i].style.display = 'block';
                 }
+                for (var i = 0; i < teamSettings.length; i++) {
+                    teamSettings[i].style.display = 'block';
+                }
             } else {
                 form.style.display = 'none';
                 for (var i = 0; i < removeButtons.length; i++) {
                     removeButtons[i].style.display = 'none';
+                }
+                for (var i = 0; i < teamSettings.length; i++) {
+                    teamSettings[i].style.display = 'none';
                 }
             }
         }
