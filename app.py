@@ -76,6 +76,25 @@ def update_score():
     teams = dao.get_teams()
     return jsonify([dict(row) for row in teams])
 
+@app.route('/toggle_team_activation', methods=['POST'])
+def toggle_team_activation():
+    team_id = request.form['team_id']
+    is_active = request.form.get('active') == 'true'  # Convert string to boolean
+    dao.toggle_team_activation(team_id, is_active)
+    teams = dao.get_teams()
+    return jsonify([dict(row) for row in teams])
+
+@app.route('/update_buzzer_id', methods=['POST'])
+def update_buzzer_id():
+    team_id = request.form['team_id']
+    buzzer_id = request.form.get('buzzer_id')
+
+    if dao.is_buzzer_id_in_use(buzzer_id):
+        return jsonify({"success": False, "message": "Buzzer ID already in use"})
+
+    dao.update_buzzer_id(team_id, buzzer_id)
+    return jsonify({"success": True})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

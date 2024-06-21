@@ -50,7 +50,9 @@ class Dao:
             sql = """CREATE TABLE IF NOT EXISTS teams (
                 team_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
-                score INTEGER DEFAULT 0
+                score INTEGER DEFAULT 0,
+                buzzer_id INTEGER,
+                is_active INTEGER
                 )"""
             cursor.execute(sql)
 
@@ -141,6 +143,35 @@ class Dao:
             conn.close()
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
+
+    def toggle_team_activation(self, team_id, is_active) -> None:
+        try:
+            conn, cursor = self.get_db_connection()
+            cursor.execute('UPDATE teams SET is_active = ? WHERE team_id = ?', (is_active, team_id))
+            conn.commit()
+            conn.close()
+        except sqlite3.Error as err:
+            error_handler(err,traceback.format_exc())
+
+    def update_buzzer_id(self, team_id, buzzer_id) -> None:
+        try:
+            conn, cursor = self.get_db_connection()
+            cursor.execute('UPDATE teams SET buzzer_id = ? WHERE team_id = ?', (buzzer_id, team_id))
+            conn.commit()
+            conn.close()
+        except sqlite3.Error as err:
+            error_handler(err,traceback.format_exc())
+
+    def is_buzzer_id_in_use(self, buzzer_id) -> bool:
+        try:
+            conn, cursor = self.get_db_connection()
+            cursor.execute('SELECT COUNT(*) FROM teams WHERE buzzer_id = ?', (buzzer_id,))
+            result = cursor.fetchone()
+            conn.close()
+            return result[0] > 0
+        except sqlite3.Error as err:
+            error_handler(err, traceback.format_exc())
+            return False
 
     def update_score(self, team_id, new_score) -> None:
         try:
