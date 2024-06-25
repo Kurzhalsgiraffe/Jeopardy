@@ -86,14 +86,21 @@ def toggle_team_activation():
 
 @app.route('/update_buzzer_id', methods=['POST'])
 def update_buzzer_id():
-    team_id = request.form['team_id']
+    team_id = request.form.get('team_id')
     buzzer_id = request.form.get('buzzer_id')
+
+    if not team_id or not buzzer_id:
+        return jsonify({"success": False, "message": "Team ID and Buzzer ID are required"})
+
+    current_buzzer_id = dao.get_buzzer_id_for_team(team_id)
+    if int(current_buzzer_id) == int(buzzer_id):
+        return jsonify({"success": True, "message": "Buzzer ID is already set to the given value"})
 
     if dao.is_buzzer_id_in_use(buzzer_id):
         return jsonify({"success": False, "message": "Buzzer ID already in use"})
 
     dao.update_buzzer_id(team_id, buzzer_id)
-    return jsonify({"success": True})
+    return jsonify({"success": True}), 200
 
 
 if __name__ == "__main__":

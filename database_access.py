@@ -165,13 +165,36 @@ class Dao:
     def is_buzzer_id_in_use(self, buzzer_id) -> bool:
         try:
             conn, cursor = self.get_db_connection()
-            cursor.execute('SELECT COUNT(*) FROM teams WHERE buzzer_id = ?', (buzzer_id,))
-            result = cursor.fetchone()
+            result = cursor.execute('SELECT COUNT(*) FROM teams WHERE buzzer_id = ?', (buzzer_id,)).fetchone()
             conn.close()
             return result[0] > 0
         except sqlite3.Error as err:
             error_handler(err, traceback.format_exc())
             return False
+
+    def get_buzzer_id_for_team(self, team_id):
+        try:
+            conn, cursor = self.get_db_connection()
+            result = cursor.execute('SELECT buzzer_id FROM teams WHERE team_id = ?', (team_id,)).fetchone()
+            conn.close()
+            if result:
+                return result[0]
+            return None
+        except sqlite3.Error as err:
+            error_handler(err, traceback.format_exc())
+            return None
+
+    def get_team_id_for_buzzer_id(self, buzzer_id):
+        try:
+            conn, cursor = self.get_db_connection()
+            result = cursor.execute('SELECT team_id FROM teams WHERE buzzer_id = ?', (buzzer_id,)).fetchone()
+            conn.close()
+            if result:
+                return result[0]
+            return None
+        except sqlite3.Error as err:
+            error_handler(err, traceback.format_exc())
+            return None
 
     def update_score(self, team_id, new_score) -> None:
         try:
