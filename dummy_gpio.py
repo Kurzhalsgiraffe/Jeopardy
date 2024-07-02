@@ -20,7 +20,8 @@ class GPIO:
 
     @staticmethod
     def input(channel):
-        print(f"GPIO input(channel={channel})")
+        if channel == 8:
+            return GPIO.HIGH
         return GPIO.LOW
 
     @staticmethod

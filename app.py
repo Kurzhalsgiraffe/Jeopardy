@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from database_access import Dao
+from hardware import Buzzer
 import random
 
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
+buzzer = Buzzer()
 
 def get_random_question_matrix():
     question_matrix = []
@@ -21,7 +23,6 @@ def get_random_question_matrix():
 
 session_id = dao.get_next_session_id()
 question_matrix = get_random_question_matrix()
-team_id = 1 # TODO: REPLACE -- Kommt von Buzzern
 
 @app.route('/')
 def index():
@@ -43,6 +44,7 @@ def remove_team():
 
 @app.route('/select_question/<int:question_id>', methods=['POST'])
 def select_question(question_id):
+    buzzer.start_buzzer_loop()
     question = dao.get_question_by_id(question_id)
     return jsonify({
         'question': question['question'],
@@ -54,16 +56,18 @@ def select_question(question_id):
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
-    question = dao.get_question_by_id(question_id)
-    points = question["points"]
-    is_answer_correct = request.form['is_answer_correct']
-    if is_answer_correct == "true":
-        dao.add_answer_to_session(session_id, question_id, team_id, points)
-        new_score = dao.get_team_score_by_id(team_id) + points
-    else:
-        dao.add_answer_to_session(session_id, question_id, team_id, -points)
-        new_score = dao.get_team_score_by_id(team_id) - points
-    dao.update_score(team_id, new_score)
+    buzzer.stop_buzzer_loop()
+    team_id = buzzer.get_last_pressed_buzzer_id()
+    if team_id:
+        question = dao.get_question_by_id(question_id)
+        if request.form['is_answer_correct'] == "true":
+            dao.add_answer_to_session(session_id, question_id, team_id, question["points"])
+            new_score = dao.get_team_score_by_id(team_id) + question["points"]
+        else:
+            dao.add_answer_to_session(session_id, question_id, team_id, - question["points"])
+            new_score = dao.get_team_score_by_id(team_id) - question["points"]
+            buzzer.start_buzzer_loop()
+        dao.update_score(team_id, new_score)
     teams = dao.get_teams()
     return jsonify([dict(row) for row in teams])
 
