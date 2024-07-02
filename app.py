@@ -68,6 +68,10 @@ def answer_question(question_id):
             new_score = dao.get_team_score_by_id(team_id) - question["points"]
             buzzer.start_buzzer_loop()
         dao.update_score(team_id, new_score)
+    else:
+        buzzer.start_buzzer_loop()
+        pass
+        # TODO: Feedback to Frontend
     teams = dao.get_teams()
     return jsonify([dict(row) for row in teams])
 
@@ -108,4 +112,4 @@ def update_buzzer_id():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)
