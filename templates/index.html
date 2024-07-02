@@ -329,16 +329,15 @@
 
         function submitAnswer(is_answer_correct) {
             $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct }, function(response) {
-                if (is_answer_correct) {
-                    var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);
-                    card.classList.add('answered');
-                    card.style.opacity = '0.5';
-                    $('#questionModal').modal('hide');
-                } else {
-                    $('#questionModal').modal('show');
-                }
-
                 if (response.success) {
+                    if (is_answer_correct) {
+                        var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);
+                        card.classList.add('answered');
+                        card.style.opacity = '0.5';
+                        $('#questionModal').modal('hide');
+                    } else {
+                        $('#questionModal').modal('show');
+                    }
                     updateTeamScores(response.teams); // Update team scores
                 } else {
                     alert(response.message)
