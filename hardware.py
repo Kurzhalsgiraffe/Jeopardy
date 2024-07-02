@@ -43,7 +43,6 @@ class Buzzer:
         self.buzzer_loop_stopped = True
 
     def start_buzzer_loop(self) -> None:
-        print("Starting Buzzer Loop")
         if not self.buzzer_loop_stopped:
             self.stop_buzzer_loop()
 
@@ -54,10 +53,8 @@ class Buzzer:
         t.start()
 
     def stop_buzzer_loop(self) -> None:
-        print("Stopping Buzzer Loop")
         while not self.buzzer_loop_stopped:
             self.buzzer_loop_running = False
 
     def get_last_pressed_buzzer_id(self):
-        print("Last Buzzer ID =", self.last_pressed_buzzer_id)
         return self.last_pressed_buzzer_id

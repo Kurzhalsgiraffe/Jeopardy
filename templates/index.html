@@ -267,14 +267,14 @@
                 <h2 id="questionText"></h2>
             </div>
             <div class="modal-footer">
-                <div class="answer-button-container">
-                    <button type="button" class="btn btn-secondary answer-button" onclick="submitAnswer(true)">Richtig</button>
+                <div class="answer-button-container" data-answer="true">
+                    <button type="button" class="btn btn-secondary answer-button">Richtig</button>
                 </div>
                 <div class="answer-text-container">
                     <span id="answerText"></span>
                 </div>
-                <div class="answer-button-container">
-                    <button type="button" class="btn btn-secondary answer-button" onclick="submitAnswer(false)">Falsch</button>
+                <div class="answer-button-container" data-answer="false">
+                    <button type="button" class="btn btn-secondary answer-button">Falsch</button>
                 </div>
             </div>
         </div>
@@ -287,12 +287,17 @@
         var teamSettingsVisible = false;
         var currentQuestionId;
 
+        $('#questionModal .modal-footer').on('click', '.answer-button-container', function() {
+            const isAnswerCorrect = $(this).attr('data-answer') === 'true';
+            submitAnswer(isAnswerCorrect);
+        });
+
         function selectQuestion(questionId) {
             currentQuestionId = questionId;
 
             // Check if the question card is already answered
-            var card = document.querySelector(`[data-question-id="${questionId}"]`);
-            var alreadyAnswered = card.classList.contains('answered');
+            var card = $(`[data-question-id="${questionId}"]`);
+            var alreadyAnswered = card.hasClass('answered');
 
             $.post("/select_question/" + questionId, {}, function(data) {
                 $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
@@ -338,7 +343,7 @@
                     } else {
                         $('#questionModal').modal('show');
                     }
-                    updateTeamScores(response.teams); // Update team scores
+                    updateTeamScores(response.teams);
                 } else {
                     alert(response.message)
                 }
@@ -347,9 +352,9 @@
 
         function updateTeamScores(teams) {
             teams.forEach(team => {
-                var teamElement = document.querySelector(`[data-team-id="${team.team_id}"] .card-text`);
-                if (teamElement) {
-                    teamElement.textContent = team.score;
+                var teamElement = $(`[data-team-id="${team.team_id}"] .card-text`);
+                if (teamElement.length > 0) {
+                    teamElement.text(team.score);
                 }
             });
         }
@@ -395,21 +400,19 @@
             var teamCards = $('.team-card');
             var teamCardSettings = $(teamCards).find('.team-card-settings');
             var removeTeamButtons = $(teamCards).find('.remove-team-btn');
-            var activeTeamCards = $('.team-card.active');
-            var nonActiveTeamCards = $('.team-card:not(.active)');
 
-            if (teamSettingsVisible == false) {
+            if (!teamSettingsVisible) {
                 teamSettingsVisible = true;
-                addTeamsForm.css('display', 'block');
-                removeTeamButtons.css('display', 'block');
-                teamCardSettings.css('display', 'block');
-                teamCards.css('display', 'block');
+                addTeamsForm.show();
+                removeTeamButtons.show();
+                teamCardSettings.show();
+                teamCards.show();
             } else {
                 teamSettingsVisible = false;
-                addTeamsForm.css('display', 'none');
-                removeTeamButtons.css('display', 'none');
-                teamCardSettings.css('display', 'none');
-                nonActiveTeamCards.css('display', 'none');
+                addTeamsForm.hide();
+                removeTeamButtons.hide();
+                teamCardSettings.hide();
+                $('.team-card:not(.active)').hide();
             }
         }
 
