@@ -322,13 +322,13 @@
             }
 
             var score_delta = action === 'add' ? + points : - points;
-            $.post("/update_score", { team_id: teamId, score_delta: score_delta }, function(data) {
-                updateTeamScores(data);
+            $.post("/update_score", { team_id: teamId, score_delta: score_delta }, function(response) {
+                updateTeamScores(response);
             });
         }
 
         function submitAnswer(is_answer_correct) {
-            $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct }, function(data) {
+            $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct }, function(response) {
                 if (is_answer_correct) {
                     var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);
                     card.classList.add('answered');
@@ -337,7 +337,12 @@
                 } else {
                     $('#questionModal').modal('show');
                 }
-                updateTeamScores(data); // Update team scores
+
+                if (response.success) {
+                    updateTeamScores(response.teams); // Update team scores
+                } else {
+                    alert(response.message)
+                }
             });
         }
 
