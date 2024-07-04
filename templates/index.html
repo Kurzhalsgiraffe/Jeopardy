@@ -6,10 +6,11 @@
     <title>Jeopardy Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <style>
         body {
             color: white;
-            background-image: url(https://cdn.pixabay.com/photo/2017/07/10/23/43/question-mark-2492009_1280.jpg);
+            background-image: url("/static/images/question-mark.png");
         }
         .btn-primary {
             background-color: darkslategrey;
@@ -177,6 +178,7 @@
         /* Firefox */
         .team-buzzer-id-input {
             -moz-appearance: textfield;
+            appearance: textfield;
         }
     </style>
 </head>
