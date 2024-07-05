@@ -101,7 +101,7 @@
         .team-control-btn {
             width: 30px; /* Adjust the width as needed */
         }
-        .button-group {
+        .manual-score-change-container {
             display: flex;
             gap: 5px; /* Adjust gap to prevent overlap */
         }
@@ -191,7 +191,7 @@
                         <h3>{{ category[0]["category"] }}</h3>
                         <div class="d-flex flex-column">
                             {% for question in category %}
-                                <div class="card question-card mb-2 {{ "answered" if question["question_id"] in answered_question_ids }}" data-question-id="{{ question["question_id"] }}" onclick="selectQuestion({{ question["question_id"] }})">
+                                <div class="card question-card mb-2 {{ "answered" if question["question_id"] in answered_question_ids }}" data-question-id="{{ question["question_id"] }}"">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ question["points"] }} €</h5>
                                         <p class="card-text">{{ question["type"] }}</p>
@@ -209,7 +209,7 @@
                 <div class="team-cards-wrapper">
                     <div class="team-header">
                         <h2>Teams</h2>
-                        <button class="btn btn-primary btn-icon" onclick="toggleTeamSettings()">
+                        <button id="toggle-team-settings-btn" class="btn btn-primary btn-icon">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
                     </div>
@@ -217,7 +217,7 @@
                         {% for team in teams %}
                         <div>
                             <div class="card team-card {{ 'active' if team.is_active }}" data-team-id="{{ team.team_id }}">
-                                <button class="btn btn-sm btn-danger remove-team-btn" onclick="removeTeam({{ team.team_id }})"><span aria-hidden="true">&times;</span></button>
+                                <button class="btn btn-sm btn-danger remove-team-btn"><span aria-hidden="true">&times;</span></button>
                                 <div class="card-body team-card-body">
                                     <div class="mx-3">
                                         <h5 class="card-title">{{ team.name }}</h5>
@@ -225,20 +225,20 @@
                                     </div>
                                     <div class="team-add-points mt-2 mx-3">
                                         <input type="number" class="mb-2 team-add-points-input" id="points-{{ team.team_id }}">
-                                        <div class="button-group">
-                                            <button class="btn btn-success btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'add')">+</button>
-                                            <button class="btn btn-danger btn-sm team-control-btn" onclick="updateScore({{ team.team_id }}, 'subtract')">-</button>
+                                        <div class="manual-score-change-container">
+                                            <button class="btn btn-success btn-sm team-control-btn" data-team-id="{{ team.team_id }}" data-action="add">+</button>
+                                            <button class="btn btn-danger btn-sm team-control-btn" data-team-id="{{ team.team_id }}" data-action="subtract">-</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="team-card-settings">
                                     <div class="team-buzzer-id">
-                                        <label class="" for="buzzer-id-{{ team.team_id }}">Buzzer ID</label>
-                                        <input type="number" class="mb-2 team-buzzer-id-input" id="buzzer-id-{{ team.team_id }}" name="buzzer_id" onchange="updateBuzzerID({{ team.team_id }}, this.value)" value="{{ team.buzzer_id if team.buzzer_id }}">
+                                        <span>Buzzer ID</span>
+                                        <input type="number" class="mb-2 team-buzzer-id-input" id="buzzer-id-{{ team.team_id }}" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
                                     </div>
                                     <div class="team-active">
-                                        <input type="checkbox" id="active-{{ team.team_id }}" name="active" onchange="toggleTeamActivation({{ team.team_id }}, this.checked)" {{ 'checked' if team.is_active }}>
-                                        <label for="active-{{ team.team_id }}">Active</label>
+                                        <input type="checkbox" id="active-{{ team.team_id }}" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ 'checked' if team.is_active }}>
+                                        <span>Active</span>
                                     </div>
                                 </div>
                             </div>
@@ -286,13 +286,45 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        var teamSettingsVisible = false;
-        var currentQuestionId;
-
-        $('#questionModal .modal-footer').on('click', '.answer-button-container', function() {
+        $('.modal-footer').on('click', '.answer-button-container', function() {
             const isAnswerCorrect = $(this).attr('data-answer') === 'true';
             submitAnswer(isAnswerCorrect);
         });
+
+        $('.question-card').on('click', function() {
+            const questionID = $(this).attr('data-question-id');
+            selectQuestion(questionID);
+        });
+
+        $('#toggle-team-settings-btn').on('click', function() {
+            toggleTeamSettings();
+        });
+
+        $('.remove-team-btn').on('click', function() {
+            const teamID = $(this).closest('.team-card').data('team-id');
+            removeTeam(teamID)
+        });
+
+        $('.team-control-btn').on('click', function() {
+            const teamID = $(this).data('team-id');
+            const action = $(this).data('action');
+            updateScore(teamID, action);
+        });
+
+        $('.team-buzzer-id-input').on('change', function() {
+            const teamID = $(this).data('team-id');
+            const newValue = $(this).val();
+            updateBuzzerID(teamID, newValue);
+        });
+
+        $('.team-active-checkbox').on('change', function() {
+            const teamID = $(this).data('team-id');
+            const isChecked = $(this).is(':checked');
+            toggleTeamActivation(teamID, isChecked);
+        });
+
+        var teamSettingsVisible = false;
+        var currentQuestionId;
 
         function selectQuestion(questionId) {
             currentQuestionId = questionId;
