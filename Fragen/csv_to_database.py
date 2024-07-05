@@ -8,7 +8,7 @@ def import_from_csv(db_path, table_name, csv_path):
 
     # CSV-Datei lesen
     with open(csv_path, 'r', newline='', encoding='utf-8') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
+        csv_reader = csv.reader(csv_file, delimiter=';')
 
         # Spaltennamen aus der ersten Zeile der CSV-Datei abrufen
         try:

@@ -1,0 +1,667 @@
+﻿question_id;question;answer;category;type;points
+1;Was gilt als Farbe des Feuers und des Blutes?;Rot;Allgemeinwissen;Schnellfrage;100
+2;"Wovor warnt in nordamerikanischen Wäldern der Ruf ""Timber""?";(Fallender) Baum, Kippender Baum;Allgemeinwissen;Schnellfrage;100
+3;Wer folgte 1991 auf Michail Gorbatschow als Staatsoberhaupt des russischen Staats?;Jelzin, Boris Nikolajewitsch Jelzin;Geschichte;Frage;200
+4;"""Complicated"" hieß in den 2000ern ein Superhit der kanadischen Sängerin Avril ...?";Lavigne;Musik;Frage;200
+5;In welcher beliebten TV-Serie cruist David Hasselhoff als Michael Knight durch die 80er?;Knight Rider;Filme;Frage;300
+6;Wie nennt man das andere Ich auf Latein?;Alter Ego;Sprachen;Frage;300
+7;Welches Metall trägt der Ameisenbär im Namen versteckt?;Eisen;Wörter;Schnellfrage;100
+8;Beim Langlauf steht man auf welchen Sportgeräten?;Ski, Skier;Sport;Schnellfrage;100
+9;Auf welchem Kontinent leben die meisten Chamäleonarten?;Afrika;Tiere;Frage;300
+10;"Wer spielt in ""Phantastische Tierwesen und wo sie zu finden sind"" den bösen Zauberer Gellert Grindelwald?";Johnny Depp;Hollywood;Frage;300
+11;Welche Farbe kennzeichnet auf Landkarten einen Fluss?;Blau;Geographie;Schnellfrage;100
+12;In welcher deutschen Millionenstadt bildet der Ortsteil Schmöckwitz den südlichsten Teil?;Berlin;Geographie;Frage;400
+13;Welchen Kontinent durchfließen Rhein und Rhône?;Europa;Geographie;Frage;200
+14;"Den Bestseller ""Bis(s) zur Mitternachtssonne"" schrieb die Twilight-Autorin Stephenie ...?";Meyer;Autoren;Frage;400
+15;Welcher Stoß treibt eine Rakete an?;Rückstoß;Naturwissenschaften;Schnellfrage;100
+16;"Mit wie vielen Buchstaben schreibt man im Kreuzworträtsel das Lösungswort ""Bär""?";4;Allgemeinwissen;Schnellfrage;100
+17;"Was für ein Tier ist ""Kleiner Onkel"" in den Pippi-Langstrumpf-Filmen?";Pferd, (Apfel-)Schimmel;Filme;Schnellfrage;100
+18;Welches Sinnesorgan kann am Grünen Star erkranken?;Auge(n);Biologie;Frage;100
+19;"""Leu"" ist der dichterische Ausdruck für welche Raubkatze?";Löwe;Tiere;Frage;300
+20;Was wird in Deutschland seit 1990 und nach Einführung des Grünen Punktes fleißig getrennt?;Müll, Abfall, Kunststoff, Plastik, Verpackungsmüll;Allgemeinwissen;Frage;200
+21;"""She's an easy lover"" singen im Duett Philip Bailey und Phil ...?";Collins;Musik;Frage;200
+22;Welcher geometrische Körper heißt auf Latein Globus?;Kugel;Naturwissenschaften;Frage;200
+23;Kolumbus landete 1492 in Amerika, hielt es aber für Inseln östlich welches Landes?;Indien;Geschichte;Frage;200
+24;Das olympische Logo besteht aus fünf runden ...?;Ringen, Kreisen;Sport;Schnellfrage;100
+25;Auf welchem Kontinent leben die Komodowarane?;Asien;Geographie;Frage;300
+26;Malia und Sasha heißen die beiden Töchter welches Ex-Präsidenten der USA?;Barack Obama;Politik;Frage;300
+27;Welche Farbe kennzeichnet auf Straßenkarten einen Wald?;Grün;Geographie;Schnellfrage;100
+28;Durch was für ein Naturereignis stürzte das Weltwunder Koloss von Rhodos einst ein?;Erdbeben;Geographie;Frage;300
+29;Welche deutsche Millionenstadt liegt nicht an einem schiffbaren Fluss?;München;Geographie;Frage;400
+30;Welcher Ozean liegt zwischen den USA und Japan?;Pazifik, Pazifischer Ozean;Geographie;Frage;100
+31;Mit welchem Bock lassen sich gewaltsam Türen öffnen?;Rammbock;Wörter;Schnellfrage;100
+32;Welchen Musik-Star nennt man auch kurz J.Lo?;Jennifer Lopez;Musik;Frage;300
+33;Wie lautet das Ortskürzel auf den Kfz-Kennzeichen von Potsdam?;P;Straßenverkehr;Schnellfrage;100
+34;"""Marcha Real"" heißt die Nationalhymne welches europäischen Landes?";Spanien;Kultur;Frage;300
+35;Welches ist das kleinste Land, das an den Rhein grenzt?;Liechtenstein;Geographie;Frage;300
+36;Wer wurde im Januar 2022 zum CDU-Parteivorsitzenden gewählt?;Friedrich Merz;Politik;Frage;300
+37;Welcher Moderator wurde im Juli 1956 in Münster geboren und stellt gern schlaue Fragen?;Günther Jauch;Personen;Frage;300
+38;Welcher Schotte war 12 Jahre älter als Harrison Ford und spielte den Vater von Indiana Jones?;Sean Connery;Hollywood;Frage;500
+39;"Den verfilmten Roman ""Needful Things - In einer kleinen Stadt"" schrieb welcher Horror-Autor?";Stephen King;Autoren;Frage;200
+40;Welcher Italiener wurde 2022 Europas Fußballtrainer des Jahres?;Carlo Ancelotti;Sport;Frage;400
+41;"Welcher in München geborene Expressionist malte das verschollene Gemälde ""Der Turm der blauen Pferde""?";Franz Marc, Franz Moritz Wilhelm Marc;Kunst;Frage;500
+42;Blueliner, Boxplay und Crosscheck sind Begriffe aus welchem Mannschaftssport?;Eishockey;Sport;Frage;400
+43;Auf welchem Kontinent befinden sich die Victoriafälle?;Afrika;Geographie;Frage;300
+44;"Bis heute kennt man Willy Brandts Spruch ""Jetzt wächst zusammen, was ...""?";zusammengehört;Wörter;Frage;500
+45;Die erste muslimische Frau, die mit dem Friedensnobelpreis ausgezeichnet wurde, ist die Iranerin Shirin ...?;Ebadi;Personen;Frage;500
+46;Um welche Art von Instituten handelt es sich bei Uffizien, Prado und Louvre?;Museum, Galerie, Gemäldegalerie, (Kunst)sammlung;Kultur;Frage;300
+47;Welche Sprache spricht man auf der Insel Öland?;Schwedisch;Sprachen;Frage;400
+48;"In welcher Stadt liegt der Heimathafen des Segelschulschiffes ""Gorch Fock""?";Kiel;Geographie;Frage;500
+49;Ein Venezianer wohnt in welcher Stadt?;Venedig;Geographie;Schnellfrage;100
+50;Sydney Chaplin war der Halbbruder welches Schauspielers?;Charlie Chaplin, Charles Chaplin;Hollywood;Frage;300
+51;Wie lautet das Ortskürzel auf den Kfz-Kennzeichen von Wuppertal?;W;Straßenverkehr;Schnellfrage;100
+52;Geusenlied wird die Nationalhymne welches Nachbarlandes genannt?;Niederlande;Geographie;Frage;500
+53;Die wenigsten Städte gibt es in welchem Flächenbundesland?;Saarland;Deutschland;Frage;400
+54;Wer gewann Ende April 2022 die französische Präsidentschaftswahl?;Emmanuel Macron;Politik;Frage;300
+55;Welcher deutsche Zug war 1988 mit 406,9 km/h der schnellste Zug der Welt?;ICE, InterCityExperimental;Straßenverkehr;Frage;300
+56;"Im April 1942 in Linz wurde welcher frühere ""Wetten, dass..?""-Moderator geboren?";Frank Elstner;Technik;Frage;500
+57;"Im Film ""Men in Black"" spielte welcher Schauspieler den Partner von Tommy Lee Jones?";Will Smith;Hollywood;Frage;300
+58;Atréju und Bastian heißen zwei Hauptfiguren in welchem Buch von Michael Ende?;Die unendliche Geschichte;Bücher;Frage;500
+59;Welcher Däne gewann die Tour de France 2022?;Jonas Vingegaard;Sport;Frage;400
+60;Maul, Gasse und Gedränge sind Begriffe aus welchem britischen Mannschaftssport?;Rugby;Sport;Frage;400
+61;Auf welchem Kontinent befinden sich die Niagarafälle?;Nordamerika, Amerika;Geographie;Frage;300
+62;Sprechen junge Menschen vom FSJ, so meinen sie das Freiwillige Soziale ...?;Jahr;Allgemeinwissen;Schnellfrage;100
+63;Wie hieß ab 395 nach Christus die Hauptstadt des Oströmischen Reiches?;Konstantinopel, Byzanz;Geschichte;Frage;400
+64;Mit dem Friedensnobelpreis geehrt wurden 1998 die Nordiren John Hume und David ...?;Trimble;Personen;Frage;500
+65;Wie nennt man die Fassung, in der man Kunstwerke an die Wand hängt?;Bilderrahmen, Rahmen, Bildhalter;Allgemeinwissen;Frage;200
+66;Welche Sprache spricht man auf der Insel Rømø?;Dänisch;Sprachen;Frage;300
+67;"Im Hafen welcher Ostsee-Stadt wurde 2021 das Flüchtlingsschiff ""Sea-Eye 4"" getauft?";Rostock;Deutschland;Frage;400
+68;Wie wird in der Musik die Klangfarbe einer Singstimme genannt?;Timbre;Musik;Frage;500
+69;Der Bezirk Altona liegt in welcher Stadt?;Hamburg;Deutschland;Frage;300
+70;Welcher Zeichentrick-Hase ist häufig zusammen mit einer schwarzen Ente zu sehen?;Bugs Bunny;Filme;Frage;200
+71;Welche rötliche Flüssigkeit transportieren die Arterien zu den Organen?;Blut;Biologie;Frage;100
+72;Aus welchem Land kommt mit Usain Bolt einer der erfolgreichsten Sprinter überhaupt?;Jamaika;Sport;Frage;300
+73;SO2 lautet die Summenformel für welche chemische Verbindung?;Schwefeldioxid;Naturwissenschaften;Frage;200
+74;"Welcher große Fluss in Süddeutschland reimt sich auf ""Gronau""?";Donau;Geographie;Schnellfrage;100
+75;Wie nennt man das Schärfen von Klingenstahl durch Schleifen?;Wetzen;Allgemeinwissen;Frage;200
+76;In welcher Disziplin wurde Hartwig Gauder 1980 DDR-Olympiasieger?;Gehen;Sport;Frage;400
+77;Wie heißt die höchste antike Pyramide der Welt?;Cheops-Pyramide;Geographie;Frage;200
+78;Wird überhöhte Geschwindigkeit im Straßenverkehr geahndet, ist sie entweder eine Straftat oder...?;Ordnungswidrigkeit;Straßenverkehr;Frage;100
+79;Mit einem Alter von über 40 Jahren ist welcher Peruaner seit 2019 der älteste Torschütze der Fußballbundesliga?;Claudio Pizarro;Sport;Frage;500
+80;Welcher etwas über 100 Kilometer lange Fluss entspringt in Gießelrade und mündet bei Lübeck in die Ostsee?;Trave;Geographie;Frage;400
+81;SDAX und MDAX sind Aktienindizes welches Landes?;Deutschland;Allgemeinwissen;Frage;100
+82;Das barocke Taschenbergpalais steht neben dem Residenzschloss welcher sächsischen Stadt?;Dresden;Geographie;Frage;500
+83;Welcher vom Aussterben bedrohte Schwanzlurch lebt im mexikanischen Xochimilco-See?;Axolotl;Tiere;Frage;300
+84;Wer wurde im Februar 2022 im Paul-Löbe-Haus als Bundespräsident wiedergewählt?;Frank-Walter Steinmeier;Politik;Frage;200
+85;In welchem Film verkleidet sich Robin Williams als Haushälterin, um bei seinen Kindern sein zu können?;Mrs. Doubtfire;Filme;Frage;200
+86;"Wofür steht das ""R"" in QR-Code?";Response;Technik;Frage;300
+87;Welches Nachbarland von Rumänien war Co-Gastgeber der Handball-EM 2022?;Ungarn;Sport;Frage;300
+88;"Welche Kurzbezeichnung für ""Kugelschreiber"" steckt im Wort ""Kulisse""?";Kuli;Allgemeinwissen;Schnellfrage;100
+89;Welches Sinnesorgan reagiert bei Berührung mit dem Blinzelreflex?;Auge;Biologie;Frage;200
+90;Für welches Land spielt Gareth Bale, der ehemals teuerste Fußballspieler aller Zeiten?;Wales;Sport;Frage;500
+91;H2SO4 lautet die Summenformel für welche chemische Verbindung?;Schwefelsäure;Naturwissenschaften;Frage;300
+92;Als Namensgeber der Insel Grönland gilt welcher berühmte Wikinger?;Erich der Rote, Erik der Rote;Geschichte;Frage;400
+93;"Welcher über 1.200 Kilometer lange Fluss reimt sich auf ""Wein""?";Rhein;Deutschland;Schnellfrage;100
+94;Wie nennt man eine Schaufel mit geradem Blatt zum Graben von Löchern?;Spaten;Allgemeinwissen;Frage;100
+95;In welcher Wintersportart wurde Antje Misersky 1992 die erste deutsche Olympiasiegerin?;Biathlon;Sport;Frage;500
+96;Welche Mauer wurde 1987 zum UNESCO-Weltkulturerbe erklärt?;Chinesische Mauer, Große Mauer;Geographie;Frage;200
+97;Wie werden umgangssprachlich durch Wohnraumförderung entstandene Wohnungen mit Mietpreisbegrenzung genannt?;Sozialwohnungen, Sozialbau(ten);Allgemeinwissen;Frage;200
+98;Welcher EM-Rekordchampion gewann mit Borussia Düsseldorf 2022 zum zwölften Mal die deutsche Tischtennis-Meisterschaft?;Timo Boll;Sport;Frage;400
+99;An welchem Fluss haben die Länder Sambia, Namibia und Botswana eine gemeinsame Grenze?;Sambesi(-River);Geographie;Frage;300
+100;Hongkong ist eine Sonderverwaltungszone welches Landes?;China;Politik;Frage;100
+101;"""In der Strafkolonie"" ist eine der bekanntesten Erzählungen von Franz ...?";Kafka;Autoren;Frage;100
+102;Das Royal Liver Building ist eines der Wahrzeichen welcher englischen Hafenstadt?;Liverpool;Kultur;Frage;200
+103;Wie heißt die Amtsbezeichnung der Regierungschefs der meisten Bundesländer?;Ministerpräsident(in);Politik;Frage;100
+104;"Welches Wort reimt sich auf ""Bibel"" und meint das Lesebuch für den Anfangsunterricht?";Fibel;Kultur;Frage;300
+105;Welche ehemalige Kaiserstadt gilt als das kulturelle Herz Japans?;Kyoto;Geographie;Frage;100
+106;"Wie heißt Friedrich Dürrenmatts todkranker Kommissar aus ""Der Richter und sein Henker""?";Hans Bärlach;Bücher;Frage;300
+107;Sind weitere Fragen unerwünscht, sagt man redensartlich: Frag nicht nach Sonnen-...?;Schein, Sonnenschein;Wörter;Frage;200
+108;In welchem Film sorgte Graf Orlok 1922 für Grusel beim Kinopublikum?;Nosferatu, Nosferatu - Eine Symphonie des Grauens;Filme;Frage;200
+109;Welcher Schöpfergott ist in der griechischen Mythologie die Personifizierung der Zeit?;Chronos;Mythologie;Frage;300
+110;Was liegt zwischen Schleswig und Ostsee und gilt als Deutschlands längste Förde?;Schlei;Deutschland;Frage;200
+111;Wie nennt man den Gleichklang der Zeilenenden in einem Gedicht?;Reim;Wörter;Frage;100
+112;Welches Land ist die Hüterin der Meerengen Bosporus und Dardanellen?;Türkei;Geographie;Frage;300
+113;Wer entwarf die Bill of Rights und war von 1809 bis 1817 der vierte Präsident der Vereinigten Staaten?;James Madison;Politik;Frage;400
+114;Welches elektrische Tischgerät hat ein rotierendes Flügelrad und erzeugt nicht nur dem Namen nach Wind?;Ventilator;Technik;Frage;200
+115;Die Kreiszahl Pi lernt man in welchem Schulfach kennen?;Mathematik;Allgemeinwissen;Schnellfrage;100
+116;Die kleinen Kerne einer reifen, handelsüblichen Kiwi haben welche Farbe?;Schwarz;Biologie;Frage;200
+117;Wer war letzter Kaiser von Abessinien und gilt Rastafaris als wiedergekehrter Messias?;Haile Selassie;Geschichte;Frage;500
+118;Bei welcher Wassersport-Disziplin werden Tore erzielt?;Wasserball;Sport;Frage;100
+119;Welche Anstalt wurde früher im deutschen Strafrecht offiziell als Gefängnis bezeichnet?;Justizvollzugsanstalt, Strafanstalt;Allgemeinwissen;Frage;200
+120;Welches Tschaikowski-Ballett heißt wie ein Märchen der Gebrüder Grimm?;Dornröschen;Kultur;Frage;300
+121;Wie heißt die 1952 eingeführte Währung von Laos?;Kip, Laotischer Kip;Geschichte;Frage;400
+122;Wie heißt die bevölkerungsreichste Stadt Schleswig-Holsteins?;Kiel;Deutschland;Frage;200
+123;Wie lautet die offizielle Amtsbezeichnung für den deutschen Regierungschef?;Bundeskanzler(in);Politik;Frage;100
+124;"Welche ""Füßchen"" lernt man in der Grundschule im Deutschunterricht richtig zu setzen?";Gänsefüßchen;Wörter;Frage;100
+125;Seit 1821 besteht das Erzbistum München und ...?;Freising;Kultur;Frage;300
+126;Welche Kinderbuchfigur von Michael Ende heißt eigentlich Prinz Myrrhen?;Jim Knopf;Bücher;Frage;200
+127;Überredet man jemanden zu etwas Unsinnigem, dann setzt man ihm redensartlich Flausen in den ...?;Kopf;Wörter;Frage;100
+128;Welcher Film mit John Travolta löste 1977 die Disco-Welle mit aus?;Saturday Night Fever;Filme;Frage;100
+129;In der griechischen Mythologie wachsen Prometheus immer wieder Teile welches Organs neu nach?;Leber;Mythologie;Frage;200
+130;Welcher Fluss entspringt im Riesengebirge und mündet in die Nordsee?;Elbe;Geographie;Frage;200
+131;Wie nennt man eine Gruppe von Bergen?;Gebirge, Gebirgskette, Bergkette;Geographie;Frage;100
+132;In welchem Land sitzen fast 3.000 Abgeordnete im Nationalen Volkskongress?;China;Politik;Frage;200
+133;In wie vielen Ländern oder Gebieten fährt man auf der linken Straßenseite?;69;Straßenverkehr;Schätzfrage;400
+134;Welche Berühmtheit kam am 2. Oktober 1869 im Fürstentum Porbandar zur Welt, das heute zu Indien gehört?;Mahatma Gandhi, Mohandas Karamchand Gandhi;Geschichte;Frage;200
+135;"Welches in die Jahre gekommene Kommunikationsgerät kürzt man häufig ""AB"" ab?";Anrufbeantworter;Technik;Frage;100
+136;Den Massenerhaltungssatz lernt man in welchem Schulfach kennen?;Chemie;Allgemeinwissen;Frage;100
+137;Durch den Pflanzenfarbstoff Anthocyan haben Heidelbeeren welche Farbe?;Blau;Biologie;Frage;300
+138;Welche allegorische Frauenfigur ist die Versinnbildlichung der Schweiz?;Helvetia;Allgemeinwissen;Frage;200
+139;Bei welcher Wassersport-Disziplin fällt man tief?;Wasserspringen, Turm(-springen), Brett(-springen), Synchronspringen;Sport;Frage;100
+140;"In welchem Shakespeare-Drama heißt es: ""Ein Pferd! Ein Pferd! Mein Königreich für ein Pferd""?";Richard III.;Kultur;Frage;400
+141;Der Guaraní ist seit 1943 die Währung welches südamerikanischen Landes?;Paraguay;Geschichte;Frage;300
+142;Der Müggelsee ist der größte See welcher Großstadt?;Berlin;Deutschland;Frage;200
+143;Welche Zeile steht losgelöst vom Haupttext am oberen Rand der Seite?;Kopfzeile;Allgemeinwissen;Frage;200
+144;Welche Farbe hat Grönland laut Namen?;Grün;Geographie;Frage;100
+145;Für welche Spirituose ist die Karibik bekannt, weil sie dort traditionell hergestellt wird?;Rum;Kultur;Frage;100
+146;Welchem Karim gelang im März 2022 als ältestem Spieler der UEFA-Champions-League-Geschichte ein Hattrick?;Benzema;Sport;Frage;300
+147;Welches giftige, stechend riechende Gas besteht aus Molekülen mit drei Wasserstoffatomen und einem Stickstoffatom?;Ammoniak;Naturwissenschaften;Frage;200
+148;Wie lautet das Kfz-Kennzeichen für die östlichste Millionenstadt Deutschlands?;B;Straßenverkehr;Schnellfrage;100
+149;Wie nennt man die Wohnung eines Dachses?;Bau, Dachsbau;Tiere;Frage;100
+150;Das Parlament welches Landes von Großbritannien hat seinen Sitz in Holyrood?;Schottland;Politik;Frage;200
+151;Die drei Schichten der menschlichen Haut sind die Epidermis, die Dermis und die ...?;Hypodermis, Unterhaut, Subcutis;Biologie;Frage;400
+152;"Welches Kirchenoberhaupt führt den Ehrentitel ""Primas von Italien""?";Papst, Bischof von Rom;Allgemeinwissen;Frage;200
+153;"""Unterleuten"" heißt ein Roman der Schriftstellerin Juli ...?";Zeh;Bücher;Frage;300
+154;In welchem baltischen Land fanden 2022 die Eiskunstlauf-Europameisterschaften statt?;Estland;Sport;Frage;300
+155;Welches südamerikanische Land besitzt eine Karibik- und eine Pazifikküste?;Kolumbien;Geographie;Frage;200
+156;Welche Tiere sind die einzigen, die man laut Straßenverkehrsordnung vom Fahrrad aus führen darf?;Hunde;Straßenverkehr;Frage;100
+157;"In welcher der drei Silben des Wortes ""Libyen"" steckt der Buchstabe ""i""?";Erste Silbe, In der ersten Silbe;Wörter;Schnellfrage;100
+158;In welcher Landeshauptstadt steht am Rindermarkt mit eindrucksvoller Fassade das Ruffinihaus?;München;Deutschland;Frage;200
+159;"""Alles ist eins. Außer der 0"" ist eine 2021 erschienene Dokumentation über welchen Club?";Chaos Computer Club, CCC;Informatik;Frage;200
+160;"Trifft eine Lieferung im Moment des Bedarfs ein, heißt das in der Logistik ""Just in ...""?";Time;Wörter;Frage;100
+161;Wie wird die freiwillige jährliche Überprüfung eines Autos in einer Werkstatt genannt?;Inspektion, Jahresinspektion;Straßenverkehr;Frage;200
+162;Welches westafrikanische Land ist das bevölkerungsreichste Afrikas?;Nigeria;Geographie;Frage;100
+163;Welches Land heißt wie ein Kontinent?;Australien;Geographie;Frage;100
+164;Ein Kaffee Gloria enthält einen Schuss welches französischen Weinbrands?;Cognac;Allgemeinwissen;Frage;300
+165;Welchem Robert gelang im März 2022 der früheste Hattrick der UEFA-Champions-League-Geschichte?;Lewandowski;Sport;Frage;200
+166;"Die Buchstaben ""Md"" stehen im Periodensystem für welches nach einem Wissenschaftler benannte Element?";Mendelevium;Naturwissenschaften;Frage;400
+167;Wie lautet das Kfz-Kennzeichen für die südlichste unserer Millionenstädte?;M;Straßenverkehr;Schnellfrage;100
+168;Wie heißt die im Gewebe von Pflanzen enthaltene Flüssigkeit?;Saft, Pflanzensaft, Zellsaft;Biologie;Frage;200
+169;In welcher Straße in Berlin residiert die Botschaft der Russischen Föderation?;Unter den Linden;Geographie;Frage;300
+170;Wie lautet der medizinische Fachausdruck für den Hexenschuss?;Lumbago, Lumbalgie;Biologie;Frage;300
+171;Wer heilte laut Neuem Testament zwei Blinde durch Handauflegen?;Jesus Christus;Kultur;Frage;100
+172;"Welcher Stuhl heißt im Englischen ""wheelchair""?";Rollstuhl, Kranken(fahr)stuhl;Sprachen;Frage;100
+173;Der Schneefernerkopf liegt deutschlandseitig in welchem Bundesland?;Bayern;Deutschland;Frage;100
+174;Das Mailänder Toleranzedikt wurde im Jahre 313 erlassen von Kaiser Licinius und welchem anderen Kaiser?;Konstantin (I.) (der Große);Geschichte;Frage;300
+175;Welcher Fußballclub wurde nach 1984 2022 erneut türkischer Meister?;Trabzonspor;Sport;Frage;500
+176;Diesel, Super und Kerosin gehören zu den Treib-...?;Stoffen;Straßenverkehr;Frage;200
+177;"Den Schlagerhit ""Unendlich"" singt Vanessa Mai im Duett mit Andrea ...?";Berg;Musik;Frage;100
+178;Welches 81 Meter hohe Denkmal befindet sich nördlich von Bad Frankenhausen?;Kyffhäuser(-Denkmal), Kaiser-Wilhelm-Denkmal;Deutschland;Frage;400
+179;In welchem europäischen Land teilen sich zwei Kofürsten das Amt des Staatsoberhaupts?;Andorra;Politik;Frage;300
+180;Was müssen Kinder ausziehen, damit sie in einer Hüpfburg spielen dürfen?;Schuhe;Allgemeinwissen;Frage;100
+181;Wie nennt man in der Landwirtschaft die zum Säen vorgesehene Menge von Samenkörnern?;Saat, Saatgut, Aussaat, Einsaat;Landwirtschaft;Frage;200
+182;Aus welchem antiken Reich ging das Byzantinische Reich übergangslos hervor?;Rom, Römisches Reich;Geschichte;Frage;200
+183;Welche norwegische Fußballerin war Anfang 2022 Rekordtorschützin der UEFA Champions League?;Ada Hegerberg;Sport;Frage;400
+184;Durch welchen berühmten Canyon in Arizona fließt der Colorado River?;Grand Canyon;Geographie;Frage;100
+185;"Das Museum ""Uffizien"" in Florenz entstand aus der privaten Kunstsammlung welcher Familie?";Medici;Kunst;Frage;500
+186;Welche Körperteile zeigt das Wappen in der Staatsflagge von Brunei Darussalam?;Unterarm, Hand, Hände, Arme;Kultur;Frage;400
+187;"Welche Oscar-Preisträgerin spielt im Actionthriller ""Bullet Train"" die Auftraggeberin Maria Beetle?";Sandra Bullock;Hollywood;Frage;300
+188;"Welche Hauptfigur aus ""Der Herr der Ringe"" hat den Beinamen Graurock?";Gandalf;Filme;Frage;200
+189;Als was für einen Laden bezeichnet man redensartlich einen schlecht geführten Betrieb?;Saftladen;Wörter;Frage;100
+190;An welches EU-Land grenzt Schleswig-Holstein?;Dänemark;Geographie;Frage;100
+191;Das UNESCO-Welterbe Markgräfliches Opernhaus steht in welcher Stadt?;Bayreuth;Kultur;Frage;200
+192;"Welches Dokument wird auch ""der letzte Wille"" genannt?";Testament;Allgemeinwissen;Frage;200
+193;In welchem Bundesland liegt das Harz-Städtchen Quedlinburg?;Sachsen-Anhalt;Deutschland;Frage;200
+194;Wie wurde Erzherzogin Maria Antonia von Österreich nach ihrer Hochzeit  im Jahr 1770 genannt?;Marie Antoinette;Geschichte;Frage;200
+195;Welches Team um Superstar Stephen Curry wurde 2022 zum vierten Mal binnen acht Jahren NBA-Champion?;Golden State Warriors;Sport;Frage;300
+196;Fotovoltaik-Anlagen wandeln Sonnenlicht in welche Energie um?;Strom, Elektrische Energie;Technik;Frage;100
+197;"Das Debütalbum ""In meinem Kopf"" veröffentlichte 2022 ein Sohn des Schlagersängers Matthias ...?";Reim;Musik;Frage;200
+198;"Im Jahr 1238 begann Sultan Muhammad I. in Granada mit dem Bau welcher ""roten Burg""?";Alhambra;Geschichte;Frage;500
+199;Welches Land bezeichnet sich selbst als Haschemitisches Königreich?;Jordanien, Haschemitisches Königreich Jordanien;Kultur;Frage;400
+200;Welchen Körperteil berührt die Queen beim Ritterschlag mit der flachen Klinge des Schwerts?;Schulter;Kultur;Schnellfrage;100
+201;Wie nennt man in der Landwirtschaft einen Acker, der nicht bebaut wird, damit sich der Boden erholt?;Brachland, Brache;Landwirtschaft;Frage;200
+202;Der Investiturstreit des 11. Jahrhunderts war ein Konflikt zwischen dem deutschen Kaiser und dem ...?;Papst (Gregor VII.), Heilgen Stuhl, Vatikan, Oberhaupt der katholischen Kirche;Geschichte;Frage;300
+203;Welche Australierin gewann 2022 bei den Australian Open das Tennis-Finale der Damen?;Ashleigh Barty;Sport;Frage;200
+204;Wie heißt der einzige US-Bundesstaat, der nicht auf dem nordamerikanischen Festland liegt?;Hawaii;Geographie;Frage;100
+205;"Das Ölgemälde ""Porträt von Jacqueline"" stellt die zweite Ehefrau welches weltberühmten Malers dar?";Pablo Picasso;Kunst;Frage;200
+206;Was für ein Fortbewegungsmittel ist auf dem Stadtwappen von Paris zu sehen?;Schiff, Segelschiff;Kultur;Frage;200
+207;Mit Vor- und Nachteilen ist etwas redensartlich zugleich Fluch und ...?;Segen;Wörter;Frage;100
+208;Die wichtigsten Werkzeuge zum Frisieren sind Schere und welches Instrument mit Zinken?;Kamm;Allgemeinwissen;Frage;100
+209;"Welche Rolle spielt Sean Connery im Film ""Goldfinger""?";James Bond, Geheimagent;Filme;Frage;200
+210;Die zum Weltkulturerbe zählende Villa Tugendhat entwarf Ludwig Mies ...?;van der Rohe;Kultur;Frage;300
+211;Eines der berühmtesten Paare der Bibel bilden Eva und ...?;Adam;Kultur;Frage;100
+212;"Welche Ilka erfand die Kunstfigur ""Cindy aus Marzahn""?";Bessin;Personen;Frage;200
+213;Ihren Ehemann bezeichnen einige Frauen scherzhaft als ihren Götter-...?;Gatten;Wörter;Frage;200
+214;Welchem Königshaus entstammte Königin Elisabeth I.?;Tudor;Kultur;Frage;200
+215;Das höchste Gebäude der USA steht in welcher Stadt?;New York City;Geographie;Frage;200
+216;"Mit ""You can dance, you can jive"" beginnt welcher ABBA-Song?";Dancing Queen;Musik;Frage;100
+217;Von welchem Fisch stammt der luxuriöse Beluga-Kaviar?;Stör, Beluga-Stör, Europäischer Hausen;Tiere;Frage;200
+218;Ein Lulatsch ist oft schlaksig und immer ganz besonders ...?;groß, lang;Wörter;Frage;200
+219;"Der Ausdruck ""la dolce vita"" geht zurück auf einen Film des Regisseurs Federico ...?";Fellini;Personen;Frage;300
+220;In Gestalt welches Tieres entführt in der griechischen Mythologie Zeus die Prinzessin Europa?;Stier;Mythologie;Frage;300
+221;Wie heißt der höchste Berg des gesamten amerikanischen Kontinents?;Aconcagua, Cerro Aconcagua;Geographie;Frage;200
+222;Welche Farbe haben pflückreife Wald-Himbeeren?;Rot;Landwirtschaft;Frage;100
+223;Wie nennt man schlechtes Latein und auch den Fachjargon der Gastronomie?;Küchenlatein;Sprachen;Frage;200
+224;"""Was im Verborgenen ruht"" heißt ein 2022 erschienener Inspector-Lynley-Krimi der Bestseller-Autorin Elizabeth ...?";George, Elizabeth George;Autoren;Frage;300
+225;Wer eine schwache Leistung abliefert, der hat sich redensartlich nicht mit Ruhm ...?;bekleckert;Wörter;Frage;200
+226;Welche elastischen Hohlkörper sind dank Helium auf Feierlichkeiten farbige Hingucker?;Ballons, Luftballons;Wörter;Frage;100
+227;"Welche Rolle spielt Harrison Ford in den ""Star Wars""-Filmen?";Han Solo, Raumschiffkapitän;Filme;Frage;200
+228;Als bedeutendster Baumeister des deutschen Klassizismus gilt Karl Friedrich ...?;Schinkel;Personen;Frage;400
+229;"Welcher Messias wird auch ""der Nazarener"" genannt?";Jesus (Christus);Kultur;Frage;100
+230;"Welche Sylvie moderiert seit 2021 die Datingshow ""Love Island""?";Meis;Personen;Frage;100
+231;"Statt ""zuletzt, aber nicht am unwichtigsten"" sagt man meist knapp: ""last but not ...""?";least;Wörter;Frage;100
+232;In welcher TV-Show stellten fünf Schweizer einen fast neun Tonnen schweren Lkw auf vier Biergläser?;Wetten, dass..?;Deutschland;Frage;300
+233;Welche Wache ist ein anderes Wort für das Spritzenhaus?;Feuerwache;Kultur;Frage;200
+234;Englands Rekord für die meisten Einsätze als Feldspieler hält mit 120 Fußballländerspielen Wayne ...?;Rooney;Sport;Frage;400
+235;"Ein Sportfilmklassiker mit Al Pacino heißt ""An jedem verdammten ...""?";Sonntag;Filme;Frage;400
+236;Welcher Wal versteckt sich im Namen Mallorca?;Orca;Wörter;Frage;100
+237;Der Hollywood-Regisseur Paul Verhoeven wurde in welchem Land geboren?;Niederlande, Holland;Personen;Frage;200
+238;"Wie heißt der Vogelfänger, der in Mozarts ""Zauberflöte"" für gewöhnlich ein Federkostüm trägt?";Papageno;Kultur;Frage;300
+239;Wer ist in der altnordischen Mythologie Königin der Götter und Menschen?;Frigg, Freyja;Mythologie;Frage;400
+240;In welchem Land Großbritanniens liegt der viel besungene See Loch Lomond?;Schottland;Kultur;Frage;100
+241;Welche Leitungen können von Legionellen betroffen sein?;Wasserleitungen;Allgemeinwissen;Frage;300
+242;2022 wurde welches Fußballteam der Männer Meister der italienischen Serie A?;AC Mailand;Sport;Frage;400
+243;Welche musikalische Familie lebte in den 90er-Jahren auf einem Hausboot in Köln?;Kelly Family;Musik;Frage;300
+244;"Stellt man dem Wort ""Ruder"" ein ""B"" voran, wird daraus welcher Familienangehörige?";Bruder;Wörter;Schnellfrage;100
+245;Wie wird ein durch ungeschlechtliche Vermehrung entstandenes, erbgleiches Tier genannt?;Klon;Biologie;Frage;200
+246;Marcelo Rebelo de Sousa wurde 2016 zum Staatspräsidenten welches Landes gewählt?;Portugal;Politik;Frage;300
+247;Welches Gebiet am Rhein gehörte ab 1816 zum Königreich Bayern?;Pfalz, Rheinpfalz;Geschichte;Frage;200
+248;Was für ein Transportmittel ist der legendäre Orient-Express?;Zug, Luxuszug, Eisenbahn;Allgemeinwissen;Frage;100
+249;Welcher französische General beschrieb England als eine Nation von kleinen Ladenbesitzern?;Napoleon;Geschichte;Frage;200
+250;Der Formel-1-Fahrer Max Verstappen fährt unter der Flagge welches Landes?;Niederlande, Holland;Sport;Frage;200
+251;"Das Gemälde ""The Blue Boy"" - ""Der Blaue Junge"" schuf Thomas ...?";Gainsborough;Kunst;Frage;400
+252;"Das Album ""Stadtaffe"" stammt von Peter ...?";Fox;Musik;Schnellfrage;100
+253;Welches giftige Schwermetall darf an deutschen Tankstellen seit 1996 nicht mehr im Benzin enthalten sein?;Blei;Naturwissenschaften;Frage;200
+254;"Wie wird die Fernsehsendung ""Ich bin ein Star  Holt mich hier raus!"" meist kurz genannt?";Dschungelcamp, IBES;Deutschland;Frage;200
+255;Welche Wache bezeichnet eine Truppe, die mit dem Schutz einer Person beauftragt ist?;Leibwache;Personen;Frage;100
+256;Ihren Rücktritt verkündete im Sommer 2022 der Tennis-Spielerin Serena ...?;Williams;Sport;Frage;200
+257;"Ingmar Bergman drehte den Filmklassiker ""Das siebente ...""?";Siegel;Filme;Frage;300
+258;"Welches kleine Wesen steckt im Wort ""Gewicht""?";Wicht;Wörter;Frage;100
+259;Der 2021 verstorbene Filmregisseur Bertrand Tavernier stammte aus welchem Land?;Frankreich;Personen;Frage;400
+260;In welcher Verdi-Oper liebt ein ägyptischer Heerführer die Prinzessin der verfeindeten Äthiopier?;Aida;Kultur;Frage;500
+261;Welcher vielköpfige Schlangendrache bewacht den Baum der Hesperiden?;Ladon;Mythologie;Frage;300
+262;Der Rio Xingú ist einer der großen rechten Nebenflüsse des Amazonas im Tiefland welches Landes?;Brasilien;Geographie;Frage;200
+263;Welcher Teil einer Kamera heißt wie eine Hülsenfrucht?;Linse;Technik;Frage;200
+264;Erik ten Hag löste im Frühjahr 2022 Ralf Rangnick als Trainer welches britischen Fußballclubs ab?;Manchester United;Sport;Frage;200
+265;Welcher Schlagersänger war jahrelang für seine zahlreichen Freundschaftsbändchen bekannt?;Wolfgang Petry, Wolle Petry;Musik;Frage;200
+266;"Welchen Buchstaben muss man vor das Wort ""Espe"" setzen, damit aus dem Baum ein Insekt wird?";W;Straßenverkehr;Schnellfrage;100
+267;Neben den Archaeen sind welche winzigen Lebewesen schon am längsten auf der Welt?;Bakterien, Bazillen;Tiere;Frage;200
+268;Gina Marie Raimondo ist seit 2021 Handelsministerin welches Staates?;USA, Vereinigte Staaten von Amerika;Politik;Frage;200
+269;Auf dem Gebiet welcher niederrheinischen Stadt lag die römische Metropole Colonia Ulpia Traiana?;Xanten;Geschichte;Frage;300
+270;Welche Art Bahnhof trägt einen oberen Körperteil im Namen?;Kopfbahnhof;Wörter;Frage;100
+271;Wie nennt man das Hin-und-Her-Bewegen der Hand zur Verabschiedung?;Winken;Allgemeinwissen;Schnellfrage;100
+272;Was verkauft Timm Thaler in der gleichnamigen Abenteuerserie dem Baron de Lefouet?;Lachen, Sein Lachen;Bücher;Frage;300
+273;Der Fruchtkuchen Panettone ist eine Spezialität aus welchem Land?;Italien, Herzogtum Mailand;Kultur;Frage;200
+274;In welchem Shakespeare-Drama wird der Duke of Gloucester zum König gekrönt?;Richard III., Die Tragödie von König Richard III.;Bücher;Frage;300
+275;Welche Form haben die Seitenflächen einer Pyramide?;(gleichschenkliges) Dreieck;Naturwissenschaften;Frage;100
+276;Wie heißen die Schauspieler Tukur und Noethen mit Vornamen?;Ulrich;Personen;Frage;400
+277;"Wer sagte: ""I did not have sexual relations with that woman, Miss Lewinsky""?";Bill Clinton;Politik;Frage;300
+278;Der 1.070 Meter hoch gelegene Khyber-Pass ist der wichtigste Bergpass zwischen Pakistan und welchem Land?;Afghanistan;Geographie;Frage;300
+279;Wem Ärger droht, obgleich er sich sicher fühlt, dem wird redensartlich schon noch was vergehen?;(Das) Lachen;Wörter;Frage;200
+280;"Welcher trinkfreudige Jack verliert immer wieder sein Schiff, die ""Black Pearl""?";Jack Sparrow;Filme;Frage;100
+281;"""It's All Over Now"" war 1964 in England der erste Nummer-1-Hit welcher Rockgruppe?";The Rolling Stones;Musik;Frage;200
+282;Welcher Rad schlagende Vogel wurde im antiken Griechenland als heiliges Tier der Göttin Hera verehrt?;Pfau;Tiere;Frage;100
+283;Eines der 12 Sternzeichen ist der Stein-...?;Bock;Allgemeinwissen;Frage;100
+284;"Vertauscht man die Buchstaben des Wortes ""Prost"", so erhält man welches Unterrichtsfach?";Sport;Wörter;Frage;100
+285;"Welches Filmgenre parodiert der Film ""Der Schuh des Manitu""?";Western;Filme;Frage;200
+286;Der einzige deutsche Olympiasieger im Marathon heißt Waldemar ...?;Cierpinski;Sport;Frage;500
+287;Wie nennt man einen in Tücher eingewickelten Leichnam in einem ägyptischen Sarkophag?;Mumie;Kultur;Frage;200
+288;Nach Deutschland ist welches Land der EU das bevölkerungsreichste?;Frankreich;Geographie;Frage;100
+289;Welches Werkzeug ist ein anderes Wort für das Elchgeweih?;Schaufel;Wörter;Frage;300
+290;Wie nennt man die wiederholte Ab- und Aufwärtsbewegung des Kopfes zum Einverständnis?;Nicken, Kopfnicken;Wörter;Frage;100
+291;"In der Fernsehserie ""Unser Charly"" gehört die Titelfigur zu welcher Affenart?";Schimpansen, Schimpanse;Filme;Frage;200
+292;Der Einspänner ist eine Kaffeespezialität aus welchem Land?;Österreich;Allgemeinwissen;Frage;200
+293;"Welches Drama von Shakespeare trägt den Zusatztitel ""Prinz von Tyrus""?";Perikles;Bücher;Frage;400
+294;Welche Form hat in der Geometrie die Grundfläche eines Kegels?;Kreis, Rund,;Naturwissenschaften;Frage;100
+295;Wie heißt die RTL-Moderatorin Ludowig mit Vornamen?;Frauke;Personen;Frage;200
+296;Wie heißt die Monarchin mit der längsten Regierungszeit der britischen Geschichte?;Elisabeth II., Queen Elizabeth II;Kultur;Frage;100
+297;"Welches Land wird auch die ""Schweiz Zentralasiens"" genannt, weil fast seine gesamte Fläche im Hochgebirge liegt?";Kirgistan, Kirgisien, Kirgisistan;Geographie;Frage;300
+298;Was einen nervt, geht einem redensartlich auf welches Kaffeegebäck?;Keks;Wörter;Frage;100
+299;Welcher Batman-Bösewicht heißt mit bürgerlichem Namen Arthur Fleck?;(Der) Joker;Filme;Frage;200
+300;"""Definitely Maybe"" heißt das Debütalbum welcher weltberühmten Britpop-Band?";Oasis;Musik;Frage;400
+301;Welches bunte Himmelsereignis ist laut Bibel ein Zeichen des Bundes Gottes mit den Menschen nach der Sintflut?;Regenbogen;Kultur;Frage;200
+302;Eines der 12 Sternzeichen ist Wasser-...?;Mann;Kultur;Frage;100
+303;"Stellt man die Buchstaben des Wortes ""bereichern"" um, so erhält man welchen Dieb?";Einbrecher;Wörter;Frage;300
+304;Wie nennt man Filme, die aus einer Folge aufgenommener Zeichnungen bestehen?;Zeichentrick, Zeichentrickfilm, Animation, Anime, Cartoon-Film;Filme;Frage;200
+305;Welcher Peter wurde als Fußballtorhüter dank 125 Einsätzen Englands Rekordnationalspieler?;Peter Shilton, Peter Leslie Shilton;Sport;Frage;300
+306;Den britischen Parlamentarismus begründete im 17. Jahrhundert die Bill of ...?;Rights;Geschichte;Frage;100
+307;"Wie heißt in der Zeichentrickserie ""Die Simpsons"" der Vater von Bart, Lisa und Maggie?";Homer, Homer Jay Simpson;Filme;Schnellfrage;100
+308;Welche Kurzhaarfrisur ist nach einem Waldgewächs benannt?;Pilzkopf;Kultur;Frage;200
+309;"""Derjenige"" und ""derselbe"" sind was für Pronomen?";Demonstrativpronomen;Wörter;Frage;300
+310;In welchem asiatischen Land liegt die Stadt Yangon?;Myanmar;Geographie;Frage;400
+311;"Phantom heißt eine Verbrecherorganisation im James-Bond-Film ""Liebesgrüße aus ...""?";Moskau;Filme;Frage;100
+312;"Von welcher Jahreszeit handelt die millionenfach verkaufte Single ""White Christmas""?";Winter;Kultur;Frage;100
+313;"Kerstin Gier schrieb den Bestseller ""Vergissmeinnicht. Was man bei Licht nicht ...""?";sehen kann;Bücher;Frage;200
+314;Welche Armee der Augsburger Puppenkiste trägt Rüstungen aus Konservendosen?;Blechbüchsenarmee;Kultur;Frage;100
+315;Wer hart durchgreift, kehrt laut Redensart mit eisernem ...?;Besen;Wörter;Frage;200
+316;An welchem großen See liegt Schwerin?;Schweriner See;Geographie;Frage;100
+317;"Welcher Monat lässt sich durch Buchstabenvertauschen aus dem Wort ""saugut"" bilden?";August;Wörter;Frage;200
+318;Der katholische Wallfahrtsort Fátima liegt in welchem südeuropäischen Land?;Portugal;Geographie;Frage;100
+319;"Im Namen welches Wintermonats steckt der Name ""Jan""?";Januar;Wörter;Frage;100
+320;Welche Organe halten Motorradfahrer durch einen Extra-Gurt warm?;Nieren;Biologie;Frage;200
+321;Wie heißt der 1980 mit Brooke Shields verfilmte Roman von Henry De Vere Stacpoole?;Die blaue Lagune;Filme;Frage;300
+322;"Welcher Wolfgang singt: ""Mmhh, Gianna, ist das Auto auch sehr klein, ich kenn' da einen Trick""?";Wolfgang Petry;Musik;Frage;200
+323;Loriot war ein großer Fan von welcher Hunderasse?;Mops, Möpse;Personen;Frage;500
+324;In welchem amerikanischen Land liegt die Urlaubsregion Cancún?;Mexiko;Geographie;Frage;100
+325;Wer wurde beim Deutschen Filmpreis 2022 als beste Hauptdarstellerin geehrt?;Meltem Kaptan;Personen;Frage;300
+326;Von seinem Amt als Bundeskanzler trat im Oktober 2021 welcher Österreicher zurück?;Sebastian Kurz;Politik;Frage;200
+327;"Wie heißt in der Zeichentrickserie ""Die Simpsons"" die Mutter von Bart, Lisa und Maggie?";"Marge, Marjorie Jacqueline ""Marge"" Simpson";Filme;Frage;100
+328;Welche Kurzhaarfrisur ist nach einem Adeligen in der Ritterausbildung benannt?;Pagenkopf, Pagenfrisur;Allgemeinwissen;Frage;400
+329;"""Mir"", ""dir"", ""euch"" und ""sich"" sind was für Pronomen?";Reflexivpronomen;Wörter;Frage;200
+330;Wie heißt die Hauptstadt der Malediven?;Malé;Geographie;Frage;200
+331;"Seinen Durchbruch als Filmschauspieler hatte Heinz Rühmann mit dem Film ""Die Drei von der ...""?";Tankstelle;Personen;Frage;400
+332;Was sollte es für Hildegard Knef laut ihrem größten Hit regnen?;Rote Rosen;Musik;Frage;100
+333;Wer etwas geheim hält, kehrt es redensartlich unter welches Möbelstück mit Beinen?;Tisch;Wörter;Schnellfrage;100
+334;An welchem großen See liegt Konstanz?;Bodensee, Obersee;Deutschland;Frage;100
+335;"Welcher Monat lässt sich durch Buchstabenvertauschen aus dem Wort ""Urfarbe"" bilden?";Februar;Wörter;Frage;300
+336;Der Guaraní-Wallfahrtsort Caacupé liegt in welchem südamerikanischen Land?;Paraguay;Geographie;Frage;500
+337;"Im Namen welches Monats steckt das Wörtchen ""Uni""?";Juni;Wörter;Schnellfrage;100
+338;"Welches landwirtschaftliche Gefährt nennt man in Süddeutschland auch ""Bulldog""?";Traktor, Schlepper;Landwirtschaft;Frage;200
+339;Was für ein Tier ist die blaue Computerspielfigur Sonic?;Igel;Spiele;Schnellfrage;100
+340;Für welche Fähigkeiten stehen die Fragmente des Triforce aus Zelda?;Weisheit, Mut und Kraft;Spiele;Frage;400
+341;Wie hoch war das Preisgeld beim Tennisturnier in Wimbledon 2023 insgessamt?;52,3 Millionen Euro;Sport;Schätzfrage;400
+342;Welches Land liegt westlich der Dominikanischen Republik auf der Insel Hispaniola?;Haiti;Geographie;Frage;400
+343;Wer gewann bei den US-Präsidentschaftswahlen 2020 die meisten Wählerstimmen?;Joe Biden;Politik;Frage;200
+344;Wie nennt man die kleinen runden Geräte, die autonom im Garten das Grün stutzen?;Mähroboter, Rasenmähroboter, Rasenroboter;Technik;Frage;100
+345;"Welche bekannten Blumen reimen sich auf ""welken""?";Nelken;Biologie;Schnellfrage;100
+346;Was gilt in der Astrologie als Planet der Liebe und Harmonie?;Venus;Naturwissenschaften;Frage;200
+347;"Welche Gemüsepflanze wird im Englischen auch ""sweet pepper"" oder ""süßer Pfeffer"" genannt?";Paprika;Biologie;Frage;300
+348;Was für ein Insekt ist das Maskottchen von Borussia Dortmund?;Biene, Biene Emma;Sport;Frage;300
+349;Zu welcher Sportart gehören die Ausdrücke 2-Minuten-Strafe, Penalty-Schießen und Puck?;Eishockey;Sport;Frage;200
+350;Welcher Gebirgszug ist rund 2.000 Kilometer länger als die Rocky Mountains?;Anden;Geographie;Frage;300
+351;Wer verriet Jesus an die Römer?;Judas, Judas Iskariot;Kultur;Frage;200
+352;Nitrate sind die Salze und Ester welcher Säure?;Salpetersäure;Naturwissenschaften;Frage;400
+353;"Wie beginnt das Sprichwort, das mit ""leben länger"" aufhört?";Totgesagte;Wörter;Frage;300
+354;Welcher Kanal heißt in der Seefahrt Englischer Kanal?;Ärmelkanal;Geographie;Frage;400
+355;Wie heißt der 2023 von Sebastian Fitzek veröffentlichte Nicht Thriller?;Elternabend;Bücher;Frage;400
+356;"Die ""blaue Blume"" ist das Symbol welcher Literaturepoche?";Romantik, Frühromantik;Kultur;Frage;300
+357;Die Knesset ist das Parlament welches Staates?;Israel;Politik;Frage;500
+358;"Welche Farbe kann man sinnvoll an die Wörter ""Oliv"" und ""Suppen"" anhängen?";Grün;Wörter;Schnellfrage;100
+359;Zu welcher Gruppe gehörte die SÄngerin Camilla Cabello?;Fifth Harmony;Musik;Frage;400
+360;Was bei der Kuh das Euter, das ist bei der Sau das ...?;Gesäuge;Wörter;Frage;200
+361;"Welcher Matt spielt eine Hauptrolle im 2021 ins Kino gekommene Thrillerdrama ""Stillwater - Gegen jeden Verdacht""?";Damon;Hollywood;Frage;100
+362;Wie nennt man einen männlichen Einwohner Zyperns?;Zyprer, Zypriot, Zypriote;Geographie;Frage;100
+363;"""Abends will ich schlafen gehen"" heißt ein Duett aus welcher Oper für Kinder?";Hänsel und Gretel;Kultur;Frage;200
+364;Die Certosa di San Martino ist ein berühmter Klosterkomplex in welcher süditalienschen Stadt?;Neapel;Geographie;Frage;500
+365;"Welche von Verliebten verschenkten Blumen reimen sich auf ""Hosen""?";Rosen;Wörter;Schnellfrage;100
+366;Was für ein Tier ist das Maskottchen des MSV Duisburg?;Zebra;Sport;Frage;400
+367;In welcher Sportart gibt es die Disziplinen Abfahrt, Super-G und Riesenslalom?;Ski (Alpin), Skirennen, Skifahren;Sport;Frage;200
+368;"""Holding Back The Years"" war der erste Top-Ten-Hit von Simply ...?";Red;Musik;Frage;400
+369;Welches Gebirge Europas besitzt die größte Nord-Süd-Ausdehnung?;Ural;Geographie;Frage;300
+370;Welches edle Stück Rindfleisch wird in Österreich auch als Lungenbraten bezeichnet?;Filet, Tenderloin;Kultur;Frage;400
+371;Was für ein Fortbewegungsmittel war Noahs Arche?;Schiff, Boot, (schwimmfähiger) Kasten;Kultur;Schnellfrage;100
+372;Wie nennt man jemanden, der mit der linken und rechten Hand gleich geschickt ist?;Beidhänder, beidhändig, ambidexter;Allgemeinwissen;Frage;100
+373;"Welcher Wilhelm schrieb im 19. Jahrhundert ""Die Geschichte von dem Gespensterschiff""?";Hauff;Bücher;Frage;500
+374;Was entsteht bei einer Nukleosynthese?;Atomkern, (chemisches) Element;Naturwissenschaften;Frage;400
+375;"Welcher Ed veröffentlichte im Herbst 2021 die Single ""Shivers""?";Sheeran;Musik;Schnellfrage;100
+376;Laut Sprichwort rostet welche Liebe nicht?;Alte (Liebe);Wörter;Frage;200
+377;Welcher Kanal verbindet Atlantik und Pazifik?;Panamakanal;Geographie;Frage;300
+378;Was für Füße sind Anapäst und Daktylus?;Versfüße;Wörter;Frage;300
+379;In welcher Stadt tagt das tschechische Parlament?;Prag;Politik;Frage;100
+380;"Welche Farbe kann man sinnvoll an die Wörter ""Honig"" und ""Dotter"" anhängen?";Gelb;Wörter;Frage;100
+381;Wie lautet der weidmännische Ausdruck für die Füchsin?;Fähe, Fähin, Föhe, Betze;Tiere;Frage;300
+382;Als Ministerpräsident von Spanien bestätigt wurde im Jahr 2020 Pedro ...?;Sánchez;Politik;Frage;300
+383;Welche Senta wurde 2021 bei der Verleihung des Deutschen Filmpreises mit der Ehren-Lola ausgezeichnet?;Senta Berger;Personen;Frage;500
+384;Wie nennt man einen männlichen Einwohner der Philippinen?;Philippiner, Filipino;Geographie;Frage;100
+385;Durch was für Insekten wird Malaria übertragen?;Moskitos, Mücken, Anopholes-Mücken;Biologie;Frage;200
+386;Ludwig Mies van der Rohe war ab 1930 Direktor welcher Kunstschule?;Bauhaus;Deutschland;Frage;300
+387;"""Bravehearts"" lautet der Spitzname der Fußballnationalmannschaft welches Landes?";Schottland;Sport;Frage;300
+388;An der Decke welches Gebäudes im Vatikan befinden sich neun Szenen aus dem Buch Genesis?;Sixtinische Kapelle;Kultur;Frage;400
+389;"Welche Zeichentrickfigur hielt sich 2021 mit dem Album ""Schwammtastisch"" wochenlang in den deutschen Charts?";SpongeBob, SpongeBob Schwammkopf;Musik;Frage;100
+390;Der EGMR in Straßburg ist der Europäische Gerichtshof für ...?;Menschenrechte;Politik;Frage;300
+391;Welche Stadt liegt Mannheim direkt gegenüber?;Ludwigshafen (am Rhein);Geographie;Frage;200
+392;Tsai Ing-wen ist seit Mai 2016 Präsidentin welches asiatischen Landes?;Taiwan, Republik China;Politik;Frage;500
+393;Welcher Dinosaurier war dem Namen nach ein Tyrann?;Tyrannosaurus (Rex);Geschichte;Frage;100
+394;Das Model Lily-Rose Depp ist die Tochter von Johnny Depp und Vanessa ...?;Paradis;Personen;Frage;400
+395;In welcher italienischen Stadt kann man in der Basilika Santa Croce die Fresken Giottos bewundern?;Florenz;Kultur;Frage;300
+396;Wie heißt in der griechischen Mythologie die Tochter von Königin Kassiopeia?;Andromeda;Mythologie;Frage;300
+397;"Was ärgert Filmfans und reimt sich auf ""Broiler""?";Spoiler;Wörter;Frage;200
+398;"Welcher Pop- und R'n'B-Superstar veröffentlichte 2022 sein Album ""Dawn FM""?";The Weeknd;Musik;Frage;200
+399;Als wichtigster Vertreter des Realismus in Deutschland gilt welcher Brandenburger Dichter?;Theodor Fontane;Personen;Frage;400
+400;Welche Partei gewann bei der Bundestagswahl 2021 prozentual die meisten Stimmen hinzu?;Bündnis 90/Die Grünen;Politik;Frage;300
+401;Wie nennen wir die italienische Stadt Genova?;Genua;Geographie;Frage;300
+402;In Anlehnung an eine Nudelsorte werden Italo-Western auch wie genannt?;Spaghetti-Western;Kultur;Frage;200
+403;Wer trat 1983 als Kanzlerkandidat gegen Helmut Kohl an?;Hans-Jochen Vogel;Geschichte;Frage;400
+404;Welches Land ist Hauptexporteur der Merino-Wolle?;Australien;Geographie;Frage;500
+405;Wie heißt die Nationalblume der Niederländer?;Tulpe;Geschichte;Frage;200
+406;"Welcher Leichtathletikwettbewerb wird international ""Decathlon"" genannt?";Zehnkampf;Sport;Frage;200
+407;Welcher Bau in Jerusalem hat eine weithin sichtbare, leuchtend goldene Kuppel?;Felsendom;Geographie;Frage;100
+408;"Seit jeher ist das Katz-und-Maus-Spiel Thema in den erfolgreichen Zeichentrickfilmen ""Tom & ...""?";Jerry;Filme;Schnellfrage;100
+409;Welchen Nobelpreis erhielten einst Al Gore, Willy Brandt und Mutter Teresa?;Friedensnobelpreis;Kultur;Frage;200
+410;In welchen Fluss mündet in Passau der Inn?;Donau;Geographie;Frage;300
+411;Scheich Mujibur Rahman erklärte im Jahr 1971 welches Land für unabhängig?;Bangladesch;Geschichte;Frage;400
+412;Zu welchen Paarhufern zählt das Trampeltier?;Kamele, Altweltkamele, Großkamele;Tiere;Frage;200
+413;In welcher Großstadt in Spanien steht das über 60 Meter hohe Kolumbus-Denkmal?;Barcelona;Geographie;Frage;400
+414;Wer tötet der griechischen Sage nach den bösartigen Riesen Prokrustes?;Theseus;Kultur;Frage;500
+415;"Wie lautet das gängige ""denglische"" Wort für das Mobiltelefon?";Handy;Allgemeinwissen;Frage;100
+416;"Welche Britin veröffentlichte 2021 die Single ""Easy On Me""?";Adele;Musik;Frage;200
+417;Aus welchem Naturmaterial bestehen die meisten Saunen?;Holz, Fichten-, Espenholz;Allgemeinwissen;Frage;200
+418;"Welche Spielerposition wird im modernen Fußball mit ""ZM"" abgekürzt?";Zentrales Mittelfeld;Sport;Frage;200
+419;Herakleios war im 7. Jahrhundert ein Kaiser welches Reiches?;Byzantinisches Reich, Byzanz, Oströmisches Reich, Ostrom;Geschichte;Frage;400
+420;Einer der acht großen heiligen Berge Tibets ist der bis heute unbestiegene Khawa ...?;Karpo, Khawa Karpo, Kawa Karpo;Geographie;Frage;500
+421;Welche Farbe hat das Fell der allermeisten kanadischen Polarfüchse im Winter?;Weiß;Biologie;Frage;200
+422;"Welcher Verein der 1. Fußball-Bundesliga wird oft auch einfach nur ""VfB"" genannt?";VfB Stuttgart;Sport;Frage;200
+423;Welche Klosterinsel wurde 1254 königliche Festung und blieb auch im Hundertjährigen Krieg französisch?;Mont-Saint-Michel;Geschichte;Frage;500
+424;"Was bezeichnet ein Lesebuch für Kinder und reimt sich auf ""Bibel""?";Fibel;Wörter;Frage;200
+425;Gemäß Beaufort-Skala spricht man bei Windstärke 4 von einer mäßigen ...?;Brise;Allgemeinwissen;Frage;300
+426;In welcher Novelle von Gottfried Keller tritt die Halbwaise Nettchen auf?;Kleider machen Leute;Bücher;Frage;400
+427;Welcher Riese ist das rot leuchtende Auge im Sternbild Stier?;Aldebaran;Kultur;Frage;500
+428;"Im Namen welcher deutschen Großstadt tauchen ""kirchen"" auf?";Gelsenkirchen;Deutschland;Frage;300
+429;Welches Adventsgebäck klingt nach Bergbau?;Stollen;Wörter;Frage;200
+430;Sowohl Peter Sellers als auch Steve Martin spielten welchen Film-Detektiv?;Inspektor Clouseau;Filme;Frage;500
+431;Welcher Kaiser berief 325 nach Christus das erste ökumenische Konzil von Nicäa ein?;Konstantin I., Konstantin der Große;Geschichte;Frage;400
+432;"Mit ""dos"" bezeichnet man im Spanischen welche Zahl?";2;Sprachen;Frage;100
+433;Welches ist das einzige ostasiatische Land unter den ständigen Mitgliedern des UN-Sicherheitsrats?;China;Geschichte;Frage;300
+434;Auf welcher Seenplatte fand 2021 die Müritz Sail statt?;Mecklenburgische, Seenplatte;Geographie;Frage;400
+435;"Den Spitznamen ""das Biest von Baku"" trägt welcher ehemalige Schachweltmeister?";Garri Kasparow, Garri Kimowitsch Kasparow;Sport;Frage;500
+436;Welcher Ozean liegt zwischen Frankreich und den USA?;Atlantik, Atlantischer Ozean;Geographie;Frage;100
+437;In welcher Stadt tagt das polnische Parlament?;Warschau;Politik;Frage;200
+438;Wie viel Hertz hat das deutsche Stromnetz?;50 Hertz;Deutschland;Frage;200
+439;In welcher süddeutschen Stadt wurde 1869 der Deutsche Alpenverein gegründet?;München;Geschichte;Frage;300
+440;Was für eine Lästerung ist die Blasphemie?;Gotteslästerung;Wörter;Frage;200
+441;Was wird in einer Gerberei hergestellt?;Leder;Allgemeinwissen;Frage;400
+442;"Welche Spielerposition wird im modernen Fußball mit ""MS"" abgekürzt?";Mittelstürmer;Sport;Frage;200
+443;Kurfürst August der Starke von Sachsen wurde 1697 König von ...?;Polen;Geschichte;Frage;300
+444;Der größte noch aktive Vulkan der Erde befindet sich auf Hawaii und heißt Mauna ...?;Loa, Mauna Loa;Geographie;Frage;400
+445;"Welche symbolische ""Farbe"" hat die internationale Liste der bedrohten Tier- und Pflanzenarten?";Rot, Rote Liste;Tiere;Frage;100
+446;"Welcher Verein der 1. Fußball-Bundesliga wird häufig einfach nur ""FSV"" genannt?";1. FSV Mainz 05, Mainz 05, Mainz;Sport;Frage;200
+447;Laut Sprichwort lobt das Werk den ...?;Meister;Wörter;Frage;100
+448;In welcher ca. 720.000 Quadratmeter großen Palastanlage steht die Halle der höchsten Harmonie?;Verbotene Stadt;Geographie;Frage;300
+449;"Welches Kleidungsstück hat fünf Buchstaben und reimt sich auf ""Pfütze""?";Mütze;Wörter;Frage;100
+450;Gemäß Beaufort-Skala spricht man bei Windstärke 10 von einem schweren ...?;Sturm;Allgemeinwissen;Frage;300
+451;Welche Novelle von Arthur Schnitzler handelt von Fridolin und Albertine?;Traumnovelle;Bücher;Frage;500
+452;Puck ist einer der bekannten kleineren Satelliten welches Planeten?;Uranus;Allgemeinwissen;Frage;300
+453;"Welches asiatische Land wird auch ""der rote Drache"" genannt?";China, Volksrepublik China;Kultur;Frage;200
+454;Was bekommt man im Kino wahlweise mit Käse- oder Salsadip?;Nachos;Allgemeinwissen;Frage;100
+455;"Welcher Actionheld ist in ""Last Blood"" zum fünften Mal zu sehen?";John Rambo;Filme;Frage;300
+456;Wie lautete der Spitzname des römischen Kaisers Gaius Iulius Caesar Germanicus?;Caligula;Geschichte;Frage;200
+457;"Mit ""uno"" bezeichnet man im Spanischen welche Zahl?";1;Sprachen;Frage;100
+458;Auf welchem Kontinent liegt Afghanistan?;Asien;Geographie;Frage;200
+459;Welcher Argentinier ist seit September 2021 der torgefährlichste Nationalspieler in der Fußballgeschichte Südamerikas?;Lionel Messi;Sport;Frage;100
+460;Die angestammte Residenz der Dalai Lamas steht in welcher Stadt?;Lhasa;Geschichte;Frage;300
+461;Wie lautet der Sammelname für die älteste in Nordwestafrika lebende indigene Bevölkerung?;Berber;Geographie;Frage;400
+462;"""Love Me Do"" war 1962 die Debüt-Single welcher britischen Popband?";The Beatles;Musik;Frage;300
+463;Welchen typisch baden-württembergischen Nachnamen trägt der letzte Bundestagspräsident?;Schäuble;Kultur;Frage;200
+464;Wie hieß der Bildhauer, Grafiker und Schriftsteller Barlach mit Vornamen?;Ernst, Ernst Heinrich Barlach;Kunst;Frage;400
+465;Der Name welches Schweizer Kantons ist zugleich ein hebräischer Vorname?;Uri;Personen;Frage;500
+466;"Wie lautet die gängige Abkürzung für ""Union of European Football Associations""?";UEFA;Sport;Schnellfrage;100
+467;"Um welche Prinzessin dreht sich der Film ""Spencer""?";Prinzessin Diana;Filme;Frage;200
+468;"Welcher US-Rapper veröffentlichte 2021 das Album ""Donda""?";Kanye West;Musik;Frage;300
+469;"Ein autobiografisch gefärbter Roman von Alfred Döblin heißt ""Pardon wird nicht ...""?";gegeben;Bücher;Frage;400
+470;In der Nacht leuchten welche sogenannten Würmchen?;Glühwürmchen;Tiere;Frage;200
+471;Welche Art Edelstein wurde 1960 für den ersten roten Laserstrahl benutzt?;Rubin;Allgemeinwissen;Frage;300
+472;Der schöne Luftkurort Schönau liegt in welchem Mittelgebirge?;Schwarzwald;Geographie;Frage;300
+473;Welcher Athener ist mit seinen Reformen als ein Begründer der Demokratie in die Geschichte eingegangen?;Solon, Kleisthenes;Geschichte;Frage;500
+474;Auf welchem Organ können sich durch Beanspruchung Schwielen bilden?;Haut;Biologie;Frage;300
+475;Wie nennt man Eisenbahnwagen in der Fachsprache?;Waggon(s);Wörter;Frage;400
+476;Auf welchem Kontinent liegt Uruguay?;Südamerika, Amerika;Geographie;Frage;200
+477;Welcher Portugiese ist seit dem 1. September 2021 im Männerfußball alleiniger Tor-Weltrekordhalter?;Cristiano Ronaldo;Sport;Frage;200
+478;Der Prager Veitsdom steht auf welchem Berg?;Hradschin, Prager Burgberg;Geographie;Frage;500
+479;Wie nannte man im Alten Ägypten den ersten und obersten Beamten nach dem Pharao?;Wesir, Tjati;Allgemeinwissen;Frage;500
+480;Welcher frühere SPD-Chef heißt mit Nachnamen wie ein Erzengel?;Sigmar Gabriel;Politik;Frage;300
+481;Ein vor allem durch seine Ballon-Skulpturen bekannt gewordener US-Künstler heißt Jeff ...?;Koons;Kunst;Frage;500
+482;Mit dem Namen welcher griechischen Rachegöttin benennt man einen Erzrivalen?;Nemesis;Mythologie;Frage;300
+483;Egidius Braun war Präsident und Ehrenpräsident welches bedeutenden Sportbundes?;DFB, Deutscher Fußballbund;Sport;Frage;400
+484;Heu besteht aus getrocknetem ...?;Gras;Landwirtschaft;Frage;200
+485;"2021 veröffentlichte welche Nele ihren Taunus-Krimi ""In ewiger Freundschaft""?";Neuhaus, Nele Neuhaus;Bücher;Frage;400
+486;Welcher griechische Gelehrte hat vor mehr als 2.000 Jahren den Auftrieb des Wassers beschrieben?;Archimedes;Geschichte;Frage;300
+487;Eine österreichische Frittatensuppe enthält welchen sogenannten Schinken?;Palatschinken;Allgemeinwissen;Frage;200
+488;"Céline Dions Hit ""My Heart Will Go On"" ist die Titelmelodie welches Films?";Titanic;Hollywood;Schnellfrage;100
+489;"Der Name welches Edelmetalls stammt vom indogermanischen ""ghel"" ab und bedeutet ""glänzend""?";Gold;Sprachen;Frage;300
+490;Wie wird das 2. Buch Mose genannt, das den Auszug aus Ägypten schildert?;Exodus;Kultur;Frage;400
+491;"Welches Verb ist synonym zu ""fegen"" und zu ""drehen""?";Kehren;Wörter;Frage;200
+492;Welcher Himmelskörper kann Felder versengen?;Sonne;Allgemeinwissen;Frage;300
+493;"Von 1989 bis 1994 lief die TV-Diskussionssendung ""Explosiv - Der heiße ...""?";Stuhl;Kultur;Frage;400
+494;Für welche Nation springt der derzeit älteste Skispringer der Welt?;Japan (Noriaki Kasai);Sport;Frage;500
+495;Welches Verb für das Bestellen eines Hotelzimmers erinnert an den Plural eines Baumnamens?;Buchen;Wörter;Frage;100
+496;Der Filmkomponist Ennio Morricone wurde in welchem Land geboren?;Italien;Personen;Frage;200
+497;Welchen Humor beweist man, wenn man einen Witz über eigene Misserfolge und Nachteile macht?;Galgenhumor, Selbstironie, FALSCH: Schwarzer Humor;Wörter;Frage;200
+498;Welchen Namen erhielt Französisch-Somaliland, nachdem es 1977 unabhängig wurde?;Djibouti, Dschibuti, Republik von Dschibuti, République de Djibouti;Geschichte;Frage;400
+499;Wer war der letzte britische Premierminister des 20. Jahrhunderts?;Tony Blair;Politik;Frage;500
+500;Welches Wörtchen dient den meisten Adeligen als Adelsprädikat?;Von;Personen;Frage;200
+501;Welchen Vornamen teilten sich Goethe und Mozart?;Wolfgang;Personen;Frage;200
+502;Wie nennt man die monarchische Regierungsform, in der ein König alle Herrschaftsmittel in seiner Hand vereinigt?;Absolutismus;Politik;Frage;300
+503;Rittersporn und Schleierkraut zählen zu welchen blühenden Pflanzen?;Blumen, Zierpflanzen;Landwirtschaft;Frage;300
+504;Die Spitze welches Besteckteils ist in Rezepten eine Maßeinheit?;Messer, Messerspitze;Allgemeinwissen;Frage;200
+505;Welche Haustiere gackern?;Hühner;Tiere;Frage;100
+506;"2021 veröffentlichte welche Literaturkritikerin das Buch ""Hier geht's lang!""?";Elke Heidenreich;Bücher;Frage;500
+507;Welcher Forscher begab sich in das Innere eines Metallkäfigs und legte an diesen von außen Hochspannung an?;Michael Faraday;Allgemeinwissen;Frage;300
+508;"Dimitrij Schaad spielt den Kleinkünstler Marc-Uwe in der Filmkomödie ""Die Känguru-...""?";Chroniken, Die Känguru-Chroniken;Filme;Frage;100
+509;Bei der aus dem Chemieunterricht bekannten Knallgasprobe reagiert Wasserstoff mit welchem anderen Stoff?;Sauerstoff;Naturwissenschaften;Frage;300
+510;Welcher See spielt im Leben und Wirken von Jesus Christus eine zentrale Rolle?;(See) Genezareth;Kultur;Frage;400
+511;Welches Adjektiv kann glänzend, nackt und pleite bedeuten?;Blank;Wörter;Frage;300
+512;"Als ""dunkle Jahreszeit"" bezeichnet man Herbst und ...?";Winter;Allgemeinwissen;Frage;100
+513;Was wurde am 26. September 2021 zum 20. Mal gewählt?;Bundestag, Deutscher Bundestag;Politik;Frage;200
+514;Welches Wort für eine Tiergruppe benennt zugleich Geräte zum Backen und Kochen?;Herde;Wörter;Frage;200
+515;Der volkseigene Filmbetrieb DEFA galt als die Traumfabrik welches Staates?;DDR;Geschichte;Frage;300
+516;In welcher außerordentlich großen Geduld steckt ein Himmelswesen?;Engelsgeduld;Wörter;Frage;300
+517;Nicht versteuertes Geld hat redensartlich welche Farbe?;Schwarz;Wörter;Frage;200
+518;Vom Landtag Nordrhein-Westfalens aus blickt man auf welchen Fluss?;Rhein;Geographie;Frage;400
+519;"Welches Londoner Wahrzeichen kennt man auch unter dem Namen ""Millennium Wheel""?";London Eye, Riesenrad;Kultur;Frage;200
+520;Welche Stadt im westlichen Niedersachsen wird auch die Friedensstadt genannt?;Osnabrück;Geographie;Frage;500
+521;Der Galdhøpiggen ist mit 2.469 Metern der höchste Berg welches nordeuropäischen Landes?;Norwegen;Geographie;Frage;400
+522;Welcher Verein wurde 2021 deutscher Eishockey-Meister?;Eisbären Berlin;Sport;Frage;400
+523;Welche Steppenlandschaft steht im übertragenen Sinn für eine abgelegene Gegend?;Pampa;Geographie;Frage;300
+524;In einer eisenbeschlagenen Truhe aus Eichenholz schläft welche Kinderbuchfigur von Otfried Preußler?;Das kleine Gespenst;Bücher;Frage;200
+525;Welche Zelle treibt ein Wasserstoffauto an?;Brennstoffzelle, Galvanische Zelle;Technik;Frage;300
+526;"Mit wie vielen Buchstaben schreibt man die Abkürzung für ""eventuell""?";4;Wörter;Schnellfrage;100
+527;Welcher Fluss passiert Hanau, Würzburg und Schweinfurt?;Main;Geographie;Frage;200
+528;"Welcher Kölner Komponist wurde von Rossini als ""Mozart der Champs-Élysées"" bezeichnet?";Jacques Offenbach;Personen;Frage;500
+529;"""OVG"" lautet die Abkürzung für welches Gericht?";Oberverwaltungsgericht;Allgemeinwissen;Frage;300
+530;Welche Steuer wird auf einer Quittung angegeben?;Mehrwertsteuer, Umsatzsteuer;Allgemeinwissen;Frage;100
+531;Welche Stadt in Litauen ist 2022 Kulturhauptstadt Europas?;Kaunas;Geographie;Frage;400
+532;Was für ein Tier überredete im Alten Testament Eva dazu, eine Frucht vom Baum der Erkenntnis zu nehmen?;Schlange;Tiere;Frage;200
+533;In welchem europäischen Land wurde 1804 der Code civil eingeführt, wo er bis heute das Rechtssystem prägt?;Frankreich;Geschichte;Schnelfrage;300
+534;In welcher Landeshauptstadt genießt man vom Belvedere auf dem Pfingstberg eine fantastische Aussicht?;Potsdam;Deutschland;Frage;400
+535;Welche Zähne des Menschen sind dem Namen nach besonders klug und erfahren?;Weisheitszähne;Allgemeinwissen;Frage;200
+536;Vom Sächsischen Landtag aus blickt man auf welchen Fluss?;Elbe;Deutschland;Frage;500
+537;Welches Berliner Gebäude hat in seinem Zenit eine 10 Meter breite kreisrunde Öffnung?;Reichstag, Reichstagsgebäude;Deutschland;Frage;300
+538;Der Møllehøj ist mit fast 171 Metern die höchste Erhebung welches nordeuropäischen Landes?;Dänemark;Geographie;Frage;500
+539;Wie heißt der Formel-1-Weltmeister von 2021?;Max Verstappen;Sport;Frage;300
+540;Welche rumänische Landschaft steht übertragen für einen abgelegenen Ort?;Walachei;Geographie;Frage;300
+541;Die Katzen Minz und Maunz tauchen in welchem klassischen Kinderbuch auf?;Der Struwwelpeter;Bücher;Frage;300
+542;"Als welchen ""Esel"" bezeichnet man salopp ein Fahrrad?";Drahtesel;Wörter;Schnellfrage;100
+543;"Mit wie vielen Buchstaben schreibt man die Abkürzung für ""gegebenenfalls""?";3;Wörter;Schnellfrage;100
+544;Möhne, Lenne und Volme sind drei Nebenflüsse welches Flusses?;Ruhr;Geographie;Frage;400
+545;Am 1. Januar 1900 in Kraft trat das Bürgerliche ...?;Gesetzbuch;Allgemeinwissen;Frage;300
+546;In welcher Stube wird Geld in eine andere Währung getauscht?;Wechselstube;Wörter;Frage;200
+547;Das Wadenbein ist ein Teil welches Schenkels?;Unterschenkel;Allgemeinwissen;Frage;300
+548;An der Place du Palais steht der Fürstenpalast welches Zwergstaates?;Monaco;Geographie;Frage;400
+549;Welcher Vulkan auf der japanischen Hauptinsel Honshu ist seit 2013 Teil des Weltkulturerbes?;Fuji, Fuji-san, Fujiyama;Geographie;Frage;400
+550;Zwei gleiche Kreise, verbunden mit einer Röhre, beschreiben welchen geometrischen Körper?;Zylinder;Allgemeinwissen;Frage;200
+551;Croissants und Café au Lait frühstückt man traditionell in welchem Land?;Frankreich;Geographie;Frage;100
+552;"Auf welchen römischen Herrschertitel geht das Wort ""Kaiser"" zurück?";Caesar;Geschichte;Frage;100
+553;Mit wessen Tod im Jahr 1805 endet für viele die Weimarer Klassik?;Friedrich Schiller;Kultur;Frage;400
+554;Wen hat Hansi Flick als Trainer der deutschen Fußballnationalmannschaft beerbt?;Jogi Löw;Sport;Frage;300
+555;Welcher Spitzenpolitiker der CDU war einst Chefredakteur der Kirchenzeitung Aachen?;Armin Laschet;Politik;Frage;400
+556;"Aus welchem Land stammt Stephenie Meyer, Autorin der ""Twilight""-Romane?";USA, Vereinigte Staaten von Amerika;Bücher;Frage;200
+557;Wie heißt die Hauptstadt des österreichischen Bundeslandes Tirol?;Innsbruck;Geographie;Frage;300
+558;"Die Aussage ""Schwarze Katzen bedeuten Unglück"" ist typisch für welchen törichten Glauben?";Aberglaube, Superstition;Allgemeinwissen;Frage;100
+559;Die Hälfte aller Deutschen lebt in den Bundesländern NRW, Bayern und ...?;Baden-Württemberg;Deutschland;Frage;200
+560;In welchem Land wird der Trainer der Fußballnationalmannschaft Bondscoach genannt?;Niederlande, Holland;Sport;Frage;400
+561;Wie heißt die Stadt der vier Tore am Tollensesee?;Neubrandenburg;Deutschland;Frage;400
+562;Welcher Sohn des Zeus und der Alkmene gilt als einer der größten Sagenhelden des antiken Griechenlands?;Herakles, Herkules;Mythologie;Frage;500
+563;Der 1.650 Kilometer lange Juba fließt auf welchem Kontinent?;Afrika;Geographie;Frage;400
+564;Welches deutsche Bundesland hob erst Ende 2018 die Todesstrafe auf?;Hessen;Deutschland;Frage;300
+565;"Welche Grundfarbe hat das Cover des Pink-Floyd-Albums ""The Dark Side Of The Moon""?";Schwarz;Musik;Frage;500
+566;Wie viele Punkte werden in der Punktewertung der Formel 1 für den 1. Platz in einem Rennen vergeben?;25;Sport;Frage;300
+567;Welche Drüsen ermöglichen es uns, zu schwitzen?;Schweißdrüsen;Biologie;Schnellfrage;100
+568;Der Palazzo Pubblico ist der Regierungspalast welches Zwergstaates?;San Marino;Geographie;Frage;300
+569;Welcher Berg der Alpen wird häufig als der höchste Berg Europas bezeichnet?;Mont Blanc, Monte Bianco;Geographie;Frage;400
+570;Vier Dreiecke und ein Quadrat beschreiben welchen geometrischen Körper?;Pyramide;Naturwissenschaften;Frage;200
+571;In welchem Land frühstückt man traditionell Rührei, Bohnen, Mini-Würstchen und gebratenen Speck?;Vereinigtes Königreich, Großbritannien, England;Kultur;Frage;300
+572;"Welche Mittelmeerinsel wurde zur Zeit des Römischen Reiches ""Melita"" genannt?";Malta;Geographie;Frage;500
+573;Erkennt man einen wichtigen Punkt, liegt redensartlich der Hase in welchem Gewürz?;Pfeffer;Wörter;Schnellfrage;200
+574;Welcher akademische Titel ist der höchste, den man mit einer Habilitation erreichen kann?;Professor;Allgemeinwissen;Frage;300
+575;Die Hauptverkehrsader der Lagunenstadt Venedig ist welcher Kanal?;Canal Grande, Canale Grande;Geographie;Frage;400
+576;Einen Ledersattel stellt welcher Handwerker her?;Sattler;Allgemeinwissen;Frage;200
+577;"Ein Schiller-Drama trägt den Titel ""Die Jungfrau von ...""?";Orleans;Kultur;Frage;300
+578;Welche Universitätsstadt in Thüringen wird auch Lichtstadt genannt?;Jena;Deutschland;Frage;400
+579;Crème fraîche kommt ursprünglich aus welchem Land?;Frankreich;Geographie;Frage;100
+580;In der Rolle welches Superhelden zeigt Chris Hemsworth im Kino, wo der Hammer hängt?;Thor;Filme;Frage;300
+581;Das Davidsgrab findet man in welcher Stadt?;Jerusalem;Geographie;Frage;400
+582;Um was für einen Berg handelt es sich beim Kilauea auf Hawaii?;Vulkan;Geographie;Frage;200
+583;Welche Zeile steht losgelöst vom Haupttext am unteren Rand der Seite?;Fußzeile;Wörter;Frage;400
+584;Welches Schloss liegt gut 5 Kilometer von der Münchner Frauenkirche entfernt?;Schloss Nypmphenburg;Deutschland;Frage;500
+585;Wie nennt man den leicht zu lösenden Knoten, mit denen Schuhe zugebunden werden?;Schleife, Altweiberknoten, Ian Knoten;Allgemeinwissen;Frage;400
+586;In welchem Haus soll man sprichwörtlich nicht mit Steinen werfen?;Glashaus;Wörter;Frage;300
+587;Die gesammelten schriftlichen Quellen am Ende einer wissenschaftlichen Arbeit nennt man Literatur-...?;verzeichnis;Wörter;Frage;400
+588;Das Wahrzeichen von Helgoland ist welcher Felsen?;Lange Anna;Deutschland;Frage;500
+589;Die Wallabys sind eine Untergattung welcher springenden australischen Beuteltiere?;Kängurus;Tiere;Frage;500
+590;Der Steiger ist eine Aufsichtsperson in welchem Bau?;Bergbau;Allgemeinwissen;Frage;500
+591;In welchem zentralasiatischen Land steht mit dem Khan Shatyr das größte Zelt der Welt?;Kasachstan;Geographie;Frage;500
+592;Welcher Strich macht aus zwei oder mehr Hauptwörtern ein Wort?;Bindestrich;Wörter;Frage;500
+593;Aus dem Ei eines Schmetterlings entschlüpft eine ...?;Raupe;Tiere;Frage;400
+594;Wer sich aus einer misslichen Lage befreit, der zieht redensartlich den Kopf aus der ...?;Schlinge;Wörter;Frage;500
+595;Die Hauptwasserscheide Nordamerikas bildet welches Gebirge?;Rocky Mountains;Geographie;Frage;500
+596;"Welches Schmuckstück steckt im Wort ""Etikette""?";Kette;Wörter;Frage;400
+597;Wie nennt man im Gegensatz zu Profis Menschen, die ihren Sport als Hobby ausüben?;Amateure, Freizeitsportler;Sport;Frage;300
+598;Welches Organ eines Erwachsenen ist ungefähr faustgroß und wiegt gut 300 Gramm?;Herz;Biologie;Frage;500
+599;"Ping Pinguin und Wawa, der Waran streiten sich in ""Urmel aus dem Eis"" um welche Behausung ?";Muschel, Mupfel;Filme;Frage;500
+600;"Der Name welcher Pastaform bedeutet wörtlich übersetzt ""kleine Zungen""?";Linguine, Linguini;Sprachen;Frage;400
+601;"""BWL"" lautet das Autokennzeichen-Kürzel für Regierungsfahrzeuge welches Bundeslandes?";Baden-Württemberg;Straßenverkehr;Frage;300
+602;"Wie lautet in der Optik das Fremdwort für ""nach innen gewölbt""?";Konkav;Allgemeinwissen;Frage;400
+603;"Welcher Inhaltsstoff eines Blattes bedeutet übersetzt so viel wie ""hellgrün""?";Chlorophyll;Biologie;Frage;300
+604;Die Bewohner welcher Großstadt der BRD durften bis 1989 keine Bundestagsabgeordneten wählen?;Berlin, West-Berlin;Geschichte;Frage;500
+605;Wo sind die Grundrechte der deutschen Staatsbürgerinnen und Staatsbürger festgelegt?;Grundgesetz, Verfassung;Deutschland;Frage;100
+606;Welches Bundesland grenzt an Bayern und Nordrhein-Westfalen?;Hessen;Geographie;Frage;200
+607;"Die Mächtigkeit der Justiz wird ausgedrückt durch die Redewendung vom ""langen Arm des ...""?";Gesetzes;Wörter;Frage;300
+608;Welchen Showmaster nennt man auch kurz Böhmi?;Jan Böhmermann;Personen;Frage;300
+609;Welcher Strich trennt Einschübe in Sätzen ab?;Gedankenstrich, Parenthesenstrich, Halbgeviertstrich, Spiegelstrich;Wörter;Frage;200
+610;Aus dem Ei einer Wildbiene entschlüpft eine ...?;Larve;Biologie;Frage;200
+611;Wenn zwei Menschen völlig identisch aussehen, gleichen sie sich redensartlich wie ein Ei dem ....?;anderen;Wörter;Frage;200
+612;In welchem Gebirge leben die Sherpas?;Himalaya;Geographie;Frage;500
+613;"Welche stachelige Blume steckt im Wort ""Matrose""?";Rose;Wörter;Frage;100
+614;Wie nennt man es, wenn man bei einem Wettlauf kurzzeitig die Geschwindigkeit erhöht?;Spurt, Sprint, Zwischenspurt, Endspurt, Schlussprint;Sport;Frage;100
+615;Welches Organ wiegt rund 50 Gramm und vergrößert sich in einer Schwangerschaft auf gut 1.000 Gramm?;Gebärmutter, Uterus;Biologie;Frage;300
+616;"""BYL"" lautet das Autokennzeichen-Kürzel für Regierungsfahrzeuge welches Bundeslandes?";Bayern;Straßenverkehr;Frage;400
+617;"Wie lautet in der Optik das Fremdwort für ""nach außen gewölbt""?";Konvex;Naturwissenschaften;Frage;400
+618;Pilze sind keine Pflanzen, weil sie welche Synthese nicht betreiben können?;Fotosynthese;Biologie;Frage;300
+619;In welcher schottischen Hafenstadt fand im November 2021 die Weltklimakonferenz statt?;Glasgow;Politik;Frage;400
+620;Wie heißt das einzige Verfassungsorgan des Bundes, das unmittelbar vom deutschen Staatsvolk gewählt wird?;Bundestag;Politik;Frage;300
+621;Welches Bundesland grenzt an Bayern und Brandenburg?;Sachsen;Geographie;Frage;300
+622;Wer aus der Haft entlassen wurde, der befindet sich redensartlich auf freiem ...?;Fuß;Wörter;Schnellfrage;100
+623;Welche englische Stadt hatte schon um das Jahr 1900 mehrere Millionen Einwohner?;London;Geschichte;Frage;400
+624;Was kann ein Milchmädchen redensartlich nicht gut?;Rechnen;Wörter;Frage;200
+625;"Welcher Christopher führte Regie bei der sogenannten ""The-Dark-Knight-Trilogie""?";Nolan;Hollywood;Frage;200
+626;Mit welchem zähflüssigen Rückstand aus der Erdölraffination werden Schiffe betrieben?;Schweröl;Technik;Frage;200
+627;Wie heißt das wichtigste Sandplatzturnier der Tenniswelt?;French Open, Tournoi de Roland Garros, Roland-Garros-Turnier;Sport;Frage;300
+628;Der rote Punkt auf der japanischen Flagge stellt welchen Himmelskörper dar?;Sonne;Geographie;Frage;200
+629;In welchem Land finden 2024 drei Formel 1 Rennen statt?;USA;Sport;Frage;500
+630;Was ist auf dem Verbotsschild abgebildet, das ausdrücklich jedes Rauchen untersagt?;Zigarette, brennende Zigarette;Allgemeinwissen;Frage;100
+631;Wie heißt der größte Bundesstaat Brasiliens?;Amazonas;Geographie;Frage;500
+632;Welche südamerikanische Stadt feiert ihren berühmten Karneval mit Samba?;Rio de Janeiro;Kultur;Frage;200
+633;Wann fanden die ersten Olympischen Sommerspiele statt?;April 1896;Sport;Schätzfrage;500
+634;Welche Nation holte Gold im Beachvolleyball bei den Olympischen Spielen der Männer?;Norwegen;Sport;Frage;500
+635;Was regiert sprichwörtlich die Welt?;Geld;Wörter;Schnellfrage;100
+636;Von welcher Stadt startete Charles Lindbergh 1927 seinen historischen Atlantikflug?;New York City;Geschichte;Frage;500
+637;Welche Stärke hat man früher mit Drehspulinstrumenten gemessen?;Stromstärke;Naturwissenschaften;Frage;500
+638;Wie heißt Deutschlands erfolgreichster Handballclub?;THW Kiel, Turnverein Hassee-Winterbek e. V. von 1904;Sport;Frage;500
+639;Welche Rostbratwürstchen sind nach einem ostdeutschen Bundesland benannt?;Thüringer, Thüringer (Rost)Bratwurst;Kultur;Frage;300
+640;Welcher frühere Bayern-Trainer wurde 2021 erneut Trainer der niederländischen Fußball-Auswahl?;Louis van Gaal;Sport;Frage;500
+641;Wie heißt die größte hinduistische Tempelanlage Indonesiens?;Prambanan, Candi Prambanan;Kultur;Frage;400
+642;Die Flagge welches Nachbarlandes ist derjenigen Deutschlands farblich am ähnlichsten?;Belgien;Geographie;Frage;200
+643;Sind alle Vorräte verbraucht, dann sitzt man redensartlich auf dem ...?;Trockenen;Wörter;Frage;200
+644;Welcher griechische Gott ist der Vater der Titanen?;Uranos, Uranus;Mythologie;Frage;400
+645;An Niedersachsen grenzt das Königreich der ...?;Niederlande;Geographie;Frage;200
+646;Wie viele Spieler hat eine Fußballmannschaft üblicherweise auf dem Spielfeld?;11;Sport;Schnellfrage;100
+647;ie viele Punkte sind ein Touchdown im American Football wert?;6;Sport;Frage;200
+648;In welchem Land wurde das Spiel Badminton erfunden?;Indien;Sport;Frage;400
+649;Wer war der griechische Gott des Meeres?;Poseidon;Mythologie;Frage;100
+650;Wie heißt der mächtigste Gott in der griechischen Mythologie?;Zeus;Mythologie;Frage;100
+651;Wofür steht die Abkürzung HTML?;Hypertext Markup Language;Informatik;Frage;200
+652;Wofür steht die Abkürzung URL?;Uniform Resource Locator;Informatik;Frage;400
+653;Welche Dateiendung haben ausführbare Programme unter Windows typischerweise?;.exe;Informatik;Frage;100
+654;Welches ist das bekannteste Versionierungssystem für die Verwaltung von Quellcode?;Git;Informatik;Frage;200
+655;Wofür steht die Abkürzung VPN?;Virtual Private Network;Informatik;Frage;300
+656;Wofür steht die Abkürzung VPN?;Central Processing Unit;Informatik;Frage;100
+657;Welche Programmiersprache wird häufig für Webentwicklung auf der Client-Seite verwendet?;JavaScript;Informatik;Frage;200
+658;Wie nennt man es, wenn zwei oder mehr Prozesse im Wartestatus bleiben, weil jeder auf eine Ressource wartet, die von einem anderen gehalten wird?;Deadlock;Informatik;Frage;400
+659;Welche Programmiersprache wird häufig für wissenschaftliche Berechnungen und Datenanalyse verwendet?;Python;Informatik;Frage;200
+660;Welche Container-Technologie wird häufig verwendet, um Anwendungen in isolierten Umgebungen zu verpacken und bereitzustellen?;Docker, Kubernetes;Informatik;Frage;300
+661;Welche Zeitkomplexität hat die Binärsuche im schlechtesten Fall?;O(log n);Informatik;Frage;500
+662;Welcher Algorithmus ist grundlegend für die RSA-Verschlüsselung?;Primfaktorzerlegung;Informatik;Frage;400
+663;Welche IP-Adresse bezeichnet standardmäßig den eigenen Rechner?;127.0.0.1;Informatik;Frage;300
+664;Welches Modell beschreibt die Schichten einer Netzwerkverbindung?;OSI-Modell;Informatik;Frage;300
+665;Wie nennt man das Verfahren zum Verteilen von Arbeitslasten auf mehrere Server?;Load Balancing;Informatik;Frage;400
+666;Welcher Begriff beschreibt das gleichzeitige Ausführen mehrerer Threads?;Multithreading;Informatik;Frage;100

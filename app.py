@@ -102,7 +102,7 @@ def update_buzzer_id():
         return jsonify({"success": False, "message": "Team ID and Buzzer ID are required"})
 
     current_buzzer_id = dao.get_buzzer_id_for_team(team_id)
-    if int(current_buzzer_id) == int(buzzer_id):
+    if current_buzzer_id and int(current_buzzer_id) == int(buzzer_id):
         return jsonify({"success": True, "message": "Buzzer ID is already set to the given value"})
 
     if dao.is_buzzer_id_in_use(buzzer_id):
