@@ -323,6 +323,14 @@
             toggleTeamActivation(teamID, isChecked);
         });
 
+        $('#add-teams-form').on('submit', function(event) {
+            var teamName = $('#name').val().trim();
+            if (teamName === '') {
+                alert('Team Name cannot be empty.');
+                event.preventDefault();
+            }
+        });
+
         var teamSettingsVisible = false;
         var currentQuestionId;
 
@@ -449,14 +457,6 @@
                 $('.team-card:not(.active)').hide();
             }
         }
-
-        document.getElementById('add-teams-form').addEventListener('submit', function(event) {
-            var teamName = document.getElementById('name').value.trim();
-            if (teamName === '') {
-                alert('Team Name cannot be empty.');
-                event.preventDefault(); // Prevent the form from being submitted
-            }
-        });
     </script>
 </body>
 </html>
