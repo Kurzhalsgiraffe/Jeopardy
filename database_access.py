@@ -162,16 +162,6 @@ class Dao:
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
-    def is_buzzer_id_in_use(self, buzzer_id) -> bool:
-        try:
-            conn, cursor = self.get_db_connection()
-            result = cursor.execute('SELECT COUNT(*) FROM teams WHERE buzzer_id = ?', (buzzer_id,)).fetchone()
-            conn.close()
-            return result[0] > 0
-        except sqlite3.Error as err:
-            error_handler(err, traceback.format_exc())
-            return False
-
     def get_buzzer_id_for_team(self, team_id):
         try:
             conn, cursor = self.get_db_connection()

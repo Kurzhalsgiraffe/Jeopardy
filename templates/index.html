@@ -234,10 +234,10 @@
                                 <div class="team-card-settings">
                                     <div class="team-buzzer-id">
                                         <span>Buzzer ID</span>
-                                        <input type="number" class="mb-2 team-buzzer-id-input" id="buzzer-id-{{ team.team_id }}" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
+                                        <input type="number" class="mb-2 team-buzzer-id-input" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
                                     </div>
                                     <div class="team-active">
-                                        <input type="checkbox" id="active-{{ team.team_id }}" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ 'checked' if team.is_active }}>
+                                        <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ 'checked' if team.is_active }}>
                                         <span>Active</span>
                                     </div>
                                 </div>
@@ -423,16 +423,18 @@
         function updateBuzzerID(teamId, buzzerId) {
             $.post("/update_buzzer_id", { team_id: teamId, buzzer_id: buzzerId }, function(response) {
                 if (response.success) {
-                    $("#buzzer-id-" + teamId).css({
-                        "background-color": "",
-                        "border-color": ""
+                    response.teams.forEach(function(team) {
+                        var inputElement = $('.team-buzzer-id-input[data-team-id="' + team.team_id + '"]');
+                        if (inputElement.length) {
+                            inputElement.val(team.buzzer_id);
+                            inputElement.css('background-color', 'lime');
+                            setTimeout(function() {
+                                inputElement.css('background-color', '');
+                            }, 800);
+                        }
                     });
                 } else {
-                    alert(response.message);
-                    $("#buzzer-id-" + teamId).css({
-                        "background-color": "red",
-                        "border-color": "red"
-                    });
+                    alert(response.message)
                 }
             });
         }

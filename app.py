@@ -57,7 +57,8 @@ def select_question(question_id):
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
     buzzer.stop_buzzer_loop()
-    team_id = buzzer.get_last_pressed_buzzer_id()
+    buzzer_id = buzzer.get_last_pressed_buzzer_id()
+    team_id = dao.get_team_id_for_buzzer_id(buzzer_id)
     if team_id:
         question = dao.get_question_by_id(question_id)
         if request.form['is_answer_correct'] == "true":
@@ -98,18 +99,17 @@ def update_buzzer_id():
     team_id = request.form.get('team_id')
     buzzer_id = request.form.get('buzzer_id')
 
-    if not team_id or not buzzer_id:
-        return jsonify({"success": False, "message": "Team ID and Buzzer ID are required"})
-
-    current_buzzer_id = dao.get_buzzer_id_for_team(team_id)
-    if current_buzzer_id and int(current_buzzer_id) == int(buzzer_id):
-        return jsonify({"success": True, "message": "Buzzer ID is already set to the given value"})
-
-    if dao.is_buzzer_id_in_use(buzzer_id):
-        return jsonify({"success": False, "message": "Buzzer ID already in use"})
-
-    dao.update_buzzer_id(team_id, buzzer_id)
-    return jsonify({"success": True})
+    if not team_id:
+        return jsonify({"success": False, "message": "Team ID is required"})
+    if buzzer_id:
+        current_team_with_buzzer_id = dao.get_team_id_for_buzzer_id(buzzer_id)
+        if current_team_with_buzzer_id:
+            dao.update_buzzer_id(current_team_with_buzzer_id, None)
+        dao.update_buzzer_id(team_id, buzzer_id)
+    else:
+        dao.update_buzzer_id(team_id, None)
+    teams = dao.get_teams()
+    return jsonify({"success": True, "message": "Team ID successfully changed", "teams": [dict(row) for row in teams]})
 
 
 if __name__ == "__main__":
