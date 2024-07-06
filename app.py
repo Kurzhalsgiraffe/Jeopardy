@@ -76,6 +76,12 @@ def answer_question(question_id):
         pass
         return jsonify({"success": False, "message": "No Team pressed the Buzzzer", "teams":[]})
 
+@app.route('/get_last_buzzer_event', methods=['GET'])
+def get_last_buzzer_event():
+    buzzer_id = buzzer.get_last_pressed_buzzer_id()
+    team_id = dao.get_team_id_for_buzzer_id(buzzer_id)
+    team_name = dao.get_team_name_by_id(team_id)
+    return jsonify({"buzzer_id":buzzer_id, "team_id": team_id, "team_name": team_name})
 
 @app.route('/update_score', methods=['POST'])
 def update_score():

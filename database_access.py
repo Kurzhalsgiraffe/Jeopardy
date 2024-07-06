@@ -186,6 +186,18 @@ class Dao:
             error_handler(err, traceback.format_exc())
             return None
 
+    def get_team_name_by_id(self, team_id):
+        try:
+            conn, cursor = self.get_db_connection()
+            result = cursor.execute('SELECT name FROM teams WHERE team_id = ?', (team_id,)).fetchone()
+            conn.close()
+            if result:
+                return result[0]
+            return None
+        except sqlite3.Error as err:
+            error_handler(err, traceback.format_exc())
+            return None
+
     def update_score(self, team_id, new_score) -> None:
         try:
             conn, cursor = self.get_db_connection()

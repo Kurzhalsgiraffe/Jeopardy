@@ -306,6 +306,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        var teamSettingsVisible = false;
+        var currentQuestionId;
+        var buzzerPollInterval = null;
+        var isBuzzerPolling = false;
+
         $('.modal-footer').on('click', '.answer-button-container', function() {
             const isAnswerCorrect = $(this).attr('data-answer') === 'true';
             submitAnswer(isAnswerCorrect);
@@ -351,8 +356,32 @@
             }
         });
 
-        var teamSettingsVisible = false;
-        var currentQuestionId;
+        function start_buzzer_polling(stopConditionCallback) {
+            if (!isBuzzerPolling) {
+                isBuzzerPolling = true;
+                buzzerPollInterval = setInterval(function() {
+                    $.ajax({
+                        url: '/get_last_buzzer_event',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(response) {
+                            stopConditionCallback(response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error polling for buzzer event:', error);
+                            // Optionally handle error cases
+                        }
+                    });
+                }, 200); // Poll every 200 milliseconds (5 times per second)
+            }
+        }
+
+        function stop_buzzer_polling() {
+            if (isBuzzerPolling) {
+                clearInterval(buzzerPollInterval);
+                isBuzzerPolling = false;
+            }
+        }
 
         function selectQuestion(questionId) {
             currentQuestionId = questionId;
@@ -360,6 +389,18 @@
             // Check if the question card is already answered
             var card = $(`[data-question-id="${questionId}"]`);
             var alreadyAnswered = card.hasClass('answered');
+
+            start_buzzer_polling(function(response) {
+                var buzzer_id = response.buzzer_id;
+                var team_id = response.team_id;
+                var team_name = response.team_name;
+
+                if (buzzer_id !== null && team_id !== null) {
+                    console.log('Buzzer event received:', response);
+                    $('#questionModalAnsweringTeam').text("Selected Team " + team_name);
+                    stop_buzzer_polling();
+                }
+            })
 
             $.post("/select_question/" + questionId, {}, function(data) {
                 $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
@@ -404,6 +445,17 @@
                         $('#questionModal').modal('hide');
                     } else {
                         $('#questionModal').modal('show');
+                        start_buzzer_polling(function(response) {
+                            var buzzer_id = response.buzzer_id;
+                            var team_id = response.team_id;
+                            var team_name = response.team_name;
+
+                            if (buzzer_id !== null && team_id !== null) {
+                                console.log('Buzzer event received:', response);
+                                $('#questionModalAnsweringTeam').text("Selected Team " + team_name);
+                                stop_buzzer_polling();
+                            }
+                        })
                     }
                     updateTeamScores(response.teams);
                 } else {
@@ -479,8 +531,6 @@
                 $('.team-card:not(.active)').hide();
             }
         }
-
-        $('#questionModalAnsweringTeam').text("Selected Team");
     </script>
 </body>
 </html>
