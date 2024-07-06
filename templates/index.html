@@ -282,7 +282,7 @@
                     <h5 class="answering-team" id="questionModalAnsweringTeam"></h5>
                 </div>
                 <div class="modal-header-container">
-                    <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
             </div>
             <div class="modal-body">
@@ -321,7 +321,7 @@
             selectQuestion(questionID);
         });
 
-        $('#close-modal').on('click', function() {
+        $('#questionModal').on('hidden.bs.modal', function (e) {
             if (isBuzzerPolling) {
                 clearInterval(buzzerPollInterval);
                 isBuzzerPolling = false;
