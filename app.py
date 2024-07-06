@@ -30,6 +30,13 @@ def index():
     answered_question_ids = dao.get_answered_questions_of_session(session_id)
     return render_template('index.html', question_matrix=question_matrix, teams=teams, answered_question_ids=answered_question_ids)
 
+@app.route('/new_session', methods=['POST'])
+def new_session():
+    print("NEW")
+    global session_id
+    session_id = dao.get_next_session_id()
+    return redirect(url_for('index'))
+
 @app.route('/add_team', methods=['POST'])
 def add_team():
     team_name = request.form['name']
