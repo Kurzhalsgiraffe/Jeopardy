@@ -395,9 +395,11 @@
                 var team_id = response.team_id;
                 var team_name = response.team_name;
 
+                $('#questionModalAnsweringTeam').text("Selected Team:");
+
                 if (buzzer_id !== null && team_id !== null) {
                     console.log('Buzzer event received:', response);
-                    $('#questionModalAnsweringTeam').text("Selected Team " + team_name);
+                    $('#questionModalAnsweringTeam').text("Selected Team: " + team_name);
                     stop_buzzer_polling();
                 }
             })
@@ -449,10 +451,11 @@
                             var buzzer_id = response.buzzer_id;
                             var team_id = response.team_id;
                             var team_name = response.team_name;
+                            $('#questionModalAnsweringTeam').text("Selected Team:");
 
                             if (buzzer_id !== null && team_id !== null) {
                                 console.log('Buzzer event received:', response);
-                                $('#questionModalAnsweringTeam').text("Selected Team " + team_name);
+                                $('#questionModalAnsweringTeam').text("Selected Team: " + team_name);
                                 stop_buzzer_polling();
                             }
                         })
