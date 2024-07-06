@@ -125,6 +125,19 @@
             text-align: center; /* Center the text horizontally */
             height: 100%; /* Ensure the modal body takes up the full height */
         }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-header-container {
+            width: 30%;
+            display: flex;
+        }
+        .answering-team {
+            margin: 0;
+        }
+
         .modal-footer {
             display: flex;
             justify-content: space-between; /* Distribute space between buttons */
@@ -258,12 +271,19 @@
     </div>
 
     <!-- Question Modal -->
-<div class="modal fade" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
+<div class="modal fade" id="questionModal" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document"> <!-- Change modal-dialog class to modal-xl for extra-large modal -->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="questionModalLabel"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-header-container">
+                    <h5 class="modal-title" id="questionModalLabel"></h5>
+                </div>
+                <div class="answering-team-container">
+                    <h5 class="answering-team" id="questionModalAnsweringTeam"></h5>
+                </div>
+                <div class="modal-header-container">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
             </div>
             <div class="modal-body">
                 <h2 id="questionText"></h2>
@@ -459,6 +479,8 @@
                 $('.team-card:not(.active)').hide();
             }
         }
+
+        $('#questionModalAnsweringTeam').text("Selected Team");
     </script>
 </body>
 </html>
