@@ -384,7 +384,7 @@
                 $('#questionModalAnsweringTeam').text("");
 
                 if (buzzer_id !== null && team_id !== null) {
-                    $('#questionModalAnsweringTeam').text(team_name + "(Buzzer" + buzzer_id + ")");
+                    $('#questionModalAnsweringTeam').text(team_name + " (Buzzer " + buzzer_id + ")");
                     if (isBuzzerPolling) {
                         clearInterval(buzzerPollInterval);
                         isBuzzerPolling = false;
