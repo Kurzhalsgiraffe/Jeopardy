@@ -181,6 +181,9 @@
             justify-content: center;
             background-color: darkslategrey;
         }
+        .session-controls {
+            width: 175px;
+        }
         /* Hide up-down arrows for input*/
         /* Chrome, Safari, Edge, Opera */
         .team-buzzer-id-input::-webkit-outer-spin-button,
@@ -262,22 +265,28 @@
                                 <label for="name">Team Name</label>
                                 <input type="text" class="form-control" id="name" name="name" maxlength="15">
                             </div>
-                            <button type="submit" class="btn btn-primary">Add Team</button>
+                            <button type="submit" class="btn btn-primary">Team hinzufügen</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <div class="my-3">
-            <form action="{{ url_for('new_session') }}" method="post">
-                <button type="submit" class="btn btn-primary">New Session</button>
+            <div class="mt-2">
+                <span class="session-controls">Runde Nummer: <span id="round-number">{{ round_number }}</span></span>
+            </div>
+            <form action="{{ url_for('next_round') }}" method="post" class="mt-2">
+                <button type="submit" class="btn btn-primary session-controls">Nächste Runde</button>
+            </form>
+            <form action="{{ url_for('new_session') }}" method="post" class="mt-2">
+                <button type="submit" class="btn btn-primary session-controls">Neue Session</button>
             </form>
         </div>
     </div>
 
     <!-- Question Modal -->
 <div class="modal fade" id="questionModal" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document"> <!-- Change modal-dialog class to modal-xl for extra-large modal -->
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-header-container">

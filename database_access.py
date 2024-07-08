@@ -68,11 +68,12 @@ class Dao:
 
             sql = """CREATE TABLE IF NOT EXISTS sessions (
                 session_id INTEGER,
+                round_number INTEGER,
                 question_id INTEGER,
                 team_id INTEGER,
                 points INTEGER,
                 attempt_time DATETIME DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now')),
-                PRIMARY KEY (session_id, question_id, team_id, attempt_time),
+                PRIMARY KEY (session_id, round_number, question_id, team_id, attempt_time),
                 FOREIGN KEY(question_id) REFERENCES questions(question_id),
                 FOREIGN KEY(team_id) REFERENCES teams(team_id)
                 )"""
@@ -105,6 +106,20 @@ class Dao:
             return question
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
+
+    def get_multiple_questions_by_ids(self, question_ids):
+        try:
+            conn, cursor = self.get_db_connection()
+
+            # Create a placeholder for each question ID
+            placeholders = ','.join('?' for _ in question_ids)
+            query = f'SELECT * FROM questions WHERE question_id IN ({placeholders}) ORDER BY points ASC'
+
+            questions = cursor.execute(query, question_ids).fetchall()
+            conn.close()
+            return questions
+        except sqlite3.Error as err:
+            error_handler(err, traceback.format_exc())
 
     def get_teams(self) -> list:
         try:
@@ -207,19 +222,19 @@ class Dao:
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
-    def add_answer_to_session(self, session_id, question_id, team_id, points) -> None:
+    def add_answer_to_session(self, session_id, round_number, question_id, team_id, points) -> None:
         try:
             conn, cursor = self.get_db_connection()
-            cursor.execute('INSERT INTO sessions (session_id, question_id, team_id, points) VALUES (?, ?, ?, ?)', (session_id, question_id, team_id, points))
+            cursor.execute('INSERT INTO sessions (session_id, round_number, question_id, team_id, points) VALUES (?, ?, ?, ?, ?)', (session_id, round_number, question_id, team_id, points))
             conn.commit()
             conn.close()
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
-    def get_answered_questions_of_session(self, session_id) -> list:
+    def get_answered_questions_of_round(self, session_id, round_number) -> list:
         try:
             conn, cursor = self.get_db_connection()
-            result = cursor.execute('SELECT question_id FROM sessions WHERE session_id = ? AND points > 0', (session_id,)).fetchall()
+            result = cursor.execute('SELECT question_id FROM sessions WHERE session_id = ? AND round_number = ? AND points > 0', (session_id, round_number)).fetchall()
             conn.close()
             return [r["question_id"] for r in result]
         except sqlite3.Error as err:
