@@ -50,6 +50,7 @@ def select_question(question_id):
     buzzer.start_buzzer_loop()
     question = dao.get_question_by_id(question_id)
     return jsonify({
+        'question_id': question['question_id'],
         'question': question['question'],
         'answer': question['answer'],
         'category': question['category'],

@@ -82,6 +82,11 @@
             justify-content: space-between;
             align-items: center;
         }
+        .team-card-settings-footer {
+            display: flex;
+            justify-content: space-between;
+            margin: 0px 15px 10px 15px;
+        }
         .team-buzzer-id-input {
             border-radius: 5px;
         }
@@ -120,6 +125,7 @@
         }
         .modal-body {
             display: flex;
+            position: relative;
             justify-content: center; /* Horizontally center the content */
             align-items: center; /* Vertically center the content */
             text-align: center; /* Center the text horizontally */
@@ -137,7 +143,6 @@
         .answering-team {
             margin: 0;
         }
-
         .modal-footer {
             display: flex;
             justify-content: space-between; /* Distribute space between buttons */
@@ -196,6 +201,12 @@
             -moz-appearance: textfield;
             appearance: textfield;
         }
+        .modal-question-id {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px; /* Adjust padding if needed */
+        }
     </style>
 </head>
 <body>
@@ -252,9 +263,14 @@
                                         <span>Buzzer ID</span>
                                         <input type="number" class="mb-2 team-buzzer-id-input" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
                                     </div>
-                                    <div class="team-active">
-                                        <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ 'checked' if team.is_active }}>
-                                        <span>Active</span>
+                                    <div class="team-card-settings-footer">
+                                        <div class="team-active">
+                                            <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ 'checked' if team.is_active }}>
+                                            <span>Active</span>
+                                        </div>
+                                        <div>
+                                            <span id="team-id-span">ID: {{ team.team_id }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -300,7 +316,12 @@
                 </div>
             </div>
             <div class="modal-body">
-                <h2 id="questionText"></h2>
+                <div class="modal-question-id">
+                    <span id="modal-question-id-span"></span>
+                </div>
+                <div>
+                    <h2 id="questionText"></h2>
+                </div>
             </div>
             <div class="modal-footer">
                 <div class="answer-button-container" data-answer="true">
@@ -421,24 +442,32 @@
             var card = $(`[data-question-id="${questionId}"]`);
             var alreadyAnswered = card.hasClass('answered');
 
-            start_buzzer_polling();
+            $('#questionModal').modal('show');
 
-            $.post("/select_question/" + questionId, {}, function(data) {
-                $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
-                $('#questionText').text(data.question);
-                $('#answerText').text(data.answer);
+            if (!alreadyAnswered) {
+                $.post("/select_question/" + questionId, {}, function(data) {
+                    $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
+                    $('#modal-question-id-span').text(data.question_id)
+                    $('#questionText').text(data.question);
+                    $('#answerText').text(data.answer);
 
-                // Show modal without buttons if already answered
-                if (alreadyAnswered) {
-                    $('.answer-text-container').removeClass('blur-text')
-                    $('.answer-button').hide();
-                } else {
-                    $('.answer-text-container').addClass('blur-text')
-                    $('.answer-button').show();
-                }
+                    // Show modal without buttons if already answered
+                    if (alreadyAnswered) {
+                        $('.answer-text-container').removeClass('blur-text')
+                        $('.answer-button').hide();
+                    } else {
+                        $('.answer-text-container').addClass('blur-text')
+                        $('.answer-button').show();
+                    }
+                });
+                $('.answer-text-container').addClass('blur-text')
+                $('.answer-button').show();
+                start_buzzer_polling();
+            } else {
+                $('.answer-text-container').removeClass('blur-text')
+                $('.answer-button').hide();
 
-                $('#questionModal').modal('show');
-            });
+            }
         }
 
         function updateScore(teamId, action) {
