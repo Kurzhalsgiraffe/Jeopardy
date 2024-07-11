@@ -16,7 +16,7 @@ rounds_json_filepath = "rounds.json"
 def index():
     teams = dao.get_teams()
     answered_questions = dao.get_answered_questions_of_round(session_id, round_number)
-    answered_question_ids = [question_id for question_id, team_id in answered_questions]
+    answered_question_ids = [question_id for question_id, _ in answered_questions]
     question_matrix = get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
     return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number)
 
@@ -36,7 +36,7 @@ def next_round():
 
 @app.route('/add_team', methods=['POST'])
 def add_team():
-    team_name = request.form['name']
+    team_name = request.form['team-name-input']
     dao.add_team(team_name)
     return redirect(url_for('index'))
 

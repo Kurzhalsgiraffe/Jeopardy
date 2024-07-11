@@ -6,7 +6,7 @@
     <title>Jeopardy Game</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for("static", filename="favicon.ico") }}">
     <style>
         body {
             color: white;
@@ -163,7 +163,7 @@
             transform: scale(0.55); /* Slightly scale down the button */
         }
         .blur-text {
-            filter: blur(5px); /* Initial blur effect */
+            filter: blur(10px); /* Initial blur effect */
             transition: filter 0.5s ease; /* Smooth transition */
             cursor: pointer; /* Change cursor to pointer when hovered */
         }
@@ -238,7 +238,7 @@
                     <div class="row team-cards-container">
                         {% for team in teams %}
                         <div>
-                            <div class="card team-card {{ 'active' if team.is_active }}" data-team-id="{{ team.team_id }}">
+                            <div class="card team-card {{ "active" if team.is_active }}" data-team-id="{{ team.team_id }}">
                                 <button class="btn btn-sm btn-danger remove-team-btn"><span aria-hidden="true">&times;</span></button>
                                 <div class="card-body team-card-body">
                                     <div class="mx-3">
@@ -260,7 +260,7 @@
                                     </div>
                                     <div class="team-card-settings-footer">
                                         <div class="team-active">
-                                            <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ 'checked' if team.is_active }}>
+                                            <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ "checked" if team.is_active }}>
                                             <span>Active</span>
                                         </div>
                                         <div>
@@ -271,10 +271,10 @@
                             </div>
                         </div>
                         {% endfor %}
-                        <form id="add-teams-form" action="{{ url_for('add_team') }}" method="post" class="mt-4">
+                        <form id="add-team-form" action="{{ url_for("add_team") }}" method="post" class="mt-4">
                             <div class="form-group">
-                                <label for="name">Team Name</label>
-                                <input type="text" class="form-control" id="name" name="name" maxlength="15">
+                                <label for="team-name-input">Team Name</label>
+                                <input type="text" class="form-control mt-2" id="team-name-input" name="team-name-input" maxlength="15">
                             </div>
                             <button type="submit" class="btn btn-primary">Team hinzufügen</button>
                         </form>
@@ -286,25 +286,25 @@
             <div class="mt-2">
                 <span class="session-controls">Runde Nummer: <span id="round-number">{{ round_number }}</span></span>
             </div>
-            <form action="{{ url_for('next_round') }}" method="post" class="mt-2">
+            <form action="{{ url_for("next_round") }}" method="post" class="mt-2">
                 <button type="submit" class="btn btn-primary session-controls">Nächste Runde</button>
             </form>
-            <form action="{{ url_for('new_session') }}" method="post" class="mt-2">
+            <form action="{{ url_for("new_session") }}" method="post" class="mt-2">
                 <button type="submit" class="btn btn-primary session-controls">Neue Session</button>
             </form>
         </div>
     </div>
 
     <!-- Question Modal -->
-<div class="modal fade" id="questionModal" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal fade" id="question-modal" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-header-container">
-                    <h5 class="modal-title" id="questionModalLabel"></h5>
+                    <h5 class="modal-title" id="question-modal-label"></h5>
                 </div>
                 <div class="answering-team-container">
-                    <h5 class="answering-team" id="questionModalAnsweringTeam"></h5>
+                    <h5 class="answering-team" id="question-modal-answering-team"></h5>
                 </div>
                 <div class="modal-header-container">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -315,7 +315,7 @@
                     <span id="modal-question-id-span"></span>
                 </div>
                 <div>
-                    <h2 id="questionText"></h2>
+                    <h2 id="question-text"></h2>
                 </div>
             </div>
             <div class="modal-footer">
@@ -323,7 +323,7 @@
                     <button type="button" class="btn btn-secondary answer-button">Richtig</button>
                 </div>
                 <div class="answer-text-container">
-                    <span id="answerText"></span>
+                    <span id="answer-text"></span>
                 </div>
                 <div class="answer-button-container" data-answer="false">
                     <button type="button" class="btn btn-secondary answer-button">Falsch</button>
@@ -340,81 +340,86 @@
         var currentQuestionId;
         var buzzerPollInterval = null;
         var isBuzzerPolling = false;
+        const question_modal = $("#question-modal")
+        const add_team_form = $("#add-team-form")
+        const team_cards = $(".team-card");
 
-        $('.modal-footer').on('click', '.answer-button-container', function() {
-            const isAnswerCorrect = $(this).attr('data-answer') === 'true';
-            submitAnswer(isAnswerCorrect);
-        });
-
-        $('.question-card').on('click', function() {
-            const questionID = $(this).attr('data-question-id');
-            selectQuestion(questionID);
-        });
-
-        $('#questionModal').on('hidden.bs.modal', function (e) {
+        question_modal.on("hidden.bs.modal", function (e) {
             if (isBuzzerPolling) {
                 clearInterval(buzzerPollInterval);
                 isBuzzerPolling = false;
             }
         });
 
-        $('#toggle-team-settings-btn').on('click', function() {
+        add_team_form.on("submit", function(event) {
+            var teamName = $("#team-name-input").val().trim();
+            if (teamName === "") {
+                alert("Team Name cannot be empty.");
+                event.preventDefault();
+            }
+        });
+
+        $(".modal-footer").on("click", ".answer-button-container", function() {
+            const isAnswerCorrect = $(this).attr("data-answer") === "true";
+            submitAnswer(isAnswerCorrect);
+        });
+
+        $(document).on('click', '.question-card', function() {
+            const questionID = $(this).attr("data-question-id");
+            selectQuestion(questionID);
+        });
+
+        $(document).on('click', '#toggle-team-settings-btn', function() {
+            console.log("TEST")
             toggleTeamSettings();
         });
 
-        $('.remove-team-btn').on('click', function() {
-            const teamID = $(this).closest('.team-card').data('team-id');
+        $(document).on('click', '.remove-team-btn', function() {
+            const teamID = $(this).closest(".team-card").data("team-id");
             removeTeam(teamID)
         });
 
-        $('.team-control-btn').on('click', function() {
+        $(document).on('click', '.team-control-btn', function() {
             const teamID = $(this).data('team-id');
             const action = $(this).data('action');
             updateScore(teamID, action);
         });
 
-        $('.team-buzzer-id-input').on('change', function() {
-            const teamID = $(this).data('team-id');
+        $(document).on('change', '.team-buzzer-id-input', function() {
+            const teamID = $(this).data("team-id");
             const newValue = $(this).val();
             updateBuzzerID(teamID, newValue);
         });
 
-        $('.team-active-checkbox').on('change', function() {
-            const teamID = $(this).data('team-id');
-            const isChecked = $(this).is(':checked');
+        $(document).on('change', '.team-active-checkbox', function() {
+            const teamID = $(this).data("team-id");
+            const isChecked = $(this).is(":checked");
             toggleTeamActivation(teamID, isChecked);
         });
 
-        $('#add-teams-form').on('submit', function(event) {
-            var teamName = $('#name').val().trim();
-            if (teamName === '') {
-                alert('Team Name cannot be empty.');
-                event.preventDefault();
-            }
-        });
-
         function start_buzzer_polling() {
+            const question_modal_answering_team = $("#question-modal-answering-team")
             if (!isBuzzerPolling) {
                 isBuzzerPolling = true;
                 buzzerPollInterval = setInterval(function() {
                     $.ajax({
-                        url: '/get_last_buzzer_event',
-                        type: 'GET',
-                        dataType: 'json',
+                        url: "/get_last_buzzer_event",
+                        type: "GET",
+                        dataType: "json",
                         success: function(response) {
-                            $('#questionModalAnsweringTeam').text("");
+                            question_modal_answering_team.text("");
                             if (response.buzzer_id !== null && response.team_id !== null) {
-                                $('#questionModalAnsweringTeam').text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
+                                question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
                                 if (isBuzzerPolling) {
                                     clearInterval(buzzerPollInterval);
                                     isBuzzerPolling = false;
                                 }
-                                var audio = new Audio('static/fart.mp3');
+                                var audio = new Audio("static/fart.mp3");
                                 audio.play();
                             }
                         },
                         error: function(xhr, status, error) {
-                            console.error('Error polling for buzzer event:', error);
+                            console.error("Error polling for buzzer event:", error);
                         }
                     });
                 }, 200);
@@ -423,33 +428,32 @@
 
         function selectQuestion(questionId) {
             currentQuestionId = questionId;
-            var card = $(`[data-question-id="${questionId}"]`);
-            var alreadyAnswered = card.hasClass('answered');
-
-            $('#questionModal').modal('show');
+            const answer_button = $(".answer-button")
+            const answer_text_container = $(".answer-text-container")
+            question_modal.modal("show");
 
             $.post("/select_question/" + questionId, {}, function(data) {
-                $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
-                $('#modal-question-id-span').text(data.question_id)
-                $('#questionText').text(data.question);
-                $('#answerText').text(data.answer);
+                $("#question-modal-label").text(data.category + " - " + data.points + " (" + data.type + ")")
+                $("#modal-question-id-span").text(data.question_id)
+                $("#question-text").text(data.question);
+                $("#answer-text").text(data.answer);
 
                 if (data.answered_questions.some(obj => obj.hasOwnProperty(data.question_id))) {
-                    $('.answer-text-container').removeClass('blur-text');
-                    $('.answer-button').hide();
+                    answer_text_container.removeClass("blur-text");
+                    answer_button.hide();
 
                     const answeredQuestion = data.answered_questions.find(obj => obj.hasOwnProperty(data.question_id));
-                    $('#questionModalAnsweringTeam').text( answeredQuestion[data.question_id][0] + " (Buzzer " + answeredQuestion[data.question_id][1] + ")");
+                    $("#question-modal-answering-team").text( answeredQuestion[data.question_id][0] + " (Buzzer " + answeredQuestion[data.question_id][1] + ")");
                 } else {
-                    $('.answer-text-container').addClass('blur-text');
-                    $('.answer-button').show();
+                    answer_text_container.addClass("blur-text");
+                    answer_button.show();
                     start_buzzer_polling();
                 }
             });
         }
 
         function updateScore(teamId, action) {
-            var pointsInput = document.getElementById('points-' + teamId);
+            var pointsInput = document.getElementById("points-" + teamId);
             var points = parseInt(pointsInput.value);
 
             if (isNaN(points) || points <= 0) {
@@ -457,7 +461,7 @@
                 return;
             }
 
-            var score_delta = action === 'add' ? + points : - points;
+            var score_delta = action === "add" ? + points : - points;
             $.post("/update_score", { team_id: teamId, score_delta: score_delta }, function(response) {
                 updateTeamScores(response);
             });
@@ -468,11 +472,11 @@
                 if (response.success) {
                     if (is_answer_correct) {
                         var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);
-                        card.classList.add('answered');
-                        card.style.opacity = '0.5';
-                        $('#questionModal').modal('hide');
+                        card.classList.add("answered");
+                        card.style.opacity = "0.5";
+                        question_modal.modal("hide");
                     } else {
-                        $('#questionModal').modal('show');
+                        question_modal.modal("show");
                         start_buzzer_polling();
                     }
                     updateTeamScores(response.teams);
@@ -501,11 +505,11 @@
 
         function toggleTeamActivation(teamId, isChecked) {
             $.post("/toggle_team_activation", { team_id: teamId, active: isChecked }, function(response) {
-                var teamCard = $('.team-card[data-team-id="' + teamId + '"]');
+                var teamCard = $(`.team-card[data-team-id="${teamId}"]`);
                 if (isChecked) {
-                    teamCard.addClass('active');
+                    teamCard.addClass("active");
                 } else {
-                    teamCard.removeClass('active');
+                    teamCard.removeClass("active");
                 }
             });
         }
@@ -514,12 +518,12 @@
             $.post("/update_buzzer_id", { team_id: teamId, buzzer_id: buzzerId }, function(response) {
                 if (response.success) {
                     response.teams.forEach(function(team) {
-                        var inputElement = $('.team-buzzer-id-input[data-team-id="' + team.team_id + '"]');
+                        var inputElement = $(`.team-buzzer-id-input[data-team-id="${team.team_id}"]`);
                         if (inputElement.length) {
                             inputElement.val(team.buzzer_id);
-                            inputElement.css('background-color', 'lime');
+                            inputElement.css("background-color", "lime");
                             setTimeout(function() {
-                                inputElement.css('background-color', '');
+                                inputElement.css("background-color", "");
                             }, 800);
                         }
                     });
@@ -530,35 +534,31 @@
         }
 
         function toggleTeamSettings() {
-            var addTeamsForm = $('#add-teams-form');
-            var teamCards = $('.team-card');
-            var teamCardSettings = $(teamCards).find('.team-card-settings');
-            var removeTeamButtons = $(teamCards).find('.remove-team-btn');
+            var teamCardSettings = $(team_cards).find(".team-card-settings");
+            var removeTeamButtons = $(team_cards).find(".remove-team-btn");
 
             if (!teamSettingsVisible) {
                 teamSettingsVisible = true;
-                addTeamsForm.show();
+                add_team_form.show();
                 removeTeamButtons.show();
                 teamCardSettings.show();
-                teamCards.show();
+                team_cards.show();
             } else {
                 teamSettingsVisible = false;
-                addTeamsForm.hide();
+                add_team_form.hide();
                 removeTeamButtons.hide();
                 teamCardSettings.hide();
-                $('.team-card:not(.active)').hide();
+                $(".team-card:not(.active)").hide();
             }
         }
 
         $(document).ready(function() {
-            var addTeamsForm = $('#add-teams-form');
-            var teamCards = $('.team-card');
-            var teamCardSettings = $(teamCards).find('.team-card-settings');
-            var removeTeamButtons = $(teamCards).find('.remove-team-btn');
-            addTeamsForm.hide();
+            var teamCardSettings = $(team_cards).find(".team-card-settings");
+            var removeTeamButtons = $(team_cards).find(".remove-team-btn");
+            add_team_form.hide();
             removeTeamButtons.hide();
             teamCardSettings.hide();
-            $('.team-card:not(.active)').hide();
+            $(".team-card:not(.active)").hide();
         });
     </script>
 </body>
