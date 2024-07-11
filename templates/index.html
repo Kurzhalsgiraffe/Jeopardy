@@ -336,72 +336,71 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        var teamSettingsVisible = false;
-        var currentQuestionId;
-        var buzzerPollInterval = null;
-        var isBuzzerPolling = false;
+        var team_settings_visible = false;
+        var current_question_id;
+        var buzzer_poll_interval = null;
+        var is_buzzer_polling = false;
         const question_modal = $("#question-modal")
         const add_team_form = $("#add-team-form")
         const team_cards = $(".team-card");
 
         question_modal.on("hidden.bs.modal", function (e) {
-            if (isBuzzerPolling) {
-                clearInterval(buzzerPollInterval);
-                isBuzzerPolling = false;
+            if (is_buzzer_polling) {
+                clearInterval(buzzer_poll_interval);
+                is_buzzer_polling = false;
             }
         });
 
         add_team_form.on("submit", function(event) {
-            var teamName = $("#team-name-input").val().trim();
-            if (teamName === "") {
-                alert("Team Name cannot be empty.");
+            var team_name = $("#team-name-input").val().trim();
+            if (team_name === "") {
+                alert("Team Name cannot be empty");
                 event.preventDefault();
             }
         });
 
         $(".modal-footer").on("click", ".answer-button-container", function() {
-            const isAnswerCorrect = $(this).attr("data-answer") === "true";
-            submitAnswer(isAnswerCorrect);
+            const is_answer_correct = $(this).attr("data-answer") === "true";
+            submitAnswer(is_answer_correct);
         });
 
         $(document).on('click', '.question-card', function() {
-            const questionID = $(this).attr("data-question-id");
-            selectQuestion(questionID);
+            const question_id = $(this).attr("data-question-id");
+            selectQuestion(question_id);
         });
 
         $(document).on('click', '#toggle-team-settings-btn', function() {
-            console.log("TEST")
             toggleTeamSettings();
         });
 
         $(document).on('click', '.remove-team-btn', function() {
-            const teamID = $(this).closest(".team-card").data("team-id");
-            removeTeam(teamID)
+            const team_id = $(this).closest(".team-card").data("team-id");
+            removeTeam(team_id)
         });
 
         $(document).on('click', '.team-control-btn', function() {
-            const teamID = $(this).data('team-id');
+            const team_id = $(this).data('team-id');
             const action = $(this).data('action');
-            updateScore(teamID, action);
+            updateScore(team_id, action);
         });
 
         $(document).on('change', '.team-buzzer-id-input', function() {
-            const teamID = $(this).data("team-id");
-            const newValue = $(this).val();
-            updateBuzzerID(teamID, newValue);
+            const team_id = $(this).data("team-id");
+            const buzzer_id = $(this).val();
+            updateBuzzerID(team_id, buzzer_id);
         });
 
         $(document).on('change', '.team-active-checkbox', function() {
-            const teamID = $(this).data("team-id");
-            const isChecked = $(this).is(":checked");
-            toggleTeamActivation(teamID, isChecked);
+            const team_id = $(this).data("team-id");
+            const is_checked = $(this).is(":checked");
+            toggleTeamActivation(team_id, is_checked);
         });
 
-        function start_buzzer_polling() {
+        function startBuzzerPolling() {
             const question_modal_answering_team = $("#question-modal-answering-team")
-            if (!isBuzzerPolling) {
-                isBuzzerPolling = true;
-                buzzerPollInterval = setInterval(function() {
+            if (!is_buzzer_polling) {
+                is_buzzer_polling = true;
+                buzzer_poll_interval = setInterval(function() {
                     $.ajax({
                         url: "/get_last_buzzer_event",
                         type: "GET",
@@ -410,9 +409,9 @@
                             question_modal_answering_team.text("");
                             if (response.buzzer_id !== null && response.team_id !== null) {
                                 question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
-                                if (isBuzzerPolling) {
-                                    clearInterval(buzzerPollInterval);
-                                    isBuzzerPolling = false;
+                                if (is_buzzer_polling) {
+                                    clearInterval(buzzer_poll_interval);
+                                    is_buzzer_polling = false;
                                 }
                                 var audio = new Audio("static/fart.mp3");
                                 audio.play();
@@ -426,13 +425,13 @@
             }
         }
 
-        function selectQuestion(questionId) {
-            currentQuestionId = questionId;
+        function selectQuestion(question_id) {
+            current_question_id = question_id;
             const answer_button = $(".answer-button")
             const answer_text_container = $(".answer-text-container")
             question_modal.modal("show");
 
-            $.post("/select_question/" + questionId, {}, function(data) {
+            $.post("/select_question/" + question_id, {}, function(data) {
                 $("#question-modal-label").text(data.category + " - " + data.points + " (" + data.type + ")")
                 $("#modal-question-id-span").text(data.question_id)
                 $("#question-text").text(data.question);
@@ -442,19 +441,19 @@
                     answer_text_container.removeClass("blur-text");
                     answer_button.hide();
 
-                    const answeredQuestion = data.answered_questions.find(obj => obj.hasOwnProperty(data.question_id));
-                    $("#question-modal-answering-team").text( answeredQuestion[data.question_id][0] + " (Buzzer " + answeredQuestion[data.question_id][1] + ")");
+                    const answered_question = data.answered_questions.find(obj => obj.hasOwnProperty(data.question_id));
+                    $("#question-modal-answering-team").text( answered_question[data.question_id][0] + " (Buzzer " + answered_question[data.question_id][1] + ")");
                 } else {
                     answer_text_container.addClass("blur-text");
                     answer_button.show();
-                    start_buzzer_polling();
+                    startBuzzerPolling();
                 }
             });
         }
 
-        function updateScore(teamId, action) {
-            var pointsInput = document.getElementById("points-" + teamId);
-            var points = parseInt(pointsInput.value);
+        function updateScore(team_id, action) {
+            var points_input = document.getElementById("points-" + team_id);
+            var points = parseInt(points_input.value);
 
             if (isNaN(points) || points <= 0) {
                 alert("Please enter a valid number of points.");
@@ -462,22 +461,22 @@
             }
 
             var score_delta = action === "add" ? + points : - points;
-            $.post("/update_score", { team_id: teamId, score_delta: score_delta }, function(response) {
+            $.post("/update_score", { team_id: team_id, score_delta: score_delta }, function(response) {
                 updateTeamScores(response);
             });
         }
 
         function submitAnswer(is_answer_correct) {
-            $.post("/answer_question/" + currentQuestionId, { is_answer_correct: is_answer_correct }, function(response) {
+            $.post("/answer_question/" + current_question_id, { is_answer_correct: is_answer_correct }, function(response) {
                 if (response.success) {
                     if (is_answer_correct) {
-                        var card = document.querySelector(`[data-question-id="${currentQuestionId}"]`);
+                        var card = document.querySelector(`[data-question-id="${current_question_id}"]`);
                         card.classList.add("answered");
                         card.style.opacity = "0.5";
                         question_modal.modal("hide");
                     } else {
                         question_modal.modal("show");
-                        start_buzzer_polling();
+                        startBuzzerPolling();
                     }
                     updateTeamScores(response.teams);
                 } else {
@@ -488,25 +487,25 @@
 
         function updateTeamScores(teams) {
             teams.forEach(team => {
-                var teamElement = $(`[data-team-id="${team.team_id}"] .card-text`);
-                if (teamElement.length > 0) {
-                    teamElement.text(team.score);
+                const team_element = $(`[data-team-id="${team.team_id}"] .card-text`);
+                if (team_element.length > 0) {
+                    team_element.text(team.score);
                 }
             });
         }
 
-        function removeTeam(teamId) {
+        function removeTeam(team_id) {
             if (confirm("Are you sure you want to remove this team?")) {
-                $.post("/remove_team", { team_id: teamId }, function() {
+                $.post("/remove_team", { team_id: team_id }, function() {
                     location.reload();
                 });
             }
         }
 
-        function toggleTeamActivation(teamId, isChecked) {
-            $.post("/toggle_team_activation", { team_id: teamId, active: isChecked }, function(response) {
-                var teamCard = $(`.team-card[data-team-id="${teamId}"]`);
-                if (isChecked) {
+        function toggleTeamActivation(team_id, is_checked) {
+            $.post("/toggle_team_activation", { team_id: team_id, active: is_checked }, function(response) {
+                var teamCard = $(`.team-card[data-team-id="${team_id}"]`);
+                if (is_checked) {
                     teamCard.addClass("active");
                 } else {
                     teamCard.removeClass("active");
@@ -514,16 +513,16 @@
             });
         }
 
-        function updateBuzzerID(teamId, buzzerId) {
-            $.post("/update_buzzer_id", { team_id: teamId, buzzer_id: buzzerId }, function(response) {
+        function updateBuzzerID(team_id, buzzer_id) {
+            $.post("/update_buzzer_id", { team_id: team_id, buzzer_id: buzzer_id }, function(response) {
                 if (response.success) {
                     response.teams.forEach(function(team) {
-                        var inputElement = $(`.team-buzzer-id-input[data-team-id="${team.team_id}"]`);
-                        if (inputElement.length) {
-                            inputElement.val(team.buzzer_id);
-                            inputElement.css("background-color", "lime");
+                        var input_element = $(`.team-buzzer-id-input[data-team-id="${team.team_id}"]`);
+                        if (input_element.length) {
+                            input_element.val(team.buzzer_id);
+                            input_element.css("background-color", "lime");
                             setTimeout(function() {
-                                inputElement.css("background-color", "");
+                                input_element.css("background-color", "");
                             }, 800);
                         }
                     });
@@ -534,30 +533,30 @@
         }
 
         function toggleTeamSettings() {
-            var teamCardSettings = $(team_cards).find(".team-card-settings");
-            var removeTeamButtons = $(team_cards).find(".remove-team-btn");
+            const team_card_settings = $(team_cards).find(".team-card-settings");
+            const remove_team_buttons = $(team_cards).find(".remove-team-btn");
 
-            if (!teamSettingsVisible) {
-                teamSettingsVisible = true;
+            if (!team_settings_visible) {
+                team_settings_visible = true;
                 add_team_form.show();
-                removeTeamButtons.show();
-                teamCardSettings.show();
+                remove_team_buttons.show();
+                team_card_settings.show();
                 team_cards.show();
             } else {
-                teamSettingsVisible = false;
+                team_settings_visible = false;
                 add_team_form.hide();
-                removeTeamButtons.hide();
-                teamCardSettings.hide();
+                remove_team_buttons.hide();
+                team_card_settings.hide();
                 $(".team-card:not(.active)").hide();
             }
         }
 
         $(document).ready(function() {
-            var teamCardSettings = $(team_cards).find(".team-card-settings");
-            var removeTeamButtons = $(team_cards).find(".remove-team-btn");
+            const team_card_settings = $(team_cards).find(".team-card-settings");
+            const remove_team_buttons = $(team_cards).find(".remove-team-btn");
             add_team_form.hide();
-            removeTeamButtons.hide();
-            teamCardSettings.hide();
+            remove_team_buttons.hide();
+            team_card_settings.hide();
             $(".team-card:not(.active)").hide();
         });
     </script>
