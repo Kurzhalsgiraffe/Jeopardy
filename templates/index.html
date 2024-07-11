@@ -433,22 +433,24 @@
 
             $('#questionModal').modal('show');
 
-            if (!alreadyAnswered) {
-                $.post("/select_question/" + questionId, {}, function(data) {
-                    $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
-                    $('#modal-question-id-span').text(data.question_id)
-                    $('#questionText').text(data.question);
-                    $('#answerText').text(data.answer);
-                });
-                $('.answer-text-container').addClass('blur-text')
-                $('.answer-button').show();
-                start_buzzer_polling();
-            } else {
-                $('.answer-text-container').removeClass('blur-text')
-                $('.answer-button').hide();
-                $('#questionModalAnsweringTeam').text("test");
+            $.post("/select_question/" + questionId, {}, function(data) {
+                $('#questionModalLabel').text(data.category + " - " + data.points + " (" + data.type + ")")
+                $('#modal-question-id-span').text(data.question_id)
+                $('#questionText').text(data.question);
+                $('#answerText').text(data.answer);
 
-            }
+                if (data.answered_questions.some(obj => obj.hasOwnProperty(data.question_id))) {
+                    $('.answer-text-container').removeClass('blur-text');
+                    $('.answer-button').hide();
+
+                    const answeredQuestion = data.answered_questions.find(obj => obj.hasOwnProperty(data.question_id));
+                    $('#questionModalAnsweringTeam').text( answeredQuestion[data.question_id][0] + " (Buzzer " + answeredQuestion[data.question_id][1] + ")");
+                } else {
+                    $('.answer-text-container').addClass('blur-text');
+                    $('.answer-button').show();
+                    start_buzzer_polling();
+                }
+            });
         }
 
         function updateScore(teamId, action) {

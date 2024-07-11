@@ -24,7 +24,6 @@ def get_question_matrix_from_json_ids(dao, round_number, json_filepath):
         if questions:
             for category in questions:
                 question_ids = questions[category]
-                print(question_ids)
                 if question_ids:
                     question_matrix.append(dao.get_multiple_questions_by_ids(question_ids))
     return question_matrix

@@ -15,7 +15,8 @@ rounds_json_filepath = "rounds.json"
 @app.route('/')
 def index():
     teams = dao.get_teams()
-    answered_question_ids = dao.get_answered_questions_of_round(session_id, round_number)
+    answered_questions = dao.get_answered_questions_of_round(session_id, round_number)
+    answered_question_ids = [question_id for question_id, team_id in answered_questions]
     question_matrix = get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
     return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number)
 
@@ -49,7 +50,6 @@ def remove_team():
 def select_question(question_id):
     buzzer.start_buzzer_loop()
     question = dao.get_question_by_id(question_id)
-    answered_question_ids = dao.get_answered_questions_of_round(session_id, round_number)
     return jsonify({
         'question_id': question['question_id'],
         'question': question['question'],
@@ -57,7 +57,7 @@ def select_question(question_id):
         'category': question['category'],
         'type': question['type'],
         'points': question['points'],
-        'answered_question_ids': answered_question_ids,
+        'answered_questions': [{i[0]:(dao.get_team_name_by_id(i[1]), dao.get_buzzer_id_for_team(i[1]))} for i in dao.get_answered_questions_of_round(session_id, round_number)]
     })
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
