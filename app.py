@@ -48,7 +48,8 @@ def remove_team():
 
 @app.route('/select_question/<int:question_id>', methods=['POST'])
 def select_question(question_id):
-    buzzer.start_buzzer_loop()
+    assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
+    buzzer.start_buzzer_loop(assigned_buzzer_ids)
     question = dao.get_question_by_id(question_id)
     return jsonify({
         'question_id': question['question_id'],
@@ -73,12 +74,14 @@ def answer_question(question_id):
         else:
             dao.add_answer_to_session(session_id, round_number, question_id, team_id, - question["points"])
             new_score = dao.get_team_score_by_id(team_id) - question["points"]
-            buzzer.start_buzzer_loop()
+            assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
+            buzzer.start_buzzer_loop(assigned_buzzer_ids)
         dao.update_score(team_id, new_score)
         teams = dao.get_teams()
         return jsonify({"success": True, "message": "", "teams": [dict(row) for row in teams]})
     else:
-        buzzer.start_buzzer_loop()
+        assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
+        buzzer.start_buzzer_loop(assigned_buzzer_ids)
         pass
         return jsonify({"success": False, "message": "No Team pressed the Buzzzer", "teams":[]})
 

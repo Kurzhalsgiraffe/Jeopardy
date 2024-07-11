@@ -189,6 +189,18 @@ class Dao:
             error_handler(err, traceback.format_exc())
             return None
 
+    def get_assigned_buzzer_ids(self):
+        try:
+            conn, cursor = self.get_db_connection()
+            result = cursor.execute('SELECT buzzer_id FROM teams').fetchall()
+            conn.close()
+            if result:
+                return [r["buzzer_id"] for r in result]
+            return None
+        except sqlite3.Error as err:
+            error_handler(err, traceback.format_exc())
+            return None
+
     def get_team_id_for_buzzer_id(self, buzzer_id):
         try:
             conn, cursor = self.get_db_connection()
