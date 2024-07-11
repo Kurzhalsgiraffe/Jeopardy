@@ -49,13 +49,15 @@ def remove_team():
 def select_question(question_id):
     buzzer.start_buzzer_loop()
     question = dao.get_question_by_id(question_id)
+    answered_question_ids = dao.get_answered_questions_of_round(session_id, round_number)
     return jsonify({
         'question_id': question['question_id'],
         'question': question['question'],
         'answer': question['answer'],
         'category': question['category'],
         'type': question['type'],
-        'points': question['points']
+        'points': question['points'],
+        'answered_question_ids': answered_question_ids,
     })
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])

@@ -398,7 +398,7 @@
             }
         });
 
-        function buzzer_polling(stopConditionCallback) {
+        function start_buzzer_polling() {
             if (!isBuzzerPolling) {
                 isBuzzerPolling = true;
                 buzzerPollInterval = setInterval(function() {
@@ -407,34 +407,23 @@
                         type: 'GET',
                         dataType: 'json',
                         success: function(response) {
-                            stopConditionCallback(response);
+                            $('#questionModalAnsweringTeam').text("");
+                            if (response.buzzer_id !== null && response.team_id !== null) {
+                                $('#questionModalAnsweringTeam').text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
+                                if (isBuzzerPolling) {
+                                    clearInterval(buzzerPollInterval);
+                                    isBuzzerPolling = false;
+                                }
+                                var audio = new Audio('static/fart.mp3');
+                                audio.play();
+                            }
                         },
                         error: function(xhr, status, error) {
                             console.error('Error polling for buzzer event:', error);
-                            // Optionally handle error cases
                         }
                     });
                 }, 200);
             }
-        }
-
-        function start_buzzer_polling() {
-            buzzer_polling(function(response) {
-                var buzzer_id = response.buzzer_id;
-                var team_id = response.team_id;
-                var team_name = response.team_name;
-                $('#questionModalAnsweringTeam').text("");
-
-                if (buzzer_id !== null && team_id !== null) {
-                    $('#questionModalAnsweringTeam').text(team_name + " (Buzzer " + buzzer_id + ")");
-                    if (isBuzzerPolling) {
-                        clearInterval(buzzerPollInterval);
-                        isBuzzerPolling = false;
-                    }
-                    var audio = new Audio('static/fart.mp3');
-                    audio.play();
-                }
-            })
         }
 
         function selectQuestion(questionId) {
@@ -450,15 +439,6 @@
                     $('#modal-question-id-span').text(data.question_id)
                     $('#questionText').text(data.question);
                     $('#answerText').text(data.answer);
-
-                    // Show modal without buttons if already answered
-                    if (alreadyAnswered) {
-                        $('.answer-text-container').removeClass('blur-text')
-                        $('.answer-button').hide();
-                    } else {
-                        $('.answer-text-container').addClass('blur-text')
-                        $('.answer-button').show();
-                    }
                 });
                 $('.answer-text-container').addClass('blur-text')
                 $('.answer-button').show();
@@ -466,6 +446,7 @@
             } else {
                 $('.answer-text-container').removeClass('blur-text')
                 $('.answer-button').hide();
+                $('#questionModalAnsweringTeam').text("test");
 
             }
         }
