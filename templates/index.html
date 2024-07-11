@@ -63,9 +63,6 @@
             width: 100%; /* Use full width within the grid column */
             margin-bottom: 10px; /* Space between team cards */
         }
-        .team-card:not(.active) {
-            display: none;
-        }
         .team-card-body {
             display: flex;
             justify-content: space-between;
@@ -75,10 +72,8 @@
             position: absolute;
             top: -15px;
             right: -13px;
-            display: none; /* Initially hidden */
         }
         .team-card-settings {
-            display: none;
             justify-content: space-between;
             align-items: center;
         }
@@ -276,7 +271,7 @@
                             </div>
                         </div>
                         {% endfor %}
-                        <form id="add-teams-form" action="{{ url_for('add_team') }}" method="post" class="mt-4" style="display: none;">
+                        <form id="add-teams-form" action="{{ url_for('add_team') }}" method="post" class="mt-4">
                             <div class="form-group">
                                 <label for="name">Team Name</label>
                                 <input type="text" class="form-control" id="name" name="name" maxlength="15">
@@ -554,6 +549,17 @@
                 $('.team-card:not(.active)').hide();
             }
         }
+
+        $(document).ready(function() {
+            var addTeamsForm = $('#add-teams-form');
+            var teamCards = $('.team-card');
+            var teamCardSettings = $(teamCards).find('.team-card-settings');
+            var removeTeamButtons = $(teamCards).find('.remove-team-btn');
+            addTeamsForm.hide();
+            removeTeamButtons.hide();
+            teamCardSettings.hide();
+            $('.team-card:not(.active)').hide();
+        });
     </script>
 </body>
 </html>
