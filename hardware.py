@@ -29,7 +29,7 @@ class Buzzer:
                     self.last_pressed_buzzer_id = buzzer_id
                     self.buzzer_loop_running = False
                     break
-            time.sleep(0.1)
+            time.sleep(0.001)
         self.buzzer_loop_stopped = True
 
     def start_buzzer_loop(self, assigned_buzzer_ids) -> None:

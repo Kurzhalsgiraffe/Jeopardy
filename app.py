@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from database_access import Dao
 from hardware import Buzzer
-from question_selector import get_random_question_matrix, get_question_matrix_from_json_ids
+from question_selector import get_question_matrix_from_json_ids
 
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
