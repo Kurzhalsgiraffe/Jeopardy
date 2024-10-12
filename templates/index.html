@@ -284,7 +284,7 @@
         </div>
         <div class="my-3">
             <div class="mt-2">
-                <span class="session-controls">Runde Nummer: <span id="round-number">{{ round_number }}</span></span>
+                <span class="session-controls">Runde <span id="round-number">{{ round_number }}</span></span>
             </div>
             <form action="{{ url_for("next_round") }}" method="post" class="mt-2">
                 <button type="submit" class="btn btn-primary session-controls">Nächste Runde</button>
@@ -397,24 +397,30 @@
         });
 
         function startBuzzerPolling() {
-            const question_modal_answering_team = $("#question-modal-answering-team")
+            const question_modal_answering_team = $("#question-modal-answering-team");
             if (!is_buzzer_polling) {
                 is_buzzer_polling = true;
+                let is_event_handled = false;  // Flag to track if the event is already handled
+
                 buzzer_poll_interval = setInterval(function() {
                     $.ajax({
                         url: "/get_last_buzzer_event",
                         type: "GET",
                         dataType: "json",
                         success: function(response) {
-                            question_modal_answering_team.text("");
-                            if (response.buzzer_id !== null && response.team_id !== null) {
+                            if (!is_event_handled && response.buzzer_id !== null && response.team_id !== null) {
+                                is_event_handled = true;  // Set flag to prevent handling multiple times
+
                                 question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
+
+                                var audio = new Audio("static/fart.mp3");
+                                audio.play();
+
+                                // Clear the polling interval and stop further requests
                                 if (is_buzzer_polling) {
                                     clearInterval(buzzer_poll_interval);
                                     is_buzzer_polling = false;
                                 }
-                                var audio = new Audio("static/fart.mp3");
-                                audio.play();
                             }
                         },
                         error: function(xhr, status, error) {
