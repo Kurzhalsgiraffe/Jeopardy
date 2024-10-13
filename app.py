@@ -195,14 +195,10 @@ def update_team_buzzer_sound():
 @app.route('/get_buzzer_sounds', methods=['GET'])
 def get_buzzer_sounds():
     sounds_directory = os.path.join(app.static_folder, 'sounds/team_sounds')
-
     try:
         sound_files = [f for f in os.listdir(sounds_directory) if os.path.isfile(os.path.join(sounds_directory, f))]
-
-        return jsonify({
-            "success": True,
-            "sounds": sound_files
-        })
+        teams = dao.get_teams()
+        return jsonify({"success": True, "sounds": sound_files, "teams": [dict(row) for row in teams]})
     except Exception as e:
         # Handle any errors, e.g., directory not found
         return jsonify({

@@ -84,7 +84,27 @@
         }
         .team-buzzer-id-input {
             border-radius: 5px;
+            width: 30px;
         }
+
+        .team-buzzer-sound {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .team-buzzer-sound .buzzer-label {
+            margin-bottom: 5px;
+        }
+
+        .team-buzzer-sound select {
+            width: 100%;
+            max-width: 300px;
+        }
+
         .team-add-points {
             display: flex;
             flex-direction: column;
@@ -94,9 +114,6 @@
             width: 70px; /* Adjust the width as needed */
             margin-bottom: 10px;
             border-radius: 5px;
-        }
-        .team-buzzer-id-input {
-            width: 30px;
         }
         .team-control-btn {
             width: 30px; /* Adjust the width as needed */
@@ -259,9 +276,9 @@
                                         <input type="number" class="mb-2 team-buzzer-id-input" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
                                     </div>
                                     <div class="team-buzzer-sound">
-                                        <span>Buzzer Sound</span>
+                                        <span class="buzzer-label">Buzzer Sound</span>
                                         <select class="mb-2 team-buzzer-sound-input" data-team-id="{{ team.team_id }}">
-                                            <option value="" {% if not team.buzzer_sound %}selected{% endif %}>Select Sound</option>
+                                            <option value="">Select Sound</option>
                                         </select>
                                     </div>
                                     <div class="team-card-settings-footer">
@@ -407,26 +424,6 @@
             const team_id = $(this).data("team-id");
             const is_checked = $(this).is(":checked");
             toggleTeamActivation(team_id, is_checked);
-        });
-
-        $.get("/get_buzzer_sounds", function(response) {
-            if (response.success) {
-                $('.team-buzzer-sound-input').each(function() {
-                    const selectedSound = $(this).val();
-                    const teamId = $(this).data("team-id");
-                    const selectElement = $(this);
-
-                    // Clear the current options
-                    selectElement.empty();
-
-                    response.sounds.forEach(function(sound) {
-                        const isSelected = (sound === selectedSound) ? 'selected' : '';
-                        selectElement.append(`<option value="${sound}" ${isSelected}>${sound}</option>`);
-                    });
-                });
-            } else {
-                alert("Failed to load buzzer sounds: " + response.message);
-            }
         });
 
         function startBuzzerPolling() {
@@ -606,11 +603,44 @@
                     response.teams.forEach(function(team) {
                         var selectElement = $(`.team-buzzer-sound-input[data-team-id="${team.team_id}"]`);
                         if (selectElement.length) {
-                            selectElement.val(team.buzzer_sound); // Ensure correct sound is selected
+                            selectElement.val(team.buzzer_sound);
                         }
                     });
                 } else {
                     alert(response.message);
+                }
+            });
+        }
+
+        function getTeamBuzzerSounds() {
+            $.get("/get_buzzer_sounds", function(response) {
+                if (response.success) {
+                    response.teams.forEach(function(team) {
+                        var dropdown_element = $(`.team-buzzer-sound-input[data-team-id="${team.team_id}"]`);
+                        if (dropdown_element.length) {
+
+                            dropdown_element.empty();
+                            dropdown_element.append($('<option>', {
+                                value: '',
+                                text: 'Select Sound'
+                            }));
+
+                            response.sounds.forEach(function(sound) {
+                                dropdown_element.append($('<option>', {
+                                    value: sound,
+                                    text: sound
+                                }));
+                            });
+                            console.log(team.buzzer_sound)
+                            if (team.buzzer_sound) {
+                                dropdown_element.val(team.buzzer_sound);
+                            } else {
+                                dropdown_element.val('');
+                            }
+                        }
+                    });
+                } else {
+                    alert("Failed to load buzzer sounds: " + response.message);
                 }
             });
         }
@@ -641,6 +671,7 @@
             remove_team_buttons.hide();
             team_card_settings.hide();
             $(".team-card:not(.active)").hide();
+            getTeamBuzzerSounds();
         });
     </script>
 </body>
