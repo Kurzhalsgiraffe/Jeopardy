@@ -16,7 +16,7 @@ session_id = dao.get_next_session_id()
 round_number = 1
 rounds_json_filepath = "rounds.json"
 
-def increase_round_number(rounds_json_filepath):
+def increase_round_number():
     with open(rounds_json_filepath, 'r') as file:
         rounds_data = json.load(file)
     total_rounds_count = len(rounds_data)
@@ -24,6 +24,13 @@ def increase_round_number(rounds_json_filepath):
     global round_number
     if round_number < total_rounds_count:
         round_number += 1
+    else:
+        round_number = 1
+
+def decrease_round_number():
+    global round_number
+    if round_number > 1:
+        round_number -= 1
     else:
         round_number = 1
 
@@ -60,6 +67,11 @@ def new_session():
 @app.route('/next_round', methods=['POST'])
 def next_round():
     increase_round_number()
+    return redirect(url_for('index'))
+
+@app.route('/previous_round', methods=['POST'])
+def previous_round():
+    decrease_round_number()
     return redirect(url_for('index'))
 
 @app.route('/add_team', methods=['POST'])
@@ -136,7 +148,8 @@ def push_buzzer():
         abort(403)
     buzzer_id = request.args.get("buzzer_id")
     assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
-    if int(buzzer_id) in assigned_buzzer_ids:
+    print(buzzer_id)
+    if buzzer_id and assigned_buzzer_ids and int(buzzer_id) in assigned_buzzer_ids:
         if buzzer_active_semaphore:
             last_pressed_buzzer_id = buzzer_id
             deactivate_buzzer()
