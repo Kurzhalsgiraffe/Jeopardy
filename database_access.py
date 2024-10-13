@@ -52,7 +52,8 @@ class Dao:
                 name TEXT NOT NULL,
                 score INTEGER DEFAULT 0,
                 buzzer_id INTEGER,
-                is_active INTEGER
+                is_active INTEGER,
+                buzzer_sound TEXT
                 )"""
             cursor.execute(sql)
 
@@ -217,6 +218,27 @@ class Dao:
         try:
             conn, cursor = self.get_db_connection()
             result = cursor.execute('SELECT name FROM teams WHERE team_id = ?', (team_id,)).fetchone()
+            conn.close()
+            if result:
+                return result[0]
+            return None
+        except sqlite3.Error as err:
+            error_handler(err, traceback.format_exc())
+            return None
+
+    def update_team_buzzer_sound(self, team_id, buzzer_sound):
+        try:
+            conn, cursor = self.get_db_connection()
+            cursor.execute('UPDATE teams SET buzzer_sound = ? WHERE team_id = ?', (buzzer_sound, team_id))
+            conn.commit()
+            conn.close()
+        except sqlite3.Error as err:
+            error_handler(err,traceback.format_exc())
+
+    def get_team_buzzer_sound_by_team_id(self, team_id):
+        try:
+            conn, cursor = self.get_db_connection()
+            result = cursor.execute('SELECT buzzer_sound FROM teams WHERE team_id = ?', (team_id,)).fetchone()
             conn.close()
             if result:
                 return result[0]

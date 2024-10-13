@@ -1,5 +1,6 @@
 # TODO: Buzzer connected status irgendwo auf der Website anzeigen?
 import json
+import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from database_access import Dao
 from question_selector import get_question_matrix_from_json_ids
@@ -97,6 +98,7 @@ def answer_question(question_id):
     deactivate_buzzer()
     global last_pressed_buzzer_id
     team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id)
+    last_pressed_buzzer_id = None
     if team_id:
         question = dao.get_question_by_id(question_id)
         if request.form['is_answer_correct'] == "true":
@@ -118,7 +120,8 @@ def answer_question(question_id):
 def get_last_buzzer_event():
     team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id) if last_pressed_buzzer_id else None
     team_name = dao.get_team_name_by_id(team_id) if team_id else None
-    return jsonify({"buzzer_id":last_pressed_buzzer_id, "team_id": team_id, "team_name": team_name})
+    buzzer_sound = dao.get_team_buzzer_sound_by_team_id(team_id)
+    return jsonify({"buzzer_id":last_pressed_buzzer_id, "buzzer_sound": buzzer_sound, "team_id": team_id, "team_name": team_name})
 
 @app.route('/is_buzzer_active', methods=['GET'])
 def is_buzzer_active():
@@ -175,6 +178,37 @@ def update_buzzer_id():
     teams = dao.get_teams()
     return jsonify({"success": True, "message": "Team ID successfully changed", "teams": [dict(row) for row in teams]})
 
+@app.route('/update_team_buzzer_sound', methods=['POST'])
+def update_team_buzzer_sound():
+    team_id = request.form.get('team_id')
+    buzzer_sound = request.form.get('buzzer_sound')
+
+    if not team_id:
+        return jsonify({"success": False, "message": "Team ID is required"})
+    if buzzer_sound:
+        dao.update_team_buzzer_sound(team_id, buzzer_sound)
+    else:
+        dao.update_team_buzzer_sound(team_id, None)
+    teams = dao.get_teams()
+    return jsonify({"success": True, "message": "Team Buzzer Sound successfully changed", "teams": [dict(row) for row in teams]})
+
+@app.route('/get_buzzer_sounds', methods=['GET'])
+def get_buzzer_sounds():
+    sounds_directory = os.path.join(app.static_folder, 'sounds/team_sounds')
+
+    try:
+        sound_files = [f for f in os.listdir(sounds_directory) if os.path.isfile(os.path.join(sounds_directory, f))]
+
+        return jsonify({
+            "success": True,
+            "sounds": sound_files
+        })
+    except Exception as e:
+        # Handle any errors, e.g., directory not found
+        return jsonify({
+            "success": False,
+            "message": f"Error retrieving sounds: {str(e)}"
+        }), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

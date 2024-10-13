@@ -1,12 +1,6 @@
-import platform
 from threading import Thread
+import RPi.GPIO as GPIO # type: ignore
 import time
-
-# Check if we are on WSL or Raspberry Pi
-if platform.system() == 'Linux' and 'microsoft' in platform.uname().release:
-    from dummy_gpio import GPIO # type: ignore
-else:
-    import RPi.GPIO as GPIO # type: ignore
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)

@@ -258,6 +258,12 @@
                                         <span>Buzzer ID</span>
                                         <input type="number" class="mb-2 team-buzzer-id-input" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
                                     </div>
+                                    <div class="team-buzzer-sound">
+                                        <span>Buzzer Sound</span>
+                                        <select class="mb-2 team-buzzer-sound-input" data-team-id="{{ team.team_id }}">
+                                            <option value="" {% if not team.buzzer_sound %}selected{% endif %}>Select Sound</option>
+                                        </select>
+                                    </div>
                                     <div class="team-card-settings-footer">
                                         <div class="team-active">
                                             <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ "checked" if team.is_active }}>
@@ -391,10 +397,36 @@
             updateBuzzerID(team_id, buzzer_id);
         });
 
+        $(document).on('change', '.team-buzzer-sound-input', function() {
+            const team_id = $(this).data("team-id");
+            const buzzer_sound = $(this).val();
+            updateTeamBuzzerSound(team_id, buzzer_sound);
+        });
+
         $(document).on('change', '.team-active-checkbox', function() {
             const team_id = $(this).data("team-id");
             const is_checked = $(this).is(":checked");
             toggleTeamActivation(team_id, is_checked);
+        });
+
+        $.get("/get_buzzer_sounds", function(response) {
+            if (response.success) {
+                $('.team-buzzer-sound-input').each(function() {
+                    const selectedSound = $(this).val();
+                    const teamId = $(this).data("team-id");
+                    const selectElement = $(this);
+
+                    // Clear the current options
+                    selectElement.empty();
+
+                    response.sounds.forEach(function(sound) {
+                        const isSelected = (sound === selectedSound) ? 'selected' : '';
+                        selectElement.append(`<option value="${sound}" ${isSelected}>${sound}</option>`);
+                    });
+                });
+            } else {
+                alert("Failed to load buzzer sounds: " + response.message);
+            }
         });
 
         function startBuzzerPolling() {
@@ -402,7 +434,7 @@
 
             if (!is_buzzer_polling) {
                 is_buzzer_polling = true;
-                is_buzzer_event_handled = false; // Ensure this resets when starting new polling
+                is_buzzer_event_handled = false;
 
                 buzzer_poll_interval = setInterval(function() {
                     $.ajax({
@@ -410,19 +442,23 @@
                         type: "GET",
                         dataType: "json",
                         success: function(response) {
-                            if (!is_buzzer_event_handled && response.buzzer_id !== null && response.team_id !== null) {
-                                is_buzzer_event_handled = true; // Mark the event as handled
+                            if (response.buzzer_id !== null && response.team_id !== null) {
+                                if (!is_buzzer_event_handled) {
+                                    is_buzzer_event_handled = true;
 
-                                question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
+                                    question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
+                                    if (response.buzzer_sound != null) {
+                                        playSound(`static/sounds/team_sounds/${response.buzzer_sound}`);
+                                    }
 
-                                var audio = new Audio("static/fart.mp3");
-                                audio.play();
-
-                                // Clear the polling interval and stop further requests
-                                if (is_buzzer_polling) {
-                                    clearInterval(buzzer_poll_interval);
-                                    is_buzzer_polling = false;
+                                    // Clear the polling interval and stop further requests
+                                    if (is_buzzer_polling) {
+                                        clearInterval(buzzer_poll_interval);
+                                        is_buzzer_polling = false;
+                                    }
                                 }
+                            } else {
+                                question_modal_answering_team.text("");
                             }
                         },
                         error: function(xhr, status, error) {
@@ -446,6 +482,14 @@
                 }
             });
         });
+
+        function playSound(sound_name) {
+            var audio = new Audio(sound_name);
+            audio.currentTime = 0;
+            audio.play().catch(function(error) {
+                console.error("Audio playback failed:", error);
+            });
+        }
 
         function selectQuestion(question_id) {
             current_question_id = question_id;
@@ -496,9 +540,11 @@
                         card.classList.add("answered");
                         card.style.opacity = "0.5";
                         question_modal.modal("hide");
+                        playSound("static/sounds/game_sounds/correct_answer.mp3");
                     } else {
                         question_modal.modal("show");
                         startBuzzerPolling();
+                        playSound("static/sounds/game_sounds/wrong_answer.mp3");
                     }
                     updateTeamScores(response.teams);
                 } else {
@@ -550,6 +596,21 @@
                     });
                 } else {
                     alert(response.message)
+                }
+            });
+        }
+
+        function updateTeamBuzzerSound(team_id, buzzer_sound) {
+            $.post("/update_team_buzzer_sound", { team_id: team_id, buzzer_sound: buzzer_sound }, function(response) {
+                if (response.success) {
+                    response.teams.forEach(function(team) {
+                        var selectElement = $(`.team-buzzer-sound-input[data-team-id="${team.team_id}"]`);
+                        if (selectElement.length) {
+                            selectElement.val(team.buzzer_sound); // Ensure correct sound is selected
+                        }
+                    });
+                } else {
+                    alert(response.message);
                 }
             });
         }
