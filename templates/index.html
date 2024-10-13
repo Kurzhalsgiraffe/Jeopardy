@@ -340,6 +340,7 @@
         var current_question_id;
         var buzzer_poll_interval = null;
         var is_buzzer_polling = false;
+        var is_buzzer_event_handled = false;
         const question_modal = $("#question-modal")
         const add_team_form = $("#add-team-form")
         const team_cards = $(".team-card");
@@ -398,9 +399,10 @@
 
         function startBuzzerPolling() {
             const question_modal_answering_team = $("#question-modal-answering-team");
+
             if (!is_buzzer_polling) {
                 is_buzzer_polling = true;
-                let is_event_handled = false;  // Flag to track if the event is already handled
+                is_buzzer_event_handled = false; // Ensure this resets when starting new polling
 
                 buzzer_poll_interval = setInterval(function() {
                     $.ajax({
@@ -408,8 +410,8 @@
                         type: "GET",
                         dataType: "json",
                         success: function(response) {
-                            if (!is_event_handled && response.buzzer_id !== null && response.team_id !== null) {
-                                is_event_handled = true;  // Set flag to prevent handling multiple times
+                            if (!is_buzzer_event_handled && response.buzzer_id !== null && response.team_id !== null) {
+                                is_buzzer_event_handled = true; // Mark the event as handled
 
                                 question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
 
@@ -430,6 +432,20 @@
                 }, 200);
             }
         }
+
+        question_modal.on("hidden.bs.modal", function (e) {
+            if (is_buzzer_polling) {
+                clearInterval(buzzer_poll_interval);
+                is_buzzer_polling = false;
+            }
+            is_buzzer_event_handled = false;
+            $.post("/unselect_question", function(response) {
+                if (!response.success) {
+                    console.error("Failed to unselect question:", response.message);
+                    alert("There was an error unselecting the questions and deactivating the buzzers.");
+                }
+            });
+        });
 
         function selectQuestion(question_id) {
             current_question_id = question_id;
