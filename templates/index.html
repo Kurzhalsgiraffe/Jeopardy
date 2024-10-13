@@ -322,42 +322,42 @@
     </div>
 
     <!-- Question Modal -->
-<div class="modal fade" id="question-modal" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-header-container">
-                    <h5 class="modal-title" id="question-modal-label"></h5>
+    <div class="modal fade" id="question-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-header-container">
+                        <h5 class="modal-title" id="question-modal-label"></h5>
+                    </div>
+                    <div class="answering-team-container">
+                        <h5 class="answering-team" id="question-modal-answering-team"></h5>
+                    </div>
+                    <div class="modal-header-container">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
                 </div>
-                <div class="answering-team-container">
-                    <h5 class="answering-team" id="question-modal-answering-team"></h5>
+                <div class="modal-body">
+                    <div class="modal-question-id">
+                        <span id="modal-question-id-span"></span>
+                    </div>
+                    <div>
+                        <h2 id="question-text"></h2>
+                    </div>
                 </div>
-                <div class="modal-header-container">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-            </div>
-            <div class="modal-body">
-                <div class="modal-question-id">
-                    <span id="modal-question-id-span"></span>
-                </div>
-                <div>
-                    <h2 id="question-text"></h2>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="answer-button-container" data-answer="true">
-                    <button type="button" class="btn btn-secondary answer-button">Richtig</button>
-                </div>
-                <div class="answer-text-container">
-                    <span id="answer-text"></span>
-                </div>
-                <div class="answer-button-container" data-answer="false">
-                    <button type="button" class="btn btn-secondary answer-button">Falsch</button>
+                <div class="modal-footer">
+                    <div class="answer-button-container" data-answer="true">
+                        <button type="button" class="btn btn-secondary answer-button">Richtig</button>
+                    </div>
+                    <div class="answer-text-container">
+                        <span id="answer-text"></span>
+                    </div>
+                    <div class="answer-button-container" data-answer="false">
+                        <button type="button" class="btn btn-secondary answer-button">Falsch</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

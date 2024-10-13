@@ -24,15 +24,11 @@ def increase_round_number():
     global round_number
     if round_number < total_rounds_count:
         round_number += 1
-    else:
-        round_number = 1
 
 def decrease_round_number():
     global round_number
     if round_number > 1:
         round_number -= 1
-    else:
-        round_number = 1
 
 def is_api_key_valid():
     api_key = request.headers.get("X-API-KEY")
