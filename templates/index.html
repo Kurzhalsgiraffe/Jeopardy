@@ -420,6 +420,7 @@
         $(document).on('change', '.team-buzzer-sound-input', function() {
             const team_id = $(this).data("team-id");
             const buzzer_sound = $(this).val();
+            playSound(`static/sounds/team_sounds/${buzzer_sound}`);
             updateTeamBuzzerSound(team_id, buzzer_sound);
         });
 
@@ -540,11 +541,11 @@
                         card.classList.add("answered");
                         card.style.opacity = "0.5";
                         question_modal.modal("hide");
-                        playSound("static/sounds/game_sounds/correct_answer.mp3");
+                        playSound("static/sounds/game_sounds/mario_coin.mp3");
                     } else {
                         question_modal.modal("show");
                         startBuzzerPolling();
-                        playSound("static/sounds/game_sounds/wrong_answer.mp3");
+                        playSound("static/sounds/game_sounds/nope.mp3");
                     }
                     updateTeamScores(response.teams);
                 } else {
