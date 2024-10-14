@@ -4,7 +4,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from database_access import Dao
 from question_selector import get_question_matrix_from_json_ids
-from api_secrets import SECRET_API_KEY
+#from api_secrets import SECRET_API_KEY 
 
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
@@ -216,4 +216,4 @@ def get_buzzer_sounds():
         }), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
