@@ -1,16 +1,17 @@
-# TODO: Buzzer connected status irgendwo auf der Website anzeigen?
 import json
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
+from datetime import datetime
 from database_access import Dao
 from question_selector import get_question_matrix_from_json_ids
-from api_secrets import SECRET_API_KEY 
+from api_secrets import SECRET_API_KEY
 
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
 
 buzzer_active_semaphore = False
 last_pressed_buzzer_id = None
+last_buzzer_ping = None
 
 session_id = dao.get_next_session_id()
 round_number = 1
@@ -50,7 +51,7 @@ def index():
     answered_questions = dao.get_answered_questions_of_round(session_id, round_number)
     answered_question_ids = [question_id for question_id, _ in answered_questions]
     question_matrix = get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
-    return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number)
+    return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number, last_buzzer_ping=last_buzzer_ping)
 
 @app.route('/new_session', methods=['POST'])
 def new_session():
@@ -118,11 +119,15 @@ def answer_question(question_id):
             activate_buzzer()
         dao.update_score(team_id, new_score)
         teams = dao.get_teams()
-        return jsonify({"success": True, "message": "", "teams": [dict(row) for row in teams]})
+        return jsonify({"success": True, "message": "Processed Answer", "teams": [dict(row) for row in teams]})
     else:
         activate_buzzer()
-        pass
         return jsonify({"success": False, "message": "No Team pressed the Buzzzer", "teams":[]})
+
+@app.route('/skip_question/<int:question_id>', methods=['POST'])
+def skip_question(question_id):
+    dao.add_answer_to_session(session_id, round_number, question_id, None, 0)
+    return jsonify({"success": True, "message": "Question skipped"})
 
 @app.route('/get_last_buzzer_event', methods=['GET'])
 def get_last_buzzer_event():
@@ -133,6 +138,8 @@ def get_last_buzzer_event():
 
 @app.route('/is_buzzer_active', methods=['GET'])
 def is_buzzer_active():
+    global last_buzzer_ping
+    last_buzzer_ping = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     if not is_api_key_valid():
         abort(403)
     return jsonify({"buzzer_active_semaphore": buzzer_active_semaphore})

@@ -40,14 +40,14 @@
         .team-cards-wrapper {
             text-align: center;
         }
-        .team-header {
+        .header {
             display: flex;
             align-items: center;
             justify-content: center; /* Center horizontally */
             gap: 10px; /* Space between h2 and button */
             margin-bottom: 20px; /* Space between header and cards */
         }
-        .team-header h2 {
+        .header h2 {
             margin: 0;
         }
         .team-cards-container {
@@ -68,7 +68,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .remove-team-btn {
+        .remove-btn {
             position: absolute;
             top: -15px;
             right: -13px;
@@ -223,6 +223,12 @@
 </head>
 <body>
     <div class="container">
+        <div class="header mt-2">
+            <h2>Fragen</h2>
+            <button id="toggle-question-settings-btn" class="btn btn-primary btn-icon">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+        </div>
         <div class="row my-3">
             {% for category in question_matrix %}
                 <div class="col-md-2 mx-3">
@@ -231,6 +237,7 @@
                         <div class="d-flex flex-column">
                             {% for question in category %}
                                 <div class="card question-card mb-2 {{ "answered" if question["question_id"] in answered_question_ids }}" data-question-id="{{ question["question_id"] }}"">
+                                    <button class="btn btn-sm btn-danger remove-btn skip-question-btn"><span aria-hidden="true">&times;</span></button>
                                     <div class="card-body">
                                         <h5 class="card-title">{{ question["points"] }} €</h5>
                                         <p class="card-text">{{ question["type"] }}</p>
@@ -246,7 +253,7 @@
         <div class="row mt-4">
             <div class="col-md-12">
                 <div class="team-cards-wrapper">
-                    <div class="team-header">
+                    <div class="header">
                         <h2>Teams</h2>
                         <button id="toggle-team-settings-btn" class="btn btn-primary btn-icon">
                             <i class="fas fa-pencil-alt"></i>
@@ -256,7 +263,7 @@
                         {% for team in teams %}
                         <div>
                             <div class="card team-card {{ "active" if team.is_active }}" data-team-id="{{ team.team_id }}">
-                                <button class="btn btn-sm btn-danger remove-team-btn"><span aria-hidden="true">&times;</span></button>
+                                <button class="btn btn-sm btn-danger remove-btn remove-team-btn"><span aria-hidden="true">&times;</span></button>
                                 <div class="card-body team-card-body">
                                     <div class="mx-3">
                                         <h5 class="card-title">{{ team.name }}</h5>
@@ -320,6 +327,8 @@
             </form>
         </div>
     </div>
+    <span>Last Buzzer Ping:</span>
+    <span>{{ last_buzzer_ping }}</span>
 
     <!-- Question Modal -->
     <div class="modal fade" id="question-modal" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -362,6 +371,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        var question_settings_visible = false;
         var team_settings_visible = false;
         var current_question_id;
         var buzzer_poll_interval = null;
@@ -369,6 +379,7 @@
         var is_buzzer_event_handled = false;
         const question_modal = $("#question-modal")
         const add_team_form = $("#add-team-form")
+        const question_cards = $(".question-card");
         const team_cards = $(".team-card");
 
         question_modal.on("hidden.bs.modal", function (e) {
@@ -394,6 +405,16 @@
         $(document).on('click', '.question-card', function() {
             const question_id = $(this).attr("data-question-id");
             selectQuestion(question_id);
+        });
+
+        $(document).on('click', '#toggle-question-settings-btn', function() {
+            toggleQuestionSettings();
+        });
+
+        $(document).on('click', '.skip-question-btn', function(event) {
+            event.stopPropagation();
+            const question_id = $(this).closest(".question-card").data("question-id");
+            skipQuestion(question_id)
         });
 
         $(document).on('click', '#toggle-team-settings-btn', function() {
@@ -554,6 +575,19 @@
             });
         }
 
+        function skipQuestion(question_id) {
+            $.post("/skip_question/" + question_id, function(response) {
+                if (response.success) {
+                    var card = document.querySelector(`[data-question-id="${question_id}"]`);
+                    card.classList.add("answered");
+                    card.style.opacity = "0.5";
+                    playSound("static/sounds/game_sounds/Mario_Coin_Epic.mp3");
+                } else {
+                    alert(response.message)
+                }
+            });
+        }
+
         function updateTeamScores(teams) {
             teams.forEach(team => {
                 const team_element = $(`[data-team-id="${team.team_id}"] .card-text`);
@@ -635,7 +669,6 @@
                                     text: sound
                                 }));
                             });
-                            console.log(team.buzzer_sound)
                             if (team.buzzer_sound) {
                                 dropdown_element.val(team.buzzer_sound);
                             } else {
@@ -647,6 +680,17 @@
                     alert("Failed to load buzzer sounds: " + response.message);
                 }
             });
+        }
+
+        function toggleQuestionSettings() {
+            const skip_question_buttons = $(question_cards).find(".skip-question-btn");
+            if (!question_settings_visible) {
+                question_settings_visible = true;
+                skip_question_buttons.show();
+            } else {
+                question_settings_visible = false;
+                skip_question_buttons.hide();
+            }
         }
 
         function toggleTeamSettings() {
@@ -670,9 +714,11 @@
 
         $(document).ready(function() {
             const team_card_settings = $(team_cards).find(".team-card-settings");
+            const skip_question_buttons = $(question_cards).find(".skip-question-btn");
             const remove_team_buttons = $(team_cards).find(".remove-team-btn");
             add_team_form.hide();
             remove_team_buttons.hide();
+            skip_question_buttons.hide();
             team_card_settings.hide();
             $(".team-card:not(.active)").hide();
             getTeamBuzzerSounds();

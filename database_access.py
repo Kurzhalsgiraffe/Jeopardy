@@ -268,7 +268,7 @@ class Dao:
     def get_answered_questions_of_round(self, session_id, round_number) -> list:
         try:
             conn, cursor = self.get_db_connection()
-            result = cursor.execute('SELECT question_id, team_id FROM sessions WHERE session_id = ? AND round_number = ? AND points > 0', (session_id, round_number)).fetchall()
+            result = cursor.execute('SELECT question_id, team_id FROM sessions WHERE session_id = ? AND round_number = ? AND points >= 0', (session_id, round_number)).fetchall()
             conn.close()
             return [(r["question_id"], r["team_id"]) for r in result]
         except sqlite3.Error as err:
