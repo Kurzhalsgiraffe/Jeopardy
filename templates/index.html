@@ -530,7 +530,11 @@
                     answer_button.hide();
 
                     const answered_question = data.answered_questions.find(obj => obj.hasOwnProperty(data.question_id));
-                    $("#question-modal-answering-team").text( answered_question[data.question_id][0] + " (Buzzer " + answered_question[data.question_id][1] + ")");
+                    if (answered_question[data.question_id][0]) {
+                        $("#question-modal-answering-team").text( answered_question[data.question_id][0] + " (Buzzer " + answered_question[data.question_id][1] + ")");
+                    } else {
+                        $("#question-modal-answering-team").text("Kein Team - Frage wurde übersprungen");
+                    }
                 } else {
                     answer_text_container.addClass("blur-text");
                     answer_button.show();
@@ -562,7 +566,7 @@
                         card.classList.add("answered");
                         card.style.opacity = "0.5";
                         question_modal.modal("hide");
-                        playSound("static/sounds/game_sounds/Mario_Coin_Epic.mp3");
+                        playSound("static/sounds/game_sounds/Mario_Coin.mp3");
                     } else {
                         question_modal.modal("show");
                         startBuzzerPolling();
@@ -576,16 +580,18 @@
         }
 
         function skipQuestion(question_id) {
-            $.post("/skip_question/" + question_id, function(response) {
-                if (response.success) {
-                    var card = document.querySelector(`[data-question-id="${question_id}"]`);
-                    card.classList.add("answered");
-                    card.style.opacity = "0.5";
-                    playSound("static/sounds/game_sounds/Mario_Coin_Epic.mp3");
-                } else {
-                    alert(response.message)
-                }
-            });
+            // var card = document.querySelector(`[data-question-id="${question_id}"]`);
+            var card = $(`[data-question-id="${question_id}"]`);
+            if (!card.hasClass("answered")) {
+                $.post("/skip_question/" + question_id, function(response) {
+                    if (response.success) {
+                        card.addClass("answered").css("opacity", "0.5");
+                        playSound("static/sounds/game_sounds/Windows_Error.mp3");
+                    } else {
+                        alert(response.message)
+                    }
+                });
+            }
         }
 
         function updateTeamScores(teams) {
