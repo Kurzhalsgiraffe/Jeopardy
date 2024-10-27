@@ -580,17 +580,18 @@
         }
 
         function skipQuestion(question_id) {
-            // var card = document.querySelector(`[data-question-id="${question_id}"]`);
-            var card = $(`[data-question-id="${question_id}"]`);
-            if (!card.hasClass("answered")) {
-                $.post("/skip_question/" + question_id, function(response) {
-                    if (response.success) {
-                        card.addClass("answered").css("opacity", "0.5");
-                        playSound("static/sounds/game_sounds/Windows_Error.mp3");
-                    } else {
-                        alert(response.message)
-                    }
-                });
+            if (confirm("Möchtest du die Frage wirklich überspringen?")) {
+                var card = $(`[data-question-id="${question_id}"]`);
+                if (!card.hasClass("answered")) {
+                    $.post("/skip_question/" + question_id, function(response) {
+                        if (response.success) {
+                            card.addClass("answered").css("opacity", "0.5");
+                            playSound("static/sounds/game_sounds/Windows_Error.mp3");
+                        } else {
+                            alert(response.message)
+                        }
+                    });
+                }
             }
         }
 
@@ -604,7 +605,7 @@
         }
 
         function removeTeam(team_id) {
-            if (confirm("Are you sure you want to remove this team?")) {
+            if (confirm("Möchtest du das Team wirklich löschen?")) {
                 $.post("/remove_team", { team_id: team_id }, function() {
                     location.reload();
                 });
