@@ -156,8 +156,8 @@ def push_buzzer():
             last_pressed_buzzer_id = buzzer_id
             deactivate_buzzer()
             return jsonify({"success": True, "message": f"Buzzer {buzzer_id} was pressed"})
-        return jsonify({"success": False, "message": f"Buzzers not active"})
-    return jsonify({"success": False, "message": f"Buzzer {buzzer_id} not assigned"})
+        return jsonify({"success": False, "message": f"Buzzers not active"}), 500
+    return jsonify({"success": False, "message": f"Buzzer {buzzer_id} not assigned"}), 500
 
 @app.route('/update_score', methods=['POST'])
 def update_score():
@@ -211,15 +211,11 @@ def update_team_buzzer_sound():
 def get_buzzer_sounds():
     sounds_directory = os.path.join(app.static_folder, 'sounds/team_sounds')
     try:
-        sound_files = [f for f in os.listdir(sounds_directory) if os.path.isfile(os.path.join(sounds_directory, f))]
+        sound_files = sorted([f for f in os.listdir(sounds_directory) if os.path.isfile(os.path.join(sounds_directory, f))])
         teams = dao.get_teams()
         return jsonify({"success": True, "sounds": sound_files, "teams": [dict(row) for row in teams]})
     except Exception as e:
-        # Handle any errors, e.g., directory not found
-        return jsonify({
-            "success": False,
-            "message": f"Error retrieving sounds: {str(e)}"
-        }), 500
+        return jsonify({"success": False, "message": f"Error retrieving sounds: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
