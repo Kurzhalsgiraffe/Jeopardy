@@ -30,12 +30,11 @@ def is_connected() -> bool:
 @retry(wait=wait_fixed(5), stop=stop_after_attempt(5))
 def make_request(route: str, method="GET", data=None) -> requests.Response:
     """Wrapper function to make an API request with retry logic."""
-    headers = {"X-API-KEY": api_secrets.SECRET_API_KEY}
     auth = HTTPBasicAuth(api_secrets.username, api_secrets.password)
     if method == "POST":
-        response = requests.post(f"{api_secrets.jeopardy_server}/{route}", headers=headers, auth=auth, data=data)
+        response = requests.post(f"{api_secrets.jeopardy_server}/{route}", auth=auth, data=data)
     else:
-        response = requests.get(f"{api_secrets.jeopardy_server}/{route}", headers=headers, auth=auth)
+        response = requests.get(f"{api_secrets.jeopardy_server}/{route}", auth=auth)
     response.raise_for_status()
     return response
 

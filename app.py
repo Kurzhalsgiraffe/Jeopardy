@@ -1,10 +1,10 @@
 import json
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, jsonify, Response, stream_with_context
+import time
 from datetime import datetime
 from database_access import Dao
 from question_selector import get_question_matrix_from_json_ids
-from api_secrets import SECRET_API_KEY
 
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
@@ -12,6 +12,7 @@ dao = Dao("jeopardy.db")
 buzzer_active_semaphore = False
 last_pressed_buzzer_id = None
 last_buzzer_ping = None
+selected_question_id = None
 
 session_id = dao.get_next_session_id()
 round_number = 1
@@ -31,10 +32,6 @@ def decrease_round_number():
     if round_number > 1:
         round_number -= 1
 
-def is_api_key_valid():
-    api_key = request.headers.get("X-API-KEY")
-    return api_key == SECRET_API_KEY
-
 def activate_buzzer():
     global buzzer_active_semaphore
     global last_pressed_buzzer_id
@@ -47,11 +44,66 @@ def deactivate_buzzer():
 
 @app.route('/')
 def index():
+    global selected_question_id
+    selected_question_id = None
     teams = dao.get_teams()
     answered_questions = dao.get_answered_questions_of_round(session_id, round_number)
     answered_question_ids = [question_id for question_id, _ in answered_questions]
     question_matrix = get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
     return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number, last_buzzer_ping=last_buzzer_ping)
+
+# @app.route('/quizmaster')
+# def quizmaster():
+#     question = dao.get_question_by_id(selected_question_id)
+#     if question:
+#         # Wrap the answer in an <h1> tag for display
+#         answer_html = f"<h1>Frage: {question['question']}</h1><h1>Antwort: <span style='color: red;'>{question['answer']}</span></h1>"
+#         return Response(answer_html, content_type="text/html; charset=utf-8")
+#     else:
+#         # Handle case when no question is selected
+#         return Response("<h1>Keine Frage ausgewählt</h1>", content_type="text/html; charset=utf-8")
+
+@app.route('/quizmaster_stream')
+def quizmaster_stream():
+    def event_stream():
+        while True:
+            # Fetch the latest question and answer
+            question = dao.get_question_by_id(selected_question_id)
+            if question:
+                # Send the question and answer as an SSE message
+                yield f"data: <h1>Frage: {question['question']}</h1><h1>Antwort: <span style='color: red;'>{question['answer']}</span></h1>\n\n"
+            else:
+                # Send a message indicating no question is selected
+                yield "data: <h1>Keine Frage ausgewählt</h1>\n\n"
+            time.sleep(1)  # Adjust polling interval as needed
+
+    # Use stream_with_context to handle the event stream
+    return Response(stream_with_context(event_stream()), content_type='text/event-stream')
+
+@app.route('/quizmaster')
+def quizmaster():
+    html = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Quizmaster Admin Panel</title>
+    </head>
+    <body>
+        <div id="question-answer">
+            <h1>Loading latest answer...</h1>
+        </div>
+        <script>
+            const eventSource = new EventSource('/quizmaster_stream');
+            eventSource.onmessage = function(event) {
+                // Update the inner HTML of the question-answer div with the latest answer
+                document.getElementById('question-answer').innerHTML = event.data;
+            };
+        </script>
+    </body>
+    </html>
+    """
+    return Response(html, content_type="text/html; charset=utf-8")
 
 @app.route('/new_session', methods=['POST'])
 def new_session():
@@ -86,6 +138,8 @@ def remove_team():
 @app.route('/select_question/<int:question_id>', methods=['POST'])
 def select_question(question_id):
     activate_buzzer()
+    global selected_question_id
+    selected_question_id = question_id
     question = dao.get_question_by_id(question_id)
     return jsonify({
         'question_id': question['question_id'],
@@ -100,12 +154,15 @@ def select_question(question_id):
 @app.route('/unselect_question', methods=['POST'])
 def unselect_question():
     deactivate_buzzer()
+    global selected_question_id
+    selected_question_id = None
     return jsonify({"success": True, "message": "Buzzer deactivated"})
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
     deactivate_buzzer()
     global last_pressed_buzzer_id
+    global selected_question_id
     team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id)
     last_pressed_buzzer_id = None
     if team_id:
@@ -113,6 +170,7 @@ def answer_question(question_id):
         if request.form['is_answer_correct'] == "true":
             dao.add_answer_to_session(session_id, round_number, question_id, team_id, question["points"])
             new_score = dao.get_team_score_by_id(team_id) + question["points"]
+            selected_question_id = None
         else:
             dao.add_answer_to_session(session_id, round_number, question_id, team_id, - question["points"])
             new_score = dao.get_team_score_by_id(team_id) - question["points"]
@@ -140,15 +198,11 @@ def get_last_buzzer_event():
 def is_buzzer_active():
     global last_buzzer_ping
     last_buzzer_ping = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    if not is_api_key_valid():
-        abort(403)
     return jsonify({"buzzer_active_semaphore": buzzer_active_semaphore})
 
 @app.route('/push_buzzer', methods=['POST'])
 def push_buzzer():
     global last_pressed_buzzer_id
-    if not is_api_key_valid():
-        abort(403)
     buzzer_id = request.args.get("buzzer_id")
     assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
     if buzzer_id and assigned_buzzer_ids and int(buzzer_id) in assigned_buzzer_ids:

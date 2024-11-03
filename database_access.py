@@ -104,7 +104,10 @@ class Dao:
             conn, cursor = self.get_db_connection()
             question = cursor.execute('SELECT * FROM questions WHERE question_id = ?', (question_id,)).fetchone()
             conn.close()
-            return question
+            if question:
+                return question
+            else:
+                return None
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
