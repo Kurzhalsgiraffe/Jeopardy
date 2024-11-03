@@ -12,7 +12,7 @@ def import_from_csv(db_path, table_name, csv_path):
 
         # Spaltennamen aus der ersten Zeile der CSV-Datei abrufen
         try:
-            column_names = next(csv_reader)
+            column_names = [col.strip().replace('"', '') for col in next(csv_reader)]  # Clean up column names
             print(f"Column names: {column_names}")  # Debugging line
             if len(column_names) != 6:
                 raise ValueError(f"CSV does not contain exactly 6 columns: {column_names}")
@@ -36,6 +36,10 @@ def import_from_csv(db_path, table_name, csv_path):
             print(f"Row data: {row}")  # Debugging line
             if len(row) != 6:
                 raise ValueError(f"Row does not contain exactly 6 values: {row}")
+
+            # Convert the points to an integer
+            row[5] = int(row[5])  # Ensure points are stored as integer
+            
             cursor.execute(f"""
                 INSERT INTO {table_name} ({', '.join(column_names)})
                 VALUES ({', '.join(['?' for _ in column_names])})
