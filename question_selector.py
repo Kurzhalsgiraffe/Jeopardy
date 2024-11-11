@@ -1,9 +1,10 @@
 import json
 import random
+# from database_access import Dao
 
-def get_random_question_matrix(dao, session_id):
+def get_random_question_matrix(dao, session_id, categories):
     question_matrix = []
-    for category in ["Filme", "Geographie", "Kultur", "Politik", "Sport"]:
+    for category in categories:
         questions_list = dao.get_questions_by_category(session_id, category=category)
         if questions_list:
             random.shuffle(questions_list)
@@ -27,3 +28,12 @@ def get_question_matrix_from_json_ids(dao, round_number, json_filepath):
                 if question_ids:
                     question_matrix.append(dao.get_multiple_questions_by_ids(question_ids))
     return question_matrix
+
+
+# dao = Dao("jeopardy.db")
+# categories = ["Sport", "Geographie", "Allgemeinwissen", "Wörter", "Kultur"]
+# x = get_random_question_matrix(dao, 1, categories)
+
+# for i in x:
+#     for j in i:
+#         print(j["question_id"])

@@ -39,7 +39,7 @@ def import_from_csv(db_path, table_name, csv_path):
 
             # Convert the points to an integer
             row[5] = int(row[5])  # Ensure points are stored as integer
-            
+
             cursor.execute(f"""
                 INSERT INTO {table_name} ({', '.join(column_names)})
                 VALUES ({', '.join(['?' for _ in column_names])})
