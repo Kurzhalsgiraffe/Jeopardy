@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Quizmaster Admin Panel</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 id="question-text">Waiting for the next question...</h1>
+        <h1 id="answer-text">Waiting for the answer...</h1>
+    </div>
+{% endblock %}
+
+{% block additionaljavascript %}
+    <script>
+        const eventSource = new EventSource('/quizmaster_stream');
+        eventSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            $("#question-text").text(`Frage: ${data.question}`);
+            $("#answer-text").text(`Antwort: ${data.answer}`);
+        };
+
+        eventSource.onerror = function() {
+            console.error("Error with the EventSource connection.");
+            eventSource.close();
+        };
+    </script>
+{% endblock %}

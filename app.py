@@ -13,6 +13,7 @@ buzzer_active_semaphore = False
 last_pressed_buzzer_id = None
 last_buzzer_ping = None
 selected_question_id = None
+quizmaster_polling_interval_seconds = 1.5
 
 session_id = dao.get_next_session_id()
 round_number = 1
@@ -52,58 +53,28 @@ def index():
     question_matrix = get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
     return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number, last_buzzer_ping=last_buzzer_ping)
 
-# @app.route('/quizmaster')
-# def quizmaster():
-#     question = dao.get_question_by_id(selected_question_id)
-#     if question:
-#         # Wrap the answer in an <h1> tag for display
-#         answer_html = f"<h1>Frage: {question['question']}</h1><h1>Antwort: <span style='color: red;'>{question['answer']}</span></h1>"
-#         return Response(answer_html, content_type="text/html; charset=utf-8")
-#     else:
-#         # Handle case when no question is selected
-#         return Response("<h1>Keine Frage ausgewählt</h1>", content_type="text/html; charset=utf-8")
+@app.route('/quizmaster')
+def quizmaster():
+    return render_template('quizmaster.html')
 
 @app.route('/quizmaster_stream')
 def quizmaster_stream():
     def event_stream():
         while True:
-            # Fetch the latest question and answer
             question = dao.get_question_by_id(selected_question_id)
             if question:
-                # Send the question and answer as an SSE message
-                yield f"data: <h1>Frage: {question['question']}</h1><h1>Antwort: <span style='color: red;'>{question['answer']}</span></h1>\n\n"
+                data = {
+                    "question": question['question'],
+                    "answer": question['answer']
+                }
             else:
-                # Send a message indicating no question is selected
-                yield "data: <h1>Keine Frage ausgewählt</h1>\n\n"
-            time.sleep(1)  # Adjust polling interval as needed
-
-    # Use stream_with_context to handle the event stream
+                data = {
+                    "question": None,
+                    "answer": None
+                }
+            yield f"data: {json.dumps(data)}\n\n" # Yield the JSON object as a string
+            time.sleep(quizmaster_polling_interval_seconds)
     return Response(stream_with_context(event_stream()), content_type='text/event-stream')
-
-@app.route('/quizmaster')
-def quizmaster():
-    html = """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Quizmaster Admin Panel</title>
-    </head>
-    <body>
-        <div id="question-answer">
-            <h1>Loading latest answer...</h1>
-        </div>
-        <script>
-            const eventSource = new EventSource('/quizmaster_stream');
-            eventSource.onmessage = function(event) {
-                // Update the inner HTML of the question-answer div with the latest answer
-                document.getElementById('question-answer').innerHTML = event.data;
-            };
-        </script>
-    </body>
-    </html>
-    """
-    return Response(html, content_type="text/html; charset=utf-8")
 
 @app.route('/new_session', methods=['POST'])
 def new_session():

@@ -1,735 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jeopardy Game</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="shortcut icon" href="{{ url_for("static", filename="favicon.ico") }}">
-    <style>
-        body {
-            color: white;
-            background-image: url("/static/images/question-mark.png");
-        }
-        .btn-primary {
-            background-color: darkslategrey;
-            border: none;
-        }
-        .question-card {
-            cursor: pointer;
-        }
-        .card {
-            background-color: darkslategrey;
-            height: 110px; /* Adjust the height as needed */
-            width: 200px; /* Adjust the width as needed */
-        }
-        .card-body {
-            padding: 1rem; /* Adjust as needed for spacing */
-        }
-        .card-title {
-            margin-bottom: 0.5rem; /* Adjust as needed for spacing */
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            max-width: 150px; /* Adjust width to fit within the card */
-        }
-        .category-block {
-            width: 100%;
-        }
-        .team-cards-wrapper {
-            text-align: center;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Center horizontally */
-            gap: 10px; /* Space between h2 and button */
-            margin-bottom: 20px; /* Space between header and cards */
-        }
-        .header h2 {
-            margin: 0;
-        }
-        .team-cards-container {
-            display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
-            flex-wrap: wrap;
-            gap: 20px; /* Space between team cards */
-        }
-        .team-card {
-            position: relative;
-            height: auto; /* Adjust the height as needed */
-            width: 100%; /* Use full width within the grid column */
-            margin-bottom: 10px; /* Space between team cards */
-        }
-        .team-card-body {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .remove-btn {
-            position: absolute;
-            top: -15px;
-            right: -13px;
-        }
-        .team-card-settings {
-            justify-content: space-between;
-            align-items: center;
-        }
-        .team-card-settings-footer {
-            display: flex;
-            justify-content: space-between;
-            margin: 0px 15px 10px 15px;
-        }
-        .team-buzzer-id-input {
-            border-radius: 5px;
-            width: 30px;
-        }
+{% extends "base.html" %}
 
-        .team-buzzer-sound {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0 20px;
-            text-align: center;
-        }
+{% block title %}
+    <title>Jeopardy</title>
+{% endblock %}
 
-        .team-buzzer-sound .buzzer-label {
-            margin-bottom: 5px;
-        }
-
-        .team-buzzer-sound select {
-            width: 100%;
-            max-width: 300px;
-        }
-
-        .team-add-points {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .team-add-points-input {
-            width: 70px; /* Adjust the width as needed */
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .team-control-btn {
-            width: 30px; /* Adjust the width as needed */
-        }
-        .manual-score-change-container {
-            display: flex;
-            gap: 5px; /* Adjust gap to prevent overlap */
-        }
-        .modal-dialog {
-            max-width: 90%; /* Adjust the maximum width as needed */
-            margin: 1.75rem auto; /* Center the modal vertically */
-        }
-        .modal-content {
-            height: 50vh; /* Set the height to 50% of the viewport height */
-            overflow-y: auto; /* Enable vertical scrolling if content exceeds modal height */
-            background-color: darkslategrey; /* Adjust the background color as needed */
-            color: white; /* Adjust the text color as needed */
-        }
-        .modal-content .close {
-            color: white; /* Set the color of the close button to white */
-        }
-        .modal-body {
-            display: flex;
-            position: relative;
-            justify-content: center; /* Horizontally center the content */
-            align-items: center; /* Vertically center the content */
-            text-align: center; /* Center the text horizontally */
-            height: 100%; /* Ensure the modal body takes up the full height */
-        }
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .modal-header-container {
-            width: 30%;
-            display: flex;
-        }
-        .answering-team {
-            margin: 0;
-        }
-        .modal-footer {
-            display: flex;
-            justify-content: space-between; /* Distribute space between buttons */
-            align-items: center; /* Center vertically */
-        }
-        .answered {
-            opacity: 0.5;
-        }
-        .answer-text-container {
-            width: 80%;
-            text-align: center;
-        }
-        .answer-button-container {
-            width: 7.5%;
-            display: flex;
-            justify-content: center; /* Horizontally centers the button */
-        }
-        .answer-button {
-            transition: background-color 0.3s ease, transform 0.1s ease;
-        }
-        .answer-button:active {
-            background-color: #0056b3; /* Change to your desired active background color */
-            transform: scale(0.55); /* Slightly scale down the button */
-        }
-        .blur-text {
-            filter: blur(10px); /* Initial blur effect */
-            transition: filter 0.5s ease; /* Smooth transition */
-            cursor: pointer; /* Change cursor to pointer when hovered */
-        }
-        .blur-text:hover {
-            filter: none; /* Remove blur effect on hover */
-        }
-        .btn-icon {
-            width: 30px;
-            height: 30px;
-            padding: 0;
-            border-radius: 50%;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: darkslategrey;
-        }
-        .session-controls {
-            width: 175px;
-        }
-        /* Hide up-down arrows for input*/
-        /* Chrome, Safari, Edge, Opera */
-        .team-buzzer-id-input::-webkit-outer-spin-button,
-        .team-buzzer-id-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        /* Firefox */
-        .team-buzzer-id-input {
-            -moz-appearance: textfield;
-            appearance: textfield;
-        }
-        .modal-question-id {
-            position: absolute;
-            top: 0;
-            right: 0;
-            padding: 10px; /* Adjust padding if needed */
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header mt-2">
-            <h2>Fragen</h2>
-            <button id="toggle-question-settings-btn" class="btn btn-primary btn-icon">
-                <i class="fas fa-pencil-alt"></i>
-            </button>
-        </div>
-        <div class="row my-3">
-            {% for category in question_matrix %}
-                <div class="col-md-2 mx-3">
-                    <div class="category-block">
-                        <h3>{{ category[0]["category"] }}</h3>
-                        <div class="d-flex flex-column">
-                            {% for question in category %}
-                                <div class="card question-card mb-2 {{ "answered" if question["question_id"] in answered_question_ids }}" data-question-id="{{ question["question_id"] }}"">
-                                    <button class="btn btn-sm btn-danger remove-btn skip-question-btn"><span aria-hidden="true">&times;</span></button>
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ question["points"] }} €</h5>
-                                        <p class="card-text">{{ question["type"] }}</p>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="team-cards-wrapper">
-                    <div class="header">
-                        <h2>Teams</h2>
-                        <button id="toggle-team-settings-btn" class="btn btn-primary btn-icon">
-                            <i class="fas fa-pencil-alt"></i>
-                        </button>
-                    </div>
-                    <div class="row team-cards-container">
-                        {% for team in teams %}
-                        <div>
-                            <div class="card team-card {{ "active" if team.is_active }}" data-team-id="{{ team.team_id }}">
-                                <button class="btn btn-sm btn-danger remove-btn remove-team-btn"><span aria-hidden="true">&times;</span></button>
-                                <div class="card-body team-card-body">
-                                    <div class="mx-3">
-                                        <h5 class="card-title">{{ team.name }}</h5>
-                                        <span class="card-text">{{ team.score }}</span>
-                                    </div>
-                                    <div class="team-add-points mt-2 mx-3">
-                                        <input type="number" class="mb-2 team-add-points-input" id="points-{{ team.team_id }}">
-                                        <div class="manual-score-change-container">
-                                            <button class="btn btn-success btn-sm team-control-btn" data-team-id="{{ team.team_id }}" data-action="add">+</button>
-                                            <button class="btn btn-danger btn-sm team-control-btn" data-team-id="{{ team.team_id }}" data-action="subtract">-</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="team-card-settings">
-                                    <div class="team-buzzer-id">
-                                        <span>Buzzer ID</span>
-                                        <input type="number" class="mb-2 team-buzzer-id-input" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
-                                    </div>
-                                    <div class="team-buzzer-sound">
-                                        <span class="buzzer-label">Buzzer Sound</span>
-                                        <select class="mb-2 team-buzzer-sound-input" data-team-id="{{ team.team_id }}">
-                                            <option value="">Select Sound</option>
-                                        </select>
-                                    </div>
-                                    <div class="team-card-settings-footer">
-                                        <div class="team-active">
-                                            <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ "checked" if team.is_active }}>
-                                            <span>Active</span>
-                                        </div>
-                                        <div>
-                                            <span id="team-id-span">ID: {{ team.team_id }}</span>
-                                        </div>
-                                    </div>
+{% block content %}
+<div class="container">
+    <div class="header mt-2">
+        <h2>Fragen</h2>
+        <button id="toggle-question-settings-btn" class="btn btn-primary btn-icon">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+    </div>
+    <div class="row my-3">
+        {% for category in question_matrix %}
+            <div class="col-md-2 mx-3">
+                <div class="category-block">
+                    <h3>{{ category[0]["category"] }}</h3>
+                    <div class="d-flex flex-column">
+                        {% for question in category %}
+                            <div class="card question-card mb-2 {{ "answered" if question["question_id"] in answered_question_ids }}" data-question-id="{{ question["question_id"] }}"">
+                                <button class="btn btn-sm btn-danger remove-btn skip-question-btn"><span aria-hidden="true">&times;</span></button>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ question["points"] }} €</h5>
+                                    <p class="card-text">{{ question["type"] }}</p>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
-                        <form id="add-team-form" action="{{ url_for("add_team") }}" method="post" class="mt-4">
-                            <div class="form-group">
-                                <label for="team-name-input">Team Name</label>
-                                <input type="text" class="form-control mt-2" id="team-name-input" name="team-name-input" maxlength="15">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Team hinzufügen</button>
-                        </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="my-3">
-            <div class="mt-2">
-                <span class="session-controls">Runde <span id="round-number">{{ round_number }}</span></span>
+        {% endfor %}
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="team-cards-wrapper">
+                <div class="header">
+                    <h2>Teams</h2>
+                    <button id="toggle-team-settings-btn" class="btn btn-primary btn-icon">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </div>
+                <div class="row team-cards-container">
+                    {% for team in teams %}
+                    <div>
+                        <div class="card team-card {{ "active" if team.is_active }}" data-team-id="{{ team.team_id }}">
+                            <button class="btn btn-sm btn-danger remove-btn remove-team-btn"><span aria-hidden="true">&times;</span></button>
+                            <div class="card-body team-card-body">
+                                <div class="mx-3">
+                                    <h5 class="card-title">{{ team.name }}</h5>
+                                    <span class="card-text">{{ team.score }}</span>
+                                </div>
+                                <div class="team-add-points mt-2 mx-3">
+                                    <input type="number" class="mb-2 team-add-points-input" id="points-{{ team.team_id }}">
+                                    <div class="manual-score-change-container">
+                                        <button class="btn btn-success btn-sm team-control-btn" data-team-id="{{ team.team_id }}" data-action="add">+</button>
+                                        <button class="btn btn-danger btn-sm team-control-btn" data-team-id="{{ team.team_id }}" data-action="subtract">-</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="team-card-settings">
+                                <div class="team-buzzer-id">
+                                    <span>Buzzer ID</span>
+                                    <input type="number" class="mb-2 team-buzzer-id-input" data-team-id="{{ team.team_id }}" value="{{ team.buzzer_id if team.buzzer_id }}">
+                                </div>
+                                <div class="team-buzzer-sound">
+                                    <span class="buzzer-label">Buzzer Sound</span>
+                                    <select class="mb-2 team-buzzer-sound-input" data-team-id="{{ team.team_id }}">
+                                        <option value="">Select Sound</option>
+                                    </select>
+                                </div>
+                                <div class="team-card-settings-footer">
+                                    <div class="team-active">
+                                        <input type="checkbox" class="team-active-checkbox" data-team-id="{{ team.team_id }}" {{ "checked" if team.is_active }}>
+                                        <span>Active</span>
+                                    </div>
+                                    <div>
+                                        <span id="team-id-span">ID: {{ team.team_id }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <form id="add-team-form" action="{{ url_for("add_team") }}" method="post" class="mt-4">
+                        <div class="form-group">
+                            <label for="team-name-input">Team Name</label>
+                            <input type="text" class="form-control mt-2" id="team-name-input" name="team-name-input" maxlength="15">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Team hinzufügen</button>
+                    </form>
+                </div>
             </div>
-            <form action="{{ url_for("previous_round") }}" method="post" class="mt-2">
-                <button type="submit" class="btn btn-primary session-controls">Vorherige Runde</button>
-            </form>
-            <form action="{{ url_for("next_round") }}" method="post" class="mt-2">
-                <button type="submit" class="btn btn-primary session-controls">Nächste Runde</button>
-            </form>
-            <form action="{{ url_for("new_session") }}" method="post" class="mt-2">
-                <button type="submit" class="btn btn-primary session-controls">Neue Session</button>
-            </form>
         </div>
     </div>
-    <span>Last Buzzer Ping:</span>
-    <span>{{ last_buzzer_ping }}</span>
+    <div class="my-3">
+        <div class="mt-2">
+            <span class="session-controls">Runde <span id="round-number">{{ round_number }}</span></span>
+        </div>
+        <form action="{{ url_for("previous_round") }}" method="post" class="mt-2">
+            <button type="submit" class="btn btn-primary session-controls">Vorherige Runde</button>
+        </form>
+        <form action="{{ url_for("next_round") }}" method="post" class="mt-2">
+            <button type="submit" class="btn btn-primary session-controls">Nächste Runde</button>
+        </form>
+        <form action="{{ url_for("new_session") }}" method="post" class="mt-2">
+            <button type="submit" class="btn btn-primary session-controls">Neue Session</button>
+        </form>
+    </div>
 
     <!-- Question Modal -->
-    <div class="modal fade" id="question-modal" tabindex="-1" role="dialog"  aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-header-container">
-                        <h5 class="modal-title" id="question-modal-label"></h5>
-                    </div>
-                    <div class="answering-team-container">
-                        <h5 class="answering-team" id="question-modal-answering-team"></h5>
-                    </div>
-                    <div class="modal-header-container">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
+<div class="modal fade" id="question-modal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-container">
+                    <h5 class="modal-title" id="question-modal-label"></h5>
                 </div>
-                <div class="modal-body">
-                    <div class="modal-question-id">
-                        <span id="modal-question-id-span"></span>
-                    </div>
-                    <div>
-                        <h2 id="question-text"></h2>
-                    </div>
+                <div class="answering-team-container">
+                    <h5 class="answering-team" id="question-modal-answering-team"></h5>
                 </div>
-                <div class="modal-footer">
-                    <div class="answer-button-container" data-answer="true">
-                        <button type="button" class="btn btn-secondary answer-button">Richtig</button>
-                    </div>
-                    <div class="answer-text-container">
-                        <span id="answer-text"></span>
-                    </div>
-                    <div class="answer-button-container" data-answer="false">
-                        <button type="button" class="btn btn-secondary answer-button">Falsch</button>
-                    </div>
+                <div class="modal-header-container">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-question-id">
+                    <span id="modal-question-id-span"></span>
+                </div>
+                <div>
+                    <h2 id="question-text"></h2>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="answer-button-container" data-answer="true">
+                    <button type="button" class="btn btn-secondary answer-button">Richtig</button>
+                </div>
+                <div class="answer-text-container">
+                    <span id="answer-text"></span>
+                </div>
+                <div class="answer-button-container" data-answer="false">
+                    <button type="button" class="btn btn-secondary answer-button">Falsch</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
+</div>
+<span>Last Buzzer Ping:</span>
+<span>{{ last_buzzer_ping }}</span>
+{% endblock %}
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        var question_settings_visible = false;
-        var team_settings_visible = false;
-        var current_question_id;
-        var buzzer_poll_interval = null;
-        var is_buzzer_polling = false;
-        var is_buzzer_event_handled = false;
-        const question_modal = $("#question-modal")
-        const add_team_form = $("#add-team-form")
-        const question_cards = $(".question-card");
-        const team_cards = $(".team-card");
-
-        question_modal.on("hidden.bs.modal", function (e) {
-            if (is_buzzer_polling) {
-                clearInterval(buzzer_poll_interval);
-                is_buzzer_polling = false;
-            }
-        });
-
-        add_team_form.on("submit", function(event) {
-            var team_name = $("#team-name-input").val().trim();
-            if (team_name === "") {
-                alert("Team Name cannot be empty");
-                event.preventDefault();
-            }
-        });
-
-        $(".modal-footer").on("click", ".answer-button-container", function() {
-            const is_answer_correct = $(this).attr("data-answer") === "true";
-            submitAnswer(is_answer_correct);
-        });
-
-        $(document).on('click', '.question-card', function() {
-            const question_id = $(this).attr("data-question-id");
-            selectQuestion(question_id);
-        });
-
-        $(document).on('click', '#toggle-question-settings-btn', function() {
-            toggleQuestionSettings();
-        });
-
-        $(document).on('click', '.skip-question-btn', function(event) {
-            event.stopPropagation();
-            const question_id = $(this).closest(".question-card").data("question-id");
-            skipQuestion(question_id)
-        });
-
-        $(document).on('click', '#toggle-team-settings-btn', function() {
-            toggleTeamSettings();
-        });
-
-        $(document).on('click', '.remove-team-btn', function() {
-            const team_id = $(this).closest(".team-card").data("team-id");
-            removeTeam(team_id)
-        });
-
-        $(document).on('click', '.team-control-btn', function() {
-            const team_id = $(this).data('team-id');
-            const action = $(this).data('action');
-            updateScore(team_id, action);
-        });
-
-        $(document).on('change', '.team-buzzer-id-input', function() {
-            const team_id = $(this).data("team-id");
-            const buzzer_id = $(this).val();
-            updateBuzzerID(team_id, buzzer_id);
-        });
-
-        $(document).on('change', '.team-buzzer-sound-input', function() {
-            const team_id = $(this).data("team-id");
-            const buzzer_sound = $(this).val();
-            playSound(`static/sounds/team_sounds/${buzzer_sound}`);
-            updateTeamBuzzerSound(team_id, buzzer_sound);
-        });
-
-        $(document).on('change', '.team-active-checkbox', function() {
-            const team_id = $(this).data("team-id");
-            const is_checked = $(this).is(":checked");
-            toggleTeamActivation(team_id, is_checked);
-        });
-
-        function startBuzzerPolling() {
-            const question_modal_answering_team = $("#question-modal-answering-team");
-
-            if (!is_buzzer_polling) {
-                is_buzzer_polling = true;
-                is_buzzer_event_handled = false;
-
-                buzzer_poll_interval = setInterval(function() {
-                    $.ajax({
-                        url: "/get_last_buzzer_event",
-                        type: "GET",
-                        dataType: "json",
-                        success: function(response) {
-                            if (response.buzzer_id !== null && response.team_id !== null) {
-                                if (!is_buzzer_event_handled) {
-                                    is_buzzer_event_handled = true;
-
-                                    question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
-                                    if (response.buzzer_sound != null) {
-                                        playSound(`static/sounds/team_sounds/${response.buzzer_sound}`);
-                                    }
-
-                                    // Clear the polling interval and stop further requests
-                                    if (is_buzzer_polling) {
-                                        clearInterval(buzzer_poll_interval);
-                                        is_buzzer_polling = false;
-                                    }
-                                }
-                            } else {
-                                question_modal_answering_team.text("");
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("Error polling for buzzer event:", error);
-                        }
-                    });
-                }, 200);
-            }
-        }
-
-        question_modal.on("hidden.bs.modal", function (e) {
-            if (is_buzzer_polling) {
-                clearInterval(buzzer_poll_interval);
-                is_buzzer_polling = false;
-            }
-            is_buzzer_event_handled = false;
-            $.post("/unselect_question", function(response) {
-                if (!response.success) {
-                    console.error("Failed to unselect question:", response.message);
-                    alert("There was an error unselecting the questions and deactivating the buzzers.");
-                }
-            });
-        });
-
-        function playSound(sound_name) {
-            var audio = new Audio(sound_name);
-            audio.currentTime = 0;
-            audio.play().catch(function(error) {
-                console.error("Audio playback failed:", error);
-            });
-        }
-
-        function selectQuestion(question_id) {
-            current_question_id = question_id;
-            const answer_button = $(".answer-button")
-            const answer_text_container = $(".answer-text-container")
-            question_modal.modal("show");
-
-            $.post("/select_question/" + question_id, {}, function(data) {
-                $("#question-modal-label").text(data.category + " - " + data.points + " (" + data.type + ")")
-                $("#modal-question-id-span").text(data.question_id)
-                $("#question-text").text(data.question);
-                $("#answer-text").text(data.answer);
-
-                if (data.answered_questions.some(obj => obj.hasOwnProperty(data.question_id))) {
-                    answer_text_container.removeClass("blur-text");
-                    answer_button.hide();
-
-                    const answered_question = data.answered_questions.find(obj => obj.hasOwnProperty(data.question_id));
-                    if (answered_question[data.question_id][0]) {
-                        $("#question-modal-answering-team").text( answered_question[data.question_id][0] + " (Buzzer " + answered_question[data.question_id][1] + ")");
-                    } else {
-                        $("#question-modal-answering-team").text("Kein Team - Frage wurde übersprungen");
-                    }
-                } else {
-                    answer_text_container.addClass("blur-text");
-                    answer_button.show();
-                    startBuzzerPolling();
-                }
-            });
-        }
-
-        function updateScore(team_id, action) {
-            var points_input = document.getElementById("points-" + team_id);
-            var points = parseInt(points_input.value);
-
-            if (isNaN(points) || points <= 0) {
-                alert("Please enter a valid number of points.");
-                return;
-            }
-
-            var score_delta = action === "add" ? + points : - points;
-            $.post("/update_score", { team_id: team_id, score_delta: score_delta }, function(response) {
-                updateTeamScores(response);
-            });
-        }
-
-        function submitAnswer(is_answer_correct) {
-            $.post("/answer_question/" + current_question_id, { is_answer_correct: is_answer_correct }, function(response) {
-                if (response.success) {
-                    if (is_answer_correct) {
-                        var card = document.querySelector(`[data-question-id="${current_question_id}"]`);
-                        card.classList.add("answered");
-                        card.style.opacity = "0.5";
-                        question_modal.modal("hide");
-                        playSound("static/sounds/game_sounds/Mario_Coin.mp3");
-                    } else {
-                        question_modal.modal("show");
-                        startBuzzerPolling();
-                        playSound("static/sounds/game_sounds/Nope.mp3");
-                    }
-                    updateTeamScores(response.teams);
-                } else {
-                    alert(response.message)
-                }
-            });
-        }
-
-        function skipQuestion(question_id) {
-            if (confirm("Möchtest du die Frage wirklich überspringen?")) {
-                var card = $(`[data-question-id="${question_id}"]`);
-                if (!card.hasClass("answered")) {
-                    $.post("/skip_question/" + question_id, function(response) {
-                        if (response.success) {
-                            card.addClass("answered").css("opacity", "0.5");
-                            playSound("static/sounds/game_sounds/Windows_Error.mp3");
-                        } else {
-                            alert(response.message)
-                        }
-                    });
-                }
-            }
-        }
-
-        function updateTeamScores(teams) {
-            teams.forEach(team => {
-                const team_element = $(`[data-team-id="${team.team_id}"] .card-text`);
-                if (team_element.length > 0) {
-                    team_element.text(team.score);
-                }
-            });
-        }
-
-        function removeTeam(team_id) {
-            if (confirm("Möchtest du das Team wirklich löschen?")) {
-                $.post("/remove_team", { team_id: team_id }, function() {
-                    location.reload();
-                });
-            }
-        }
-
-        function toggleTeamActivation(team_id, is_checked) {
-            $.post("/toggle_team_activation", { team_id: team_id, active: is_checked }, function(response) {
-                var teamCard = $(`.team-card[data-team-id="${team_id}"]`);
-                if (is_checked) {
-                    teamCard.addClass("active");
-                } else {
-                    teamCard.removeClass("active");
-                }
-            });
-        }
-
-        function updateBuzzerID(team_id, buzzer_id) {
-            $.post("/update_buzzer_id", { team_id: team_id, buzzer_id: buzzer_id }, function(response) {
-                if (response.success) {
-                    response.teams.forEach(function(team) {
-                        var input_element = $(`.team-buzzer-id-input[data-team-id="${team.team_id}"]`);
-                        if (input_element.length) {
-                            input_element.val(team.buzzer_id);
-                            input_element.css("background-color", "lime");
-                            setTimeout(function() {
-                                input_element.css("background-color", "");
-                            }, 800);
-                        }
-                    });
-                } else {
-                    alert(response.message)
-                }
-            });
-        }
-
-        function updateTeamBuzzerSound(team_id, buzzer_sound) {
-            $.post("/update_team_buzzer_sound", { team_id: team_id, buzzer_sound: buzzer_sound }, function(response) {
-                if (response.success) {
-                    response.teams.forEach(function(team) {
-                        var selectElement = $(`.team-buzzer-sound-input[data-team-id="${team.team_id}"]`);
-                        if (selectElement.length) {
-                            selectElement.val(team.buzzer_sound);
-                        }
-                    });
-                } else {
-                    alert(response.message);
-                }
-            });
-        }
-
-        function getTeamBuzzerSounds() {
-            $.get("/get_buzzer_sounds", function(response) {
-                if (response.success) {
-                    response.teams.forEach(function(team) {
-                        var dropdown_element = $(`.team-buzzer-sound-input[data-team-id="${team.team_id}"]`);
-                        if (dropdown_element.length) {
-
-                            dropdown_element.empty();
-                            dropdown_element.append($('<option>', {
-                                value: '',
-                                text: 'Select Sound'
-                            }));
-
-                            response.sounds.forEach(function(sound) {
-                                dropdown_element.append($('<option>', {
-                                    value: sound,
-                                    text: sound
-                                }));
-                            });
-                            if (team.buzzer_sound) {
-                                dropdown_element.val(team.buzzer_sound);
-                            } else {
-                                dropdown_element.val('');
-                            }
-                        }
-                    });
-                } else {
-                    alert("Failed to load buzzer sounds: " + response.message);
-                }
-            });
-        }
-
-        function toggleQuestionSettings() {
-            const skip_question_buttons = $(question_cards).find(".skip-question-btn");
-            if (!question_settings_visible) {
-                question_settings_visible = true;
-                skip_question_buttons.show();
-            } else {
-                question_settings_visible = false;
-                skip_question_buttons.hide();
-            }
-        }
-
-        function toggleTeamSettings() {
-            const team_card_settings = $(team_cards).find(".team-card-settings");
-            const remove_team_buttons = $(team_cards).find(".remove-team-btn");
-
-            if (!team_settings_visible) {
-                team_settings_visible = true;
-                add_team_form.show();
-                remove_team_buttons.show();
-                team_card_settings.show();
-                team_cards.show();
-            } else {
-                team_settings_visible = false;
-                add_team_form.hide();
-                remove_team_buttons.hide();
-                team_card_settings.hide();
-                $(".team-card:not(.active)").hide();
-            }
-        }
-
-        $(document).ready(function() {
-            const team_card_settings = $(team_cards).find(".team-card-settings");
-            const skip_question_buttons = $(question_cards).find(".skip-question-btn");
-            const remove_team_buttons = $(team_cards).find(".remove-team-btn");
-            add_team_form.hide();
-            remove_team_buttons.hide();
-            skip_question_buttons.hide();
-            team_card_settings.hide();
-            $(".team-card:not(.active)").hide();
-            getTeamBuzzerSounds();
-        });
-    </script>
-</body>
-</html>
+{% block additionaljavascript %}
+    <script src="{{ url_for('static', filename='js/jeopardy.js') }}" type="application/javascript"></script>
+{% endblock %}

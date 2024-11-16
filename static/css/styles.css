@@ -1,0 +1,211 @@
+body {
+    color: white;
+    background-image: url("/static/images/question-mark.png");
+}
+.btn-primary {
+    background-color: darkslategrey;
+    border: none;
+}
+.question-card {
+    cursor: pointer;
+}
+.card {
+    background-color: darkslategrey;
+    height: 110px; /* Adjust the height as needed */
+    width: 200px; /* Adjust the width as needed */
+}
+.card-body {
+    padding: 1rem; /* Adjust as needed for spacing */
+}
+.card-title {
+    margin-bottom: 0.5rem; /* Adjust as needed for spacing */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 150px; /* Adjust width to fit within the card */
+}
+.category-block {
+    width: 100%;
+}
+.team-cards-wrapper {
+    text-align: center;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    gap: 10px; /* Space between h2 and button */
+    margin-bottom: 20px; /* Space between header and cards */
+}
+.header h2 {
+    margin: 0;
+}
+.team-cards-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-wrap: wrap;
+    gap: 20px; /* Space between team cards */
+}
+.team-card {
+    position: relative;
+    height: auto; /* Adjust the height as needed */
+    width: 100%; /* Use full width within the grid column */
+    margin-bottom: 10px; /* Space between team cards */
+}
+.team-card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.remove-btn {
+    position: absolute;
+    top: -15px;
+    right: -13px;
+}
+.team-card-settings {
+    justify-content: space-between;
+    align-items: center;
+}
+.team-card-settings-footer {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 15px 10px 15px;
+}
+.team-buzzer-id-input {
+    border-radius: 5px;
+    width: 30px;
+}
+
+.team-buzzer-sound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.team-buzzer-sound .buzzer-label {
+    margin-bottom: 5px;
+}
+
+.team-buzzer-sound select {
+    width: 100%;
+    max-width: 300px;
+}
+
+.team-add-points {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.team-add-points-input {
+    width: 70px; /* Adjust the width as needed */
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.team-control-btn {
+    width: 30px; /* Adjust the width as needed */
+}
+.manual-score-change-container {
+    display: flex;
+    gap: 5px; /* Adjust gap to prevent overlap */
+}
+.modal-dialog {
+    max-width: 90%; /* Adjust the maximum width as needed */
+    margin: 1.75rem auto; /* Center the modal vertically */
+}
+.modal-content {
+    height: 50vh; /* Set the height to 50% of the viewport height */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds modal height */
+    background-color: darkslategrey; /* Adjust the background color as needed */
+    color: white; /* Adjust the text color as needed */
+}
+.modal-content .close {
+    color: white; /* Set the color of the close button to white */
+}
+.modal-body {
+    display: flex;
+    position: relative;
+    justify-content: center; /* Horizontally center the content */
+    align-items: center; /* Vertically center the content */
+    text-align: center; /* Center the text horizontally */
+    height: 100%; /* Ensure the modal body takes up the full height */
+}
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.modal-header-container {
+    width: 30%;
+    display: flex;
+}
+.answering-team {
+    margin: 0;
+}
+.modal-footer {
+    display: flex;
+    justify-content: space-between; /* Distribute space between buttons */
+    align-items: center; /* Center vertically */
+}
+.answered {
+    opacity: 0.5;
+}
+.answer-text-container {
+    width: 80%;
+    text-align: center;
+}
+.answer-button-container {
+    width: 7.5%;
+    display: flex;
+    justify-content: center; /* Horizontally centers the button */
+}
+.answer-button {
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+.answer-button:active {
+    background-color: #0056b3; /* Change to your desired active background color */
+    transform: scale(0.55); /* Slightly scale down the button */
+}
+.blur-text {
+    filter: blur(10px); /* Initial blur effect */
+    transition: filter 0.5s ease; /* Smooth transition */
+    cursor: pointer; /* Change cursor to pointer when hovered */
+}
+.blur-text:hover {
+    filter: none; /* Remove blur effect on hover */
+}
+.btn-icon {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: darkslategrey;
+}
+.session-controls {
+    width: 175px;
+}
+/* Hide up-down arrows for input*/
+/* Chrome, Safari, Edge, Opera */
+.team-buzzer-id-input::-webkit-outer-spin-button,
+.team-buzzer-id-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+.team-buzzer-id-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.modal-question-id {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px; /* Adjust padding if needed */
+}
