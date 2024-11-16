@@ -1,20 +1,12 @@
 var question_settings_visible = false;
         var team_settings_visible = false;
-        var current_question_id;
-        var buzzer_poll_interval = null;
-        var is_buzzer_polling = false;
+        var currently_opened_question_id;
         var is_buzzer_event_handled = false;
+        var buzzer_event_stream = null;
         const question_modal = $("#question-modal")
         const add_team_form = $("#add-team-form")
         const question_cards = $(".question-card");
         const team_cards = $(".team-card");
-
-        question_modal.on("hidden.bs.modal", function (e) {
-            if (is_buzzer_polling) {
-                clearInterval(buzzer_poll_interval);
-                is_buzzer_polling = false;
-            }
-        });
 
         add_team_form.on("submit", function(event) {
             var team_name = $("#team-name-input").val().trim();
@@ -78,52 +70,8 @@ var question_settings_visible = false;
             toggleTeamActivation(team_id, is_checked);
         });
 
-        function startBuzzerPolling() {
-            const question_modal_answering_team = $("#question-modal-answering-team");
-
-            if (!is_buzzer_polling) {
-                is_buzzer_polling = true;
-                is_buzzer_event_handled = false;
-
-                buzzer_poll_interval = setInterval(function() {
-                    $.ajax({
-                        url: "/get_last_buzzer_event",
-                        type: "GET",
-                        dataType: "json",
-                        success: function(response) {
-                            if (response.buzzer_id !== null && response.team_id !== null) {
-                                if (!is_buzzer_event_handled) {
-                                    is_buzzer_event_handled = true;
-
-                                    question_modal_answering_team.text(response.team_name + " (Buzzer " + response.buzzer_id + ")");
-                                    if (response.buzzer_sound != null) {
-                                        playSound(`static/sounds/team_sounds/${response.buzzer_sound}`);
-                                    }
-
-                                    // Clear the polling interval and stop further requests
-                                    if (is_buzzer_polling) {
-                                        clearInterval(buzzer_poll_interval);
-                                        is_buzzer_polling = false;
-                                    }
-                                }
-                            } else {
-                                question_modal_answering_team.text("");
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error("Error polling for buzzer event:", error);
-                        }
-                    });
-                }, 200);
-            }
-        }
-
         question_modal.on("hidden.bs.modal", function (e) {
-            if (is_buzzer_polling) {
-                clearInterval(buzzer_poll_interval);
-                is_buzzer_polling = false;
-            }
-            is_buzzer_event_handled = false;
+            closeBuzzerEventStream();
             $.post("/unselect_question", function(response) {
                 if (!response.success) {
                     console.error("Failed to unselect question:", response.message);
@@ -131,6 +79,35 @@ var question_settings_visible = false;
                 }
             });
         });
+
+        function openBuzzerEventStream() {
+            if (buzzer_event_stream) {
+                buzzer_event_stream.close();
+                buzzer_event_stream = null;
+            }
+            buzzer_event_stream = new EventSource('/buzzer_event_stream');
+
+            buzzer_event_stream.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                $("#question-modal-answering-team").text(data.team_name + " (Buzzer " + data.buzzer_id + ")");
+                if (data.buzzer_sound != null) {
+                    playSound(`static/sounds/team_sounds/${data.buzzer_sound}`);
+                }
+            };
+
+            buzzer_event_stream.onerror = function() {
+                console.error("Error with the Quizmaster EventSource connection.");
+                buzzer_event_stream.close();
+                buzzer_event_stream = null; // Clean up on error
+            };
+        }
+
+        function closeBuzzerEventStream() {
+            if (buzzer_event_stream) {
+                buzzer_event_stream.close();
+                buzzer_event_stream = null;
+            }
+        }
 
         function playSound(sound_name) {
             var audio = new Audio(sound_name);
@@ -141,16 +118,16 @@ var question_settings_visible = false;
         }
 
         function selectQuestion(question_id) {
-            current_question_id = question_id;
-            const answer_button = $(".answer-button")
-            const answer_text_container = $(".answer-text-container")
-            question_modal.modal("show");
+            currently_opened_question_id = question_id;
+            const answer_button = $(".answer-button");
+            const answer_text_container = $(".answer-text-container");
 
             $.post("/select_question/" + question_id, {}, function(data) {
-                $("#question-modal-label").text(data.category + " - " + data.points + " (" + data.type + ")")
-                $("#modal-question-id-span").text(data.question_id)
+                $("#question-modal-label").text(data.category + " - " + data.points + " (" + data.type + ")");
+                $("#modal-question-id-span").text(data.question_id);
                 $("#question-text").text(data.question);
                 $("#answer-text").text(data.answer);
+                $("#question-modal-answering-team").text("");
 
                 if (data.answered_questions.some(obj => obj.hasOwnProperty(data.question_id))) {
                     answer_text_container.removeClass("blur-text");
@@ -158,15 +135,18 @@ var question_settings_visible = false;
 
                     const answered_question = data.answered_questions.find(obj => obj.hasOwnProperty(data.question_id));
                     if (answered_question[data.question_id][0]) {
-                        $("#question-modal-answering-team").text( answered_question[data.question_id][0] + " (Buzzer " + answered_question[data.question_id][1] + ")");
+                        $("#question-modal-answering-team").text(answered_question[data.question_id][0] + " (Buzzer " + answered_question[data.question_id][1] + ")");
                     } else {
                         $("#question-modal-answering-team").text("Kein Team - Frage wurde übersprungen");
                     }
                 } else {
                     answer_text_container.addClass("blur-text");
                     answer_button.show();
-                    startBuzzerPolling();
+                    openBuzzerEventStream();
                 }
+                question_modal.modal("show");
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                alert("Error selecting question: " + errorThrown);
             });
         }
 
@@ -186,17 +166,18 @@ var question_settings_visible = false;
         }
 
         function submitAnswer(is_answer_correct) {
-            $.post("/answer_question/" + current_question_id, { is_answer_correct: is_answer_correct }, function(response) {
+            $.post("/answer_question/" + currently_opened_question_id, { is_answer_correct: is_answer_correct }, function(response) {
                 if (response.success) {
                     if (is_answer_correct) {
-                        var card = document.querySelector(`[data-question-id="${current_question_id}"]`);
+                        var card = document.querySelector(`[data-question-id="${currently_opened_question_id}"]`);
                         card.classList.add("answered");
                         card.style.opacity = "0.5";
                         question_modal.modal("hide");
                         playSound("static/sounds/game_sounds/Mario_Coin.mp3");
                     } else {
                         question_modal.modal("show");
-                        startBuzzerPolling();
+                        openBuzzerEventStream();
+                        $("#question-modal-answering-team").text("");
                         playSound("static/sounds/game_sounds/Nope.mp3");
                     }
                     updateTeamScores(response.teams);

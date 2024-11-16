@@ -47,15 +47,15 @@ def buzzer_loop() -> None:
 
         while True:
             try:
-                response = make_request("is_buzzer_active")
-                is_active = response.json().get("buzzer_active_semaphore")
+                response = make_request("is_buzzer_unlocked")
+                is_unlocked = response.json().get("buzzer_unlocked_semaphore")
             except RetryError:
                 logging.error("Max retries exceeded. Could not check buzzer status.")
                 time.sleep(10)
                 continue
 
-            if is_active:
-                logging.info("Buzzers are active.")
+            if is_unlocked:
+                logging.info("Buzzers unlocked.")
                 last_pressed_buzzer_id = None
                 while True:
                     for buzzer_id, pin in enumerate(buzzer_pins, start=1):

@@ -13,16 +13,16 @@
 
 {% block additionaljavascript %}
     <script>
-        const eventSource = new EventSource('/quizmaster_stream');
-        eventSource.onmessage = function(event) {
+        const quizmaster_stream = new EventSource('/quizmaster_stream');
+        quizmaster_stream.onmessage = function(event) {
             const data = JSON.parse(event.data);
             $("#question-text").text(`Frage: ${data.question}`);
             $("#answer-text").text(`Antwort: ${data.answer}`);
         };
 
-        eventSource.onerror = function() {
-            console.error("Error with the EventSource connection.");
-            eventSource.close();
+        quizmaster_stream.onerror = function() {
+            console.error("Error with the Quizmaster EventSource connection.");
+            quizmaster_stream.close();
         };
     </script>
 {% endblock %}

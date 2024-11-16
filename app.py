@@ -9,11 +9,13 @@ from question_selector import get_question_matrix_from_json_ids
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
 
-buzzer_active_semaphore = False
+buzzer_unlocked_semaphore = False
 last_pressed_buzzer_id = None
 last_buzzer_ping = None
 selected_question_id = None
+buzzer_stream_active = False
 quizmaster_polling_interval_seconds = 1.5
+buzzer_polling_interval_seconds = 1
 
 session_id = dao.get_next_session_id()
 round_number = 1
@@ -34,14 +36,14 @@ def decrease_round_number():
         round_number -= 1
 
 def activate_buzzer():
-    global buzzer_active_semaphore
+    global buzzer_unlocked_semaphore
     global last_pressed_buzzer_id
     last_pressed_buzzer_id = None
-    buzzer_active_semaphore = True
+    buzzer_unlocked_semaphore = True
 
 def deactivate_buzzer():
-    global buzzer_active_semaphore
-    buzzer_active_semaphore = False
+    global buzzer_unlocked_semaphore
+    buzzer_unlocked_semaphore = False
 
 @app.route('/')
 def index():
@@ -61,19 +63,36 @@ def quizmaster():
 def quizmaster_stream():
     def event_stream():
         while True:
-            question = dao.get_question_by_id(selected_question_id)
-            if question:
-                data = {
-                    "question": question['question'],
-                    "answer": question['answer']
-                }
-            else:
-                data = {
-                    "question": None,
-                    "answer": None
-                }
+            question_object = dao.get_question_by_id(selected_question_id)
+            question = question_object['question'] if question_object else None
+            answer = question_object['answer'] if question_object else None
+            data = {
+                "question": question,
+                "answer": answer
+            }
             yield f"data: {json.dumps(data)}\n\n" # Yield the JSON object as a string
             time.sleep(quizmaster_polling_interval_seconds)
+    return Response(stream_with_context(event_stream()), content_type='text/event-stream')
+
+@app.route('/buzzer_event_stream')
+def buzzer_event_stream():
+    def event_stream():
+        global buzzer_stream_active
+        buzzer_stream_active = True
+        while buzzer_stream_active:
+            if last_pressed_buzzer_id:
+                team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id) if last_pressed_buzzer_id else None
+                team_name = dao.get_team_name_by_id(team_id) if team_id else None
+                buzzer_sound = dao.get_team_buzzer_sound_by_team_id(team_id)
+                data = {
+                    "buzzer_id": last_pressed_buzzer_id,
+                    "buzzer_sound": buzzer_sound,
+                    "team_id": team_id,
+                    "team_name": team_name
+                }
+                yield f"data: {json.dumps(data)}\n\n"
+                buzzer_stream_active = False
+            time.sleep(buzzer_polling_interval_seconds)
     return Response(stream_with_context(event_stream()), content_type='text/event-stream')
 
 @app.route('/new_session', methods=['POST'])
@@ -125,7 +144,9 @@ def select_question(question_id):
 @app.route('/unselect_question', methods=['POST'])
 def unselect_question():
     deactivate_buzzer()
+    global buzzer_stream_active
     global selected_question_id
+    buzzer_stream_active = False
     selected_question_id = None
     return jsonify({"success": True, "message": "Buzzer deactivated"})
 
@@ -158,18 +179,11 @@ def skip_question(question_id):
     dao.add_answer_to_session(session_id, round_number, question_id, None, 0)
     return jsonify({"success": True, "message": "Question skipped"})
 
-@app.route('/get_last_buzzer_event', methods=['GET'])
-def get_last_buzzer_event():
-    team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id) if last_pressed_buzzer_id else None
-    team_name = dao.get_team_name_by_id(team_id) if team_id else None
-    buzzer_sound = dao.get_team_buzzer_sound_by_team_id(team_id)
-    return jsonify({"buzzer_id":last_pressed_buzzer_id, "buzzer_sound": buzzer_sound, "team_id": team_id, "team_name": team_name})
-
-@app.route('/is_buzzer_active', methods=['GET'])
-def is_buzzer_active():
+@app.route('/is_buzzer_unlocked', methods=['GET'])
+def is_buzzer_unlocked():
     global last_buzzer_ping
     last_buzzer_ping = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    return jsonify({"buzzer_active_semaphore": buzzer_active_semaphore})
+    return jsonify({"buzzer_unlocked_semaphore": buzzer_unlocked_semaphore})
 
 @app.route('/push_buzzer', methods=['POST'])
 def push_buzzer():
@@ -177,11 +191,11 @@ def push_buzzer():
     buzzer_id = request.args.get("buzzer_id")
     assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
     if buzzer_id and assigned_buzzer_ids and int(buzzer_id) in assigned_buzzer_ids:
-        if buzzer_active_semaphore:
+        if buzzer_unlocked_semaphore:
             last_pressed_buzzer_id = buzzer_id
             deactivate_buzzer()
             return jsonify({"success": True, "message": f"Buzzer {buzzer_id} was pressed"})
-        return jsonify({"success": False, "message": f"Buzzers not active"}), 500
+        return jsonify({"success": False, "message": f"Buzzers are locked"}), 500
     return jsonify({"success": False, "message": f"Buzzer {buzzer_id} not assigned"}), 500
 
 @app.route('/update_score', methods=['POST'])
