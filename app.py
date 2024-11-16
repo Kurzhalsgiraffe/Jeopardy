@@ -190,14 +190,15 @@ def is_buzzer_unlocked():
 def push_buzzer():
     global last_pressed_buzzer_id
     buzzer_id = request.args.get("buzzer_id")
+    print(buzzer_id)
     assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
     if buzzer_id and assigned_buzzer_ids and int(buzzer_id) in assigned_buzzer_ids:
         if buzzer_unlocked_semaphore:
             last_pressed_buzzer_id = buzzer_id
             deactivate_buzzer()
             return jsonify({"success": True, "message": f"Buzzer {buzzer_id} was pressed"})
-        return jsonify({"success": False, "message": f"Buzzers are locked"}), 500
-    return jsonify({"success": False, "message": f"Buzzer {buzzer_id} not assigned"}), 500
+        return jsonify({"success": False, "message": f"Buzzers are locked"}), 403
+    return jsonify({"success": False, "message": f"Buzzer {buzzer_id} not assigned"}), 403
 
 @app.route('/update_score', methods=['POST'])
 def update_score():

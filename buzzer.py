@@ -1,11 +1,10 @@
-import requests
 import RPi.GPIO as GPIO  # type: ignore
 import time
 import logging
-import api_secrets
-import socket
 from tenacity import retry, wait_fixed, stop_after_attempt, RetryError
+import requests
 from requests.auth import HTTPBasicAuth
+import api_secrets
 
 logging.basicConfig(level=logging.INFO)
 
@@ -18,64 +17,39 @@ for pin in buzzer_pins:
 
 last_pressed_buzzer_id = None
 
-def is_connected() -> bool:
-    """Check if the Raspberry Pi is connected to the internet."""
-    try:
-        # Try connecting to a known server (e.g., Google's DNS)
-        socket.create_connection(("8.8.8.8", 53), 2)
-        return True
-    except OSError:
-        return False
-
 @retry(wait=wait_fixed(5), stop=stop_after_attempt(5))
-def make_request(route: str, method="GET", data=None) -> requests.Response:
+def send_buzzer_push(buzzer_id) -> requests.Response:
     """Wrapper function to make an API request with retry logic."""
     auth = HTTPBasicAuth(api_secrets.username, api_secrets.password)
-    if method == "POST":
-        response = requests.post(f"{api_secrets.jeopardy_server}/{route}", auth=auth, data=data)
-    else:
-        response = requests.get(f"{api_secrets.jeopardy_server}/{route}", auth=auth)
+    response = requests.post(f"{api_secrets.jeopardy_server}/push_buzzer?buzzer_id={buzzer_id}", auth=auth)
     response.raise_for_status()
+    if response.status_code == 403:
+        raise RetryError("Buzzers access forbidden; retry not applicable.")
     return response
 
 def buzzer_loop() -> None:
     try:
-        # Wait until internet is connected before starting
-        while not is_connected():
-            logging.warning("No internet connection. Retrying in 15 seconds...")
-            time.sleep(15)
-
         while True:
-            try:
-                response = make_request("is_buzzer_unlocked")
-                is_unlocked = response.json().get("buzzer_unlocked_semaphore")
-            except RetryError:
-                logging.error("Max retries exceeded. Could not check buzzer status.")
-                time.sleep(10)
-                continue
-
-            if is_unlocked:
-                logging.info("Buzzers unlocked.")
-                last_pressed_buzzer_id = None
-                while True:
-                    for buzzer_id, pin in enumerate(buzzer_pins, start=1):
-                        if GPIO.input(pin) == GPIO.HIGH:
-                            last_pressed_buzzer_id = buzzer_id
-                            logging.info(f"Buzzer {buzzer_id} pressed.")
-                            break
-                    if last_pressed_buzzer_id:
+            last_pressed_buzzer_id = None
+            while True:
+                for buzzer_id, pin in enumerate(buzzer_pins, start=1):
+                    if GPIO.input(pin) == GPIO.HIGH:
+                        last_pressed_buzzer_id = buzzer_id
+                        logging.info(f"Buzzer {buzzer_id} pressed.")
                         break
-                    time.sleep(0.005)
+                if last_pressed_buzzer_id:
+                    break
+                time.sleep(0.0025)
 
-                # Send buzzer press to server
-                try:
-                    make_request(f"push_buzzer?buzzer_id={last_pressed_buzzer_id}", method="POST")
-                    logging.info(f"Successfully sent buzzer {last_pressed_buzzer_id} signal.")
-                except RetryError:
-                    logging.error(f"Failed to send buzzer {last_pressed_buzzer_id} signal after retries.")
-                    continue  # Skip this loop iteration if unable to send the signal
+            # Send buzzer press to server
+            try:
+                send_buzzer_push(last_pressed_buzzer_id)
+                logging.info(f"Successfully sent buzzer {last_pressed_buzzer_id} signal.")
+            except RetryError:
+                logging.error(f"Failed to send buzzer {last_pressed_buzzer_id} signal after retries.")
+                continue  # Skip this loop iteration if unable to send the signal
 
-            time.sleep(0.25)
+            time.sleep(0.5)
 
     except KeyboardInterrupt:
         logging.info("Shutting down buzzer loop.")
