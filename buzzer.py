@@ -21,7 +21,6 @@ def send_buzzer_push(buzzer_id) -> requests.Response:
     """Wrapper function to make an API request with retry logic."""
     auth = HTTPBasicAuth(api_secrets.username, api_secrets.password)
     response = requests.post(f"{api_secrets.jeopardy_server}/push_buzzer?buzzer_id={buzzer_id}", auth=auth)
-    response.raise_for_status()
     return response
 
 def buzzer_loop() -> None:
@@ -39,12 +38,11 @@ def buzzer_loop() -> None:
                 time.sleep(0.0025)
 
             # Send buzzer press to server
-            try:
-                send_buzzer_push(last_pressed_buzzer_id)
+            response = send_buzzer_push(last_pressed_buzzer_id)
+            if response == 200:
                 logging.info(f"Successfully sent buzzer {last_pressed_buzzer_id} signal.")
-            except RetryError:
+            else:
                 logging.error(f"Failed to send buzzer {last_pressed_buzzer_id} signal after retries.")
-                continue  # Skip this loop iteration if unable to send the signal
 
             time.sleep(0.5)
 
