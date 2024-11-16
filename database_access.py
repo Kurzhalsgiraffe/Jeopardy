@@ -84,20 +84,17 @@ class Dao:
         except sqlite3.Error as err:
             error_handler(err,traceback.format_exc())
 
-    def get_questions_by_category(self, session_id, category) -> list:
+    def get_questions_by_category(self, category) -> list:
         try:
             conn, cursor = self.get_db_connection()
-            sql = """SELECT q.*
-                FROM questions q
-                LEFT JOIN sessions sq
-                ON q.question_id = sq.question_id AND sq.session_id = ?
-                WHERE q.category = ?
-                AND sq.question_id IS NULL"""
-            questions =cursor.execute(sql, (session_id, category)).fetchall()
+            sql = """SELECT *
+                    FROM questions
+                    WHERE category = ?"""
+            questions = cursor.execute(sql, (category,)).fetchall()
             conn.close()
             return questions
         except sqlite3.Error as err:
-            error_handler(err,traceback.format_exc())
+            error_handler(err, traceback.format_exc())
 
     def get_question_by_id(self, question_id) -> sqlite3.Row:
         try:

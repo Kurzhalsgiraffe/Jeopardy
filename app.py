@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, R
 import time
 from datetime import datetime
 from database_access import Dao
-from question_selector import get_question_matrix_from_json_ids
+import question_selector
 
 app = Flask(__name__)
 dao = Dao("jeopardy.db")
@@ -20,6 +20,7 @@ buzzer_polling_interval_seconds = 1
 session_id = dao.get_next_session_id()
 round_number = 1
 rounds_json_filepath = "rounds.json"
+question_selector.check_integrity(dao, rounds_json_filepath)
 
 def increase_round_number():
     with open(rounds_json_filepath, 'r') as file:
@@ -52,7 +53,7 @@ def index():
     teams = dao.get_teams()
     answered_questions = dao.get_answered_questions_of_round(session_id, round_number)
     answered_question_ids = [question_id for question_id, _ in answered_questions]
-    question_matrix = get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
+    question_matrix = question_selector.get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
     return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number, last_buzzer_ping=last_buzzer_ping)
 
 @app.route('/quizmaster')
