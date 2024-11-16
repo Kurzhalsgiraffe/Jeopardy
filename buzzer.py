@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO  # type: ignore
 import time
 import logging
-from tenacity import retry, wait_fixed, stop_after_attempt, RetryError
+from tenacity import RetryError
 import requests
 from requests.auth import HTTPBasicAuth
 import api_secrets
@@ -17,14 +17,11 @@ for pin in buzzer_pins:
 
 last_pressed_buzzer_id = None
 
-@retry(wait=wait_fixed(5), stop=stop_after_attempt(5))
 def send_buzzer_push(buzzer_id) -> requests.Response:
     """Wrapper function to make an API request with retry logic."""
     auth = HTTPBasicAuth(api_secrets.username, api_secrets.password)
     response = requests.post(f"{api_secrets.jeopardy_server}/push_buzzer?buzzer_id={buzzer_id}", auth=auth)
     response.raise_for_status()
-    if response.status_code == 403:
-        raise RetryError("Buzzers access forbidden; retry not applicable.")
     return response
 
 def buzzer_loop() -> None:
