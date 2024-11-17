@@ -80,20 +80,28 @@ def buzzer_event_stream():
     def event_stream():
         global buzzer_stream_active
         buzzer_stream_active = True
-        while buzzer_stream_active:
-            if last_pressed_buzzer_id:
-                team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id) if last_pressed_buzzer_id else None
-                team_name = dao.get_team_name_by_id(team_id) if team_id else None
-                buzzer_sound = dao.get_team_buzzer_sound_by_team_id(team_id)
-                data = {
-                    "buzzer_id": last_pressed_buzzer_id,
-                    "buzzer_sound": buzzer_sound,
-                    "team_id": team_id,
-                    "team_name": team_name
-                }
-                yield f"data: {json.dumps(data)}\n\n"
-                buzzer_stream_active = False
-            time.sleep(buzzer_polling_interval_seconds)
+
+        try:
+            while buzzer_stream_active:
+                if last_pressed_buzzer_id:
+                    team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id) if last_pressed_buzzer_id else None
+                    team_name = dao.get_team_name_by_id(team_id) if team_id else None
+                    buzzer_sound = dao.get_team_buzzer_sound_by_team_id(team_id)
+                    data = {
+                        "buzzer_id": last_pressed_buzzer_id,
+                        "buzzer_sound": buzzer_sound,
+                        "team_id": team_id,
+                        "team_name": team_name
+                    }
+                    yield f"data: {json.dumps(data)}\n\n"
+                    buzzer_stream_active = False  # Stop after sending one event (as per current logic)
+                time.sleep(buzzer_polling_interval_seconds)
+        except GeneratorExit:
+            # Handle the clean exit when generator is closed
+            print("Event stream gracefully closed.")
+        except Exception as e:
+            print(f"Error in event stream: {e}")
+
     return Response(stream_with_context(event_stream()), content_type='text/event-stream')
 
 @app.route('/stop_buzzer_event_stream', methods=['POST'])
@@ -157,7 +165,6 @@ def unselect_question():
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
-    # deactivate_buzzer() # TODO: Unnötig?
     global last_pressed_buzzer_id
     global selected_question_id
     team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id)
@@ -176,7 +183,6 @@ def answer_question(question_id):
         teams = dao.get_teams()
         return jsonify({"success": True, "message": "Processed Answer", "teams": [dict(row) for row in teams]})
     else:
-        # activate_buzzer() # TODO: Unnötig?
         return jsonify({"success": False, "message": "No Team pressed the Buzzzer", "teams":[]})
 
 @app.route('/skip_question/<int:question_id>', methods=['POST'])

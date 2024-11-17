@@ -11,7 +11,7 @@ var question_settings_visible = false;
         add_team_form.on("submit", function(event) {
             var team_name = $("#team-name-input").val().trim();
             if (team_name === "") {
-                alert("Team Name cannot be empty");
+                alert("Team Name darf nicht leer sein");
                 event.preventDefault();
             }
         });
@@ -71,7 +71,7 @@ var question_settings_visible = false;
         });
 
         question_modal.on("hidden.bs.modal", function (e) {
-            closeBuzzerEventStream();
+            //closeBuzzerEventStream();
             $.post("/unselect_question", function(response) {
                 if (!response.success) {
                     console.error("Failed to unselect question:", response.message);
@@ -95,8 +95,8 @@ var question_settings_visible = false;
                 }
             };
 
-            buzzer_event_stream.onerror = function() {
-                console.error("Error with the Buzzer EventSource connection.");
+            buzzer_event_stream.onerror = function(error) {
+                console.error("Error with the Buzzer EventSource connection.", error);
                 buzzer_event_stream.close();
                 buzzer_event_stream = null; // Clean up on error
             };

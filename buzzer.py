@@ -39,9 +39,10 @@ def buzzer_loop() -> None:
 
             # Send buzzer press to server
             response = send_buzzer_push(last_pressed_buzzer_id)
-            if response == 200:
+            if response.status_code == 200:
                 logging.info(f"Successfully sent buzzer {last_pressed_buzzer_id} push.")
             else:
+                print(f"Status: {response.status_code}, {response.json().get('message')}")
                 logging.error(f"Failed to send buzzer {last_pressed_buzzer_id} push.")
 
             time.sleep(0.25)
