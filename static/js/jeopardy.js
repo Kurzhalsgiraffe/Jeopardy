@@ -1,7 +1,6 @@
 var question_settings_visible = false;
 var team_settings_visible = false;
 var currently_opened_question_id;
-var is_buzzer_event_handled = false;
 var buzzer_event_stream = null;
 const question_modal = $("#question-modal")
 const add_team_form = $("#add-team-form")
@@ -71,11 +70,12 @@ $(document).on('change', '.team-active-checkbox', function() {
 });
 
 question_modal.on("hidden.bs.modal", function (e) {
+    currently_opened_question_id = null
     closeBuzzerEventStream();
     $.post("/unselect_question", function(response) {
         if (!response.success) {
             console.error("Failed to unselect question:", response.message);
-            alert("There was an error unselecting the questions and deactivating the buzzers.");
+            alert("Beim Abwählen der Frage ist ein Fehler aufgetreten.");
         }
     });
 });
@@ -89,9 +89,11 @@ function openBuzzerEventStream() {
 
     buzzer_event_stream.onmessage = function(event) {
         const data = JSON.parse(event.data);
-        $("#question-modal-answering-team").text(data.team_name + " (Buzzer " + data.buzzer_id + ")");
         if (data.buzzer_sound != null) {
             playSound(`static/sounds/team_sounds/${data.buzzer_sound}`);
+        }
+        if (currently_opened_question_id != null) {
+            $("#question-modal-answering-team").text(data.team_name + " (Buzzer " + data.buzzer_id + ")");
         }
     };
 }
@@ -104,7 +106,6 @@ function closeBuzzerEventStream() {
     $.post("/stop_buzzer_event_stream", function(response) {
         if (!response.success) {
             console.error("Failed to stop buzzer stream:", response.message);
-            alert("There was an error stopping the buzzer stream");
         }
     });
 }
@@ -186,6 +187,7 @@ function submitAnswer(is_answer_correct) {
             alert(response.message)
         }
     });
+    currently_opened_question_id = null
 }
 
 function skipQuestion(question_id) {
@@ -319,13 +321,14 @@ function toggleTeamSettings() {
         remove_team_buttons.show();
         team_card_settings.show();
         team_cards.show();
-        //TODO: HERE
+        openBuzzerEventStream();
     } else {
         team_settings_visible = false;
         add_team_form.hide();
         remove_team_buttons.hide();
         team_card_settings.hide();
         $(".team-card:not(.active)").hide();
+        closeBuzzerEventStream();
     }
 }
 

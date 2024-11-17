@@ -36,15 +36,17 @@ def decrease_round_number():
     if round_number > 1:
         round_number -= 1
 
-def activate_buzzer():
+def unlock_buzzer():
     global buzzer_unlocked_semaphore
-    global last_pressed_buzzer_id
-    last_pressed_buzzer_id = None
     buzzer_unlocked_semaphore = True
 
-def deactivate_buzzer():
+def lock_buzzer():
     global buzzer_unlocked_semaphore
     buzzer_unlocked_semaphore = False
+
+def reset_last_buzzer_press():
+    global last_pressed_buzzer_id
+    last_pressed_buzzer_id = None
 
 @app.route('/')
 def index():
@@ -142,7 +144,8 @@ def remove_team():
 
 @app.route('/select_question/<int:question_id>', methods=['POST'])
 def select_question(question_id):
-    activate_buzzer()
+    reset_last_buzzer_press()
+    unlock_buzzer()
     global selected_question_id
     selected_question_id = question_id
     question = dao.get_question_by_id(question_id)
@@ -158,17 +161,16 @@ def select_question(question_id):
 
 @app.route('/unselect_question', methods=['POST'])
 def unselect_question():
-    deactivate_buzzer()
+    lock_buzzer()
     global selected_question_id
     selected_question_id = None
     return jsonify({"success": True, "message": "Buzzer deactivated"})
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
-    global last_pressed_buzzer_id
     global selected_question_id
     team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id)
-    last_pressed_buzzer_id = None
+    reset_last_buzzer_press()
     if team_id:
         question = dao.get_question_by_id(question_id)
         if request.form['is_answer_correct'] == "true":
@@ -178,7 +180,8 @@ def answer_question(question_id):
         else:
             dao.add_answer_to_session(session_id, round_number, question_id, team_id, - question["points"])
             new_score = dao.get_team_score_by_id(team_id) - question["points"]
-            activate_buzzer()
+            reset_last_buzzer_press()
+            unlock_buzzer()
         dao.update_score(team_id, new_score)
         teams = dao.get_teams()
         return jsonify({"success": True, "message": "Processed Answer", "teams": [dict(row) for row in teams]})
@@ -194,16 +197,15 @@ def skip_question(question_id):
 def push_buzzer():
     global last_pressed_buzzer_id
     global last_buzzer_ping
-    buzzer_id = request.args.get("buzzer_id")
     last_buzzer_ping = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    print(buzzer_id)
+    buzzer_id = request.args.get("buzzer_id")
     assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
     if buzzer_id and assigned_buzzer_ids and int(buzzer_id) in assigned_buzzer_ids:
+        last_pressed_buzzer_id = buzzer_id
         if buzzer_unlocked_semaphore:
-            last_pressed_buzzer_id = buzzer_id
-            deactivate_buzzer()
-            return jsonify({"success": True, "message": f"Buzzer {buzzer_id} was pressed"})
-        return jsonify({"success": False, "message": f"Buzzers are locked"}), 403
+            lock_buzzer()
+            return jsonify({"success": True, "message": f"Buzzer {buzzer_id} was pressed and locked"})
+        return jsonify({"success": False, "message": f"Buzzer {buzzer_id} was pressed, but Buzzers were already locked"})
     return jsonify({"success": False, "message": f"Buzzer {buzzer_id} not assigned"}), 403
 
 @app.route('/update_score', methods=['POST'])
