@@ -96,7 +96,7 @@ var question_settings_visible = false;
             };
 
             buzzer_event_stream.onerror = function() {
-                console.error("Error with the Quizmaster EventSource connection.");
+                console.error("Error with the Buzzer EventSource connection.");
                 buzzer_event_stream.close();
                 buzzer_event_stream = null; // Clean up on error
             };
