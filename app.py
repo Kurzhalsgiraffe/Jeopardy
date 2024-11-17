@@ -171,7 +171,7 @@ def answer_question(question_id):
         else:
             dao.add_answer_to_session(session_id, round_number, question_id, team_id, - question["points"])
             new_score = dao.get_team_score_by_id(team_id) - question["points"]
-            # activate_buzzer() # TODO: Unnötig?
+            activate_buzzer()
         dao.update_score(team_id, new_score)
         teams = dao.get_teams()
         return jsonify({"success": True, "message": "Processed Answer", "teams": [dict(row) for row in teams]})
