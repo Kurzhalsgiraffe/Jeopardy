@@ -107,6 +107,12 @@ var question_settings_visible = false;
                 buzzer_event_stream.close();
                 buzzer_event_stream = null;
             }
+            $.post("/stop_buzzer_event_stream", function(response) {
+                if (!response.success) {
+                    console.error("Failed to stop buzzer stream:", response.message);
+                    alert("There was an error stopping the buzzer stream");
+                }
+            });
         }
 
         function playSound(sound_name) {
@@ -174,9 +180,10 @@ var question_settings_visible = false;
                         card.style.opacity = "0.5";
                         question_modal.modal("hide");
                         playSound("static/sounds/game_sounds/Mario_Coin.mp3");
+                        closeBuzzerEventStream();
                     } else {
                         question_modal.modal("show");
-                        openBuzzerEventStream();
+                        openBuzzerEventStream(); // TODO
                         $("#question-modal-answering-team").text("");
                         playSound("static/sounds/game_sounds/Nope.mp3");
                     }
@@ -318,6 +325,7 @@ var question_settings_visible = false;
                 remove_team_buttons.show();
                 team_card_settings.show();
                 team_cards.show();
+                //TODO: HERE
             } else {
                 team_settings_visible = false;
                 add_team_form.hide();

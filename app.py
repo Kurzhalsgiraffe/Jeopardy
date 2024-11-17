@@ -96,6 +96,12 @@ def buzzer_event_stream():
             time.sleep(buzzer_polling_interval_seconds)
     return Response(stream_with_context(event_stream()), content_type='text/event-stream')
 
+@app.route('/stop_buzzer_event_stream', methods=['POST'])
+def stop_buzzer_event_stream():
+    global buzzer_stream_active
+    buzzer_stream_active = False
+    return jsonify({"success": True, "message": "Buzzer Stream stopped"})
+
 @app.route('/new_session', methods=['POST'])
 def new_session():
     global session_id
@@ -145,15 +151,13 @@ def select_question(question_id):
 @app.route('/unselect_question', methods=['POST'])
 def unselect_question():
     deactivate_buzzer()
-    global buzzer_stream_active
     global selected_question_id
-    buzzer_stream_active = False
     selected_question_id = None
     return jsonify({"success": True, "message": "Buzzer deactivated"})
 
 @app.route('/answer_question/<int:question_id>', methods=['POST'])
 def answer_question(question_id):
-    deactivate_buzzer()
+    # deactivate_buzzer() # TODO: Unnötig?
     global last_pressed_buzzer_id
     global selected_question_id
     team_id = dao.get_team_id_for_buzzer_id(last_pressed_buzzer_id)
@@ -167,12 +171,12 @@ def answer_question(question_id):
         else:
             dao.add_answer_to_session(session_id, round_number, question_id, team_id, - question["points"])
             new_score = dao.get_team_score_by_id(team_id) - question["points"]
-            activate_buzzer()
+            # activate_buzzer() # TODO: Unnötig?
         dao.update_score(team_id, new_score)
         teams = dao.get_teams()
         return jsonify({"success": True, "message": "Processed Answer", "teams": [dict(row) for row in teams]})
     else:
-        activate_buzzer()
+        # activate_buzzer() # TODO: Unnötig?
         return jsonify({"success": False, "message": "No Team pressed the Buzzzer", "teams":[]})
 
 @app.route('/skip_question/<int:question_id>', methods=['POST'])
@@ -180,16 +184,12 @@ def skip_question(question_id):
     dao.add_answer_to_session(session_id, round_number, question_id, None, 0)
     return jsonify({"success": True, "message": "Question skipped"})
 
-@app.route('/is_buzzer_unlocked', methods=['GET'])
-def is_buzzer_unlocked():
-    global last_buzzer_ping
-    last_buzzer_ping = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    return jsonify({"buzzer_unlocked_semaphore": buzzer_unlocked_semaphore})
-
 @app.route('/push_buzzer', methods=['POST'])
 def push_buzzer():
     global last_pressed_buzzer_id
+    global last_buzzer_ping
     buzzer_id = request.args.get("buzzer_id")
+    last_buzzer_ping = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     print(buzzer_id)
     assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
     if buzzer_id and assigned_buzzer_ids and int(buzzer_id) in assigned_buzzer_ids:
@@ -259,4 +259,4 @@ def get_buzzer_sounds():
         return jsonify({"success": False, "message": f"Error retrieving sounds: {str(e)}"}), 500
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=5001)
+    app.run(host="0.0.0.0", port=5001)

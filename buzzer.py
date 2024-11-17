@@ -40,11 +40,11 @@ def buzzer_loop() -> None:
             # Send buzzer press to server
             response = send_buzzer_push(last_pressed_buzzer_id)
             if response == 200:
-                logging.info(f"Successfully sent buzzer {last_pressed_buzzer_id} signal.")
+                logging.info(f"Successfully sent buzzer {last_pressed_buzzer_id} push.")
             else:
-                logging.error(f"Failed to send buzzer {last_pressed_buzzer_id} signal after retries.")
+                logging.error(f"Failed to send buzzer {last_pressed_buzzer_id} push.")
 
-            time.sleep(0.5)
+            time.sleep(0.25)
 
     except KeyboardInterrupt:
         logging.info("Shutting down buzzer loop.")
