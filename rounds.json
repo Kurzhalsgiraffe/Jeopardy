@@ -23,7 +23,7 @@
         "round_number" : 3,
         "questions": {
             "Personen" : [230,498,710,399,694],
-            "Deutschland" : [173,436,69,690,585],
+            "Deutschland" : [173,436,69,690,585], 
             "Allgemeinwissen" : [803,812,571,815,785],
             "Musik" : [375,4,807,675,562],
             "Geograhpie" : [184,704,470,354,592]
@@ -33,7 +33,7 @@
         "round_number" : 4,
         "questions": {
             "Politik" : [379,511,500,113,497],
-            "Biologie" : [18,116,170,151,595],
+            "Biologie" : [774,230,170,151,595], 
             "Sport" : [464,444,563,681,79],
             "Allgemeinwissen" : [739,75,241,735,587],
             "Geographie" : [288,155,727,80,48]
