@@ -11,11 +11,11 @@ dao = Dao("jeopardy.db")
 
 buzzer_unlocked_semaphore = False
 last_pressed_buzzer_id = None
-last_buzzer_ping = None
+last_buzzer_push_time = None
 selected_question_id = None
 buzzer_stream_active = False
 quizmaster_polling_interval_seconds = 1.5
-buzzer_polling_interval_seconds = 1
+buzzer_polling_interval_seconds = 0.1
 
 session_id = dao.get_next_session_id()
 round_number = 1
@@ -56,7 +56,7 @@ def index():
     answered_questions = dao.get_answered_questions_of_round(session_id, round_number)
     answered_question_ids = [question_id for question_id, _ in answered_questions]
     question_matrix = question_selector.get_question_matrix_from_json_ids(dao, round_number, rounds_json_filepath)
-    return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number, last_buzzer_ping=last_buzzer_ping)
+    return render_template('index.html', question_matrix=question_matrix, answered_question_ids=answered_question_ids, teams=teams, round_number=round_number, last_buzzer_push_time=last_buzzer_push_time)
 
 @app.route('/quizmaster')
 def quizmaster():
@@ -93,7 +93,8 @@ def buzzer_event_stream():
                         "buzzer_id": last_pressed_buzzer_id,
                         "buzzer_sound": buzzer_sound,
                         "team_id": team_id,
-                        "team_name": team_name
+                        "team_name": team_name,
+                        "last_buzzer_push_time": last_buzzer_push_time
                     }
                     yield f"data: {json.dumps(data)}\n\n"
                     buzzer_stream_active = False  # Stop after sending one event (as per current logic)
@@ -196,8 +197,8 @@ def skip_question(question_id):
 @app.route('/push_buzzer', methods=['POST'])
 def push_buzzer():
     global last_pressed_buzzer_id
-    global last_buzzer_ping
-    last_buzzer_ping = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    global last_buzzer_push_time
+    last_buzzer_push_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     buzzer_id = request.args.get("buzzer_id")
     assigned_buzzer_ids = dao.get_assigned_buzzer_ids()
     if buzzer_id and assigned_buzzer_ids and int(buzzer_id) in assigned_buzzer_ids:

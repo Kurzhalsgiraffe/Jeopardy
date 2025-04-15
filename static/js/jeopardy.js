@@ -2,10 +2,12 @@ var question_settings_visible = false;
 var team_settings_visible = false;
 var currently_opened_question_id;
 var buzzer_event_stream = null;
+var last_buzzer_push_time = null;
 const question_modal = $("#question-modal")
 const add_team_form = $("#add-team-form")
 const question_cards = $(".question-card");
 const team_cards = $(".team-card");
+const test_sound_btn = $("#test-sound-btn");
 
 add_team_form.on("submit", function(event) {
     var team_name = $("#team-name-input").val().trim();
@@ -42,6 +44,10 @@ $(document).on('click', '#toggle-team-settings-btn', function() {
 $(document).on('click', '.remove-team-btn', function() {
     const team_id = $(this).closest(".team-card").data("team-id");
     removeTeam(team_id)
+});
+
+$(document).on('click', '#test-sound-btn', function() {
+    activateSoundTest();
 });
 
 $(document).on('click', '.team-control-btn', function() {
@@ -81,6 +87,7 @@ question_modal.on("hidden.bs.modal", function (e) {
 });
 
 function openBuzzerEventStream() {
+    console.log("openBuzzerEventStream")
     if (buzzer_event_stream) {
         buzzer_event_stream.close();
         buzzer_event_stream = null;
@@ -89,16 +96,22 @@ function openBuzzerEventStream() {
 
     buzzer_event_stream.onmessage = function(event) {
         const data = JSON.parse(event.data);
-        if (data.buzzer_sound != null) {
-            playSound(`static/sounds/team_sounds/${data.buzzer_sound}`);
-        }
-        if (currently_opened_question_id != null) {
-            $("#question-modal-answering-team").text(data.team_name + " (Buzzer " + data.buzzer_id + ")");
+        if (data.last_buzzer_push_time && data.last_buzzer_push_time != last_buzzer_push_time) {
+            last_buzzer_push_time = data.last_buzzer_push_time
+            if (data.buzzer_sound != null) {
+                playSound(`static/sounds/team_sounds/${data.buzzer_sound}`);
+            }
+            if (currently_opened_question_id != null) {
+                $("#question-modal-answering-team").text(data.team_name + " (Buzzer " + data.buzzer_id + ")");
+            }
+            closeBuzzerEventStream();
+            test_sound_btn.css("background-color", "red");
         }
     };
 }
 
 function closeBuzzerEventStream() {
+    console.log("closeBuzzerEventStream")
     if (buzzer_event_stream) {
         buzzer_event_stream.close();
         buzzer_event_stream = null;
@@ -140,7 +153,7 @@ function selectQuestion(question_id) {
             } else {
                 $("#question-modal-answering-team").text("Kein Team - Frage wurde übersprungen");
             }
-        } else {
+        } else { // Frage wurde noch nicht beantwortet
             answer_text_container.addClass("blur-text");
             answer_button.show();
             openBuzzerEventStream();
@@ -175,7 +188,7 @@ function submitAnswer(is_answer_correct) {
                 card.style.opacity = "0.5";
                 question_modal.modal("hide");
                 playSound("static/sounds/game_sounds/Mario_Coin.mp3");
-                closeBuzzerEventStream();
+                currently_opened_question_id = null
             } else {
                 question_modal.modal("show");
                 openBuzzerEventStream();
@@ -187,7 +200,6 @@ function submitAnswer(is_answer_correct) {
             alert(response.message)
         }
     });
-    currently_opened_question_id = null
 }
 
 function skipQuestion(question_id) {
@@ -213,6 +225,11 @@ function updateTeamScores(teams) {
             team_element.text(team.score);
         }
     });
+}
+
+function activateSoundTest() {
+    test_sound_btn.css("background-color", "green");
+    openBuzzerEventStream();
 }
 
 function removeTeam(team_id) {
@@ -320,15 +337,15 @@ function toggleTeamSettings() {
         add_team_form.show();
         remove_team_buttons.show();
         team_card_settings.show();
+        test_sound_btn.show();
         team_cards.show();
-        openBuzzerEventStream();
     } else {
         team_settings_visible = false;
         add_team_form.hide();
         remove_team_buttons.hide();
         team_card_settings.hide();
+        test_sound_btn.hide();
         $(".team-card:not(.active)").hide();
-        closeBuzzerEventStream();
     }
 }
 
@@ -340,6 +357,7 @@ $(document).ready(function() {
     remove_team_buttons.hide();
     skip_question_buttons.hide();
     team_card_settings.hide();
+    test_sound_btn.hide();
     $(".team-card:not(.active)").hide();
     getTeamBuzzerSounds();
 });
