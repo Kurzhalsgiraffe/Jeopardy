@@ -209,3 +209,6 @@ body {
     right: 0;
     padding: 10px; /* Adjust padding if needed */
 }
+#test-sound-btn {
+    background-color: red;
+}
